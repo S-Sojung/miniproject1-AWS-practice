@@ -50,6 +50,7 @@
                                         <c:forEach items="${pSkillArr}" var="pSkill">
                                             <li>${pSkill}</li>
                                         </c:forEach>
+
                                         </ul>
                                     </div>
                                 </div>

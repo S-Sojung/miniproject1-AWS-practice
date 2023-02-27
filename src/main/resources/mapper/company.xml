@@ -30,7 +30,7 @@
                                    manager_name = #{managerName},
                                    manager_phone = #{managerPhone},
                                    size = #{size},
-                                   cyear = #{year},
+                                   cyear = #{cyear},
                                    created_at = #{createdAt}
                                    where id = #{id} 
     </update>

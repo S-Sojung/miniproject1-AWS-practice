@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
@@ -36,6 +35,12 @@ public class PersonContoller {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -86,7 +91,7 @@ public class PersonContoller {
         personMocLogin();
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-        System.out.println("테스트 : " + PersonPS.toString());
+
         model.addAttribute("person", PersonPS);
 
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
