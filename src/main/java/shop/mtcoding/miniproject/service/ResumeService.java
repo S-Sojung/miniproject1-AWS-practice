@@ -25,8 +25,6 @@ public class ResumeService {
     SkillRepository skillRepository;
 
     public void insertNewResume(Resume resume) {
-        Resume resume = new Resume(resumeDto);
-        resume.setPInfoId(pInfoId);
         int result = resumeRepository.insert(resume);
         if (result != 1) {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -35,7 +33,7 @@ public class ResumeService {
         System.out.println(resume.getId());
         int resumId = resume.getId();
 
-        personRepository.updateById(pInfoId, personDto);
+        personRepository.updateById(resume.getPInfoId(), resume.getName(), resume.getPhone(), resume.getAddress(), resume.getBirthday())
     }
 
 }
