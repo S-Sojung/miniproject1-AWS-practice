@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shop.mtcoding.miniproject.model.PersonRepository">
+
+    <select id="findAll" resultType="shop.mtcoding.miniproject.model.Person">
+        select * from person_info_tb
+    </select>
+
+    <select id="findById" resultType="shop.mtcoding.miniproject.model.Person">
+        select * from person_info_tb where id = #{id}
+    </select>   
+
+    <insert id="insert">
+        insert into person_info_tb (p_name, created_at) 
+            values(#{name}, now())
+    </insert>    
+
+    <delete id="deleteById" >
+        delete from person_info_tb where id = #{id} 
+    </delete>    
+
+    <update id="updateById" >
+        update person_info_tb set p_name = #{name},
+                                   p_phone = #{phone},
+                                   p_address = #{address},
+                                   p_birthday = #{birthday},
+                                   created_at = #{createdAt},
+                                   where id = #{id} 
+    </update>    
+</mapper>
