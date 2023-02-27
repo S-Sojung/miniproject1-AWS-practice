@@ -1,3 +1,24 @@
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+header {
+    height: 60px;
+}
+
+footer {
+    height: 60px;
+}
+
+.sj_full_container {
+    min-height: calc(100% - 178px);
+    min-width: 1300px;
+    max-width: none !important;
+}
+
 .main_body {
     background-image: url("/images/bg.jpg");
 }
@@ -29,32 +50,7 @@
     max-width: none !important;
 }
 
-html,
-body {
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-}
 
-header {
-    height: 60px;
-}
-
-footer {
-    height: 60px;
-}
-
-.sj_full_container {
-    min-height: calc(100% - 178px);
-    min-width: 1300px;
-    max-width: none !important;
-}
-
-
-.sj_login_join a {
-    font-size: 12px;
-    text-decoration: none;
-}
 
 .jm_body {
     background-color: #ffffff;
@@ -159,21 +155,8 @@ footer {
     padding: 25px;
 }
 
-.jh_resume_table tr,
-.jh_resume_table td {
-    border: 1px solid lightgray;
-    padding: 10px;
-}
-
-.jh_resume_table tr,
-.jh_resume_table td:first-child {
-    background-color: orange;
-    text-align: center;
-}
-
-.jh_resume_table tr,
-.jh_resume_table td:last-child {
-    width: 450px;
+.jh_resume_personal_info {
+    width: 50%;
 }
 
 .jh_resume_flexbox {
