@@ -45,7 +45,7 @@ footer {
 }
 
 .sj_full_container {
-    min-height: calc(100% - 178px);
+    min-height: calc(100% - 228px);
     min-width: 1300px;
     max-width: none !important;
 }
