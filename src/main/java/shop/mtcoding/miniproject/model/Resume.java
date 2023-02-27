@@ -21,18 +21,14 @@ public class Resume {
     private Timestamp birthday;
     private String skills;
 
-    // public Resume() {
-    // }
+    public Resume() {
+    }
 
-    // public Resume(ResumeUpdateReqDto resumeUpateReqDto) {
-    // this.profile = resumeUpateReqDto.getProfile();
-    // this.title = resumeUpateReqDto.getTitle();
-    // this.portfolio = resumeUpateReqDto.getPortfolio();
-    // this.selfIntro = resumeUpateReqDto.getSelfIntro();
-    // this.name = resumeUpateReqDto.getName();
-    // this.phone = resumeUpateReqDto.getPhone();
-    // this.address = resumeUpateReqDto.getAddress();
-    // this.birthday = resumeUpateReqDto.getBirthday();
-    // this.skills = resumeUpateReqDto.getSkills();
-    // }
+    public Resume(ResumeUpdateReqDto resumeUpateReqDto) {
+        this.profile = resumeUpateReqDto.getProfile();
+        this.title = resumeUpateReqDto.getTitle();
+        this.portfolio = resumeUpateReqDto.getPortfolio();
+        this.selfIntro = resumeUpateReqDto.getSelfIntro();
+
+    }
 }

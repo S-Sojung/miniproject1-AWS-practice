@@ -101,6 +101,8 @@ public class PersonContoller {
 
     @PostMapping("/person/resumes")
     public String personInsertResumeForm(Resume resume) {
+        System.out.println(resume.getSkills());
+        personMocLogin();
         User user = (User) session.getAttribute("principal");
         int pInfoId = user.getPInfoId();
         resume.setPInfoId(pInfoId);
