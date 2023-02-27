@@ -75,7 +75,7 @@ public class PersonContoller {
         personMocLogin();
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-        System.out.println("테스트 : " + PersonPS.toString());
+
         model.addAttribute("person", PersonPS);
 
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
