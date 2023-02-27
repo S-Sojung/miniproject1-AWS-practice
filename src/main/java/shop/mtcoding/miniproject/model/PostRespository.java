@@ -7,11 +7,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
+
 @Mapper
 public interface PostRespository {
         public List<Post> findAll();
 
         public Post findById(int id);
+
+        public List<PostTitleRespDto> findAllTitleByCInfoId(int cInfoId);
 
         public int insert(@Param("title") String title, @Param("cInfoId") int cInfoId,
                         @Param("career") int career,

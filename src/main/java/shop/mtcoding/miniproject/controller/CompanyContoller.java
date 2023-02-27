@@ -1,17 +1,24 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
+import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.User;
 
 @Controller
 public class CompanyContoller {
     @Autowired
     private HttpSession session;
+    @Autowired
+    private PostRespository postRepository;
 
     public void companyMocLogin() {
         User user = new User();
@@ -73,7 +80,12 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/posts")
-    public String companyPosts() {
+    public String companyPosts(Model model) {
+        companyMocLogin();
+
+        User userPS = (User) session.getAttribute("principal");
+        List<PostTitleRespDto> postTitleList = postRepository.findAllTitleByCInfoId(userPS.getCInfoId());
+        model.addAttribute("postTitleList", postTitleList);
         return "company/posts";
     }
 

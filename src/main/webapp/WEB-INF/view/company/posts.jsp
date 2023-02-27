@@ -15,14 +15,13 @@
                 <div class="jh_resume mt-5">
                     <button class="jh_resume_button mb-5 rounded bg-light" onclick="location.href=`/company/savePostForm`;"">➕ 새로운 공고
                         등록</button>
-                    <div class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between">
-                        백엔드 개발자 구합니다?
+                    
+                    <c:forEach items="${postTitleList}" var="post">
+                    <div class="jh_resume_content mb-3" style="display: flex; justify-content: space-between">
+                        <a href="/company/postDetail/${post.id}">${post.title}</a>
                         <button type="button" class="btn btn-secondary">삭제</button>
                     </div>
-                    <div class="jh_resume_content" style="display: flex; justify-content: space-between">
-                        ?
-                        <button type="button" class="btn btn-secondary">삭제</button>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
