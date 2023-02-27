@@ -72,7 +72,7 @@ public class PersonContoller {
 
     @GetMapping("/person/info")
     public String personInfo(Model model) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
 
