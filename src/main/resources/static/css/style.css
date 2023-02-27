@@ -51,6 +51,28 @@ footer {
 }
 
 
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+
+header {
+    height: 60px;
+}
+
+footer {
+    height: 60px;
+}
+
+.sj_full_container {
+    min-height: calc(100% - 228px);
+    min-width: 1300px;
+    max-width: none !important;
+}
+
+
 
 .jm_body {
     background-color: #ffffff;

@@ -16,7 +16,7 @@ public class Company {
     private String managerName;
     private String managerPhone;
     private Integer size;
-    private Integer year;
+    private Integer cyear;
     private Timestamp createdAt;
 
 }

@@ -10,7 +10,7 @@
                 <div class="card main_card" style="width:290px;">
                     <img src="/images/card.png" class="card-img-top">
                     <div class="card-body align-self-center">
-                        <button type="button" class="btn btn-dark btn-lg">등록 공고 관리</button>
+                        <button type="button" class="btn btn-dark btn-lg" onclick="location.href='/company/posts';">등록 공고 관리</button>
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                 <div class="card main_card" style="width:290px;">
                     <img src="/images/card.png" class="card-img-top">
                     <div class="card-body align-self-center">
-                        <button type="button" class="btn btn-dark btn-lg">지원 받은 이력서</button>
+                        <button type="button" class="btn btn-dark btn-lg" onclick="location.href='/company/getResumes';">지원 받은 이력서</button>
                     </div>
                 </div>
 

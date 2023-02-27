@@ -11,18 +11,18 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.Company">
         select * from company_info_tb where id = #{id}
-    </select>   
+    </select>
 
     <insert id="insert">
         insert into company_info_tb (name, number, address, manager_name, created_at) 
             values(#{name}, #{number}, #{address},  #{managerName}, now())
-    </insert>    
+    </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from company_info_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
+    <update id="updateById">
         update company_info_tb set logo = #{logo},
                                    name = #{name},
                                    number = #{number},
@@ -30,8 +30,9 @@
                                    manager_name = #{managerName},
                                    manager_phone = #{managerPhone},
                                    size = #{size},
-                                   c_year = #{cyear},
+                                   cyear = #{cyear},
                                    created_at = #{createdAt}
                                    where id = #{id} 
-    </update>    
+    </update>
 </mapper>
+
