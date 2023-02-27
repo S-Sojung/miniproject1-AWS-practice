@@ -31,7 +31,7 @@
                                    post_id = #{postId},
                                    resume_id = #{resumeId},
                                    skills = #{skills},
-                                   created_at = #{createdAt},
+                                   created_at = #{createdAt}
                                    where id = #{id} 
     </update>    
 </mapper>

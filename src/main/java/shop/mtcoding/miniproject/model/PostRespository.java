@@ -17,13 +17,14 @@ public interface PostRespository {
 
         public List<PostTitleRespDto> findAllTitleByCInfoId(int cInfoId);
 
-        public int insert(@Param("title") String title, @Param("cInfoId") int cInfoId,
-                        @Param("career") int career,
-                        @Param("pay") String pay, @Param("condition") String condition,
-                        @Param("startHour") Time startHour,
-                        @Param("endHour") Time endHour, @Param("deadline") Timestamp deadline,
-                        @Param("cIntro") String cIntro,
-                        @Param("jobIntro") String jobIntro);
+        public int insert(Post post);
+        // @Param("title") String title, @Param("cInfoId") int cInfoId,
+        // @Param("career") int career,
+        // @Param("pay") String pay, @Param("condition") String condition,
+        // @Param("startHour") Time startHour,
+        // @Param("endHour") Time endHour, @Param("deadline") Timestamp deadline,
+        // @Param("cIntro") String cIntro,
+        // @Param("jobIntro") String jobIntro
         // skill은 따로 insert 해줘서 관리해줘야함!
 
         public int updateById(@Param("id") int id,

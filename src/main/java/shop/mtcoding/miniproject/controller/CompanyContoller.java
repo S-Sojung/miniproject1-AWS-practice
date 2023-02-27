@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
@@ -21,6 +23,7 @@ import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.PostService;
 
 @Controller
 public class CompanyContoller {
@@ -32,6 +35,8 @@ public class CompanyContoller {
     private CompanyRepository companyRepository;
     @Autowired
     private SkillRepository skillRepository;
+    @Autowired
+    private PostService postService;
 
     public void companyMocLogin() {
         User user = new User();
@@ -124,9 +129,25 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/savePostForm")
-    public String personSavePostForm() {
+    public String personSavePostForm(Model model) {
+        companyMocLogin();
+        User userPS = (User) session.getAttribute("principal");
+        Company companyPS = (Company) companyRepository.findById(userPS.getCInfoId());
 
+        model.addAttribute("company", companyPS);
+        model.addAttribute("skills", Skill.madeSkills());
         return "company/savePostForm";
+    }
+
+    @PostMapping("/company/savePost")
+    public String personSavePost(Model model, PostSaveReqDto PostSaveReqDto) {
+        companyMocLogin();
+        User userPS = (User) session.getAttribute("principal");
+
+        // postinsert skillinsert 동시 진행
+        int id = postService.공고등록(PostSaveReqDto, userPS.getCInfoId());
+
+        return "redirect:/company/postDetail/" + id; // +id
     }
 
 }

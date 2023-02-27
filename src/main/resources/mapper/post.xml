@@ -18,7 +18,7 @@
         select id, title from job_post_tb where c_info_id = #{cInfoId}
     </select>   
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into job_post_tb (title, c_info_id, career, pay, condition, start_hour, end_hour, deadline, c_intro, job_intro, created_at) 
             values(#{title}, #{cInfoId}, #{career},  #{pay}, #{condition}, #{startHour}, #{endHour}, #{deadline}, #{cIntro}, #{jobIntro}, now())
     </insert>    
@@ -38,7 +38,7 @@
                                 deadline = #{deadline},
                                 c_intro = #{cIntro},
                                 job_intro = #{jobIntro},
-                                created_at = #{createdAt},
+                                created_at = #{createdAt}
                                 where id = #{id} 
     </update>    
 </mapper>
