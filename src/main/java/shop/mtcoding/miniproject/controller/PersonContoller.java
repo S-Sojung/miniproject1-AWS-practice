@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpateReqDto;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.ResumeService;
 
 @Controller
 public class PersonContoller {
+    @Autowired
+    ResumeService resumeService;
 
     @Autowired
     private HttpSession session;
@@ -92,5 +97,13 @@ public class PersonContoller {
     @GetMapping("/person/scrap")
     public String personScrap() {
         return "person/scrap";
+    }
+
+    @PostMapping("/person/resumes")
+    public String personInsertResumeForm(ResumeUpateReqDto resumeDto) {
+        User user = (User) session.getAttribute("principal");
+        int pInfoId = user.getPInfoId();
+        resumeService.insertNewResume(resumeDto, pInfoId);
+        return "redirect:/person/resumes";
     }
 }

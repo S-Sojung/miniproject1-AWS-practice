@@ -33,7 +33,7 @@
                                 deadline = #{deadline},
                                 c_intro = #{cIntro},
                                 job_intro = #{jobIntro},
-                                created_at = #{createdAt},
+                                created_at = #{createdAt}
                                 where id = #{id} 
     </update>    
 </mapper>

@@ -13,7 +13,7 @@
         select * from resume_tb where id = #{id}
     </select>   
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into resume_tb (p_info_id, profile, title, portfolio,self_intro, created_at) 
             values(#{pInfoId}, #{profile}, #{title},  #{portfolio}, #{selfIntro}, now())
     </insert>    
@@ -28,7 +28,7 @@
                                 title = #{title},
                                 portfolio = #{portfolio},
                                 self_intro = #{selfIntro},
-                                created_at = #{createdAt},
+                                created_at = #{createdAt}
                                 where id = #{id} 
     </update>    
 </mapper>

@@ -31,7 +31,7 @@
                                    manager_phone = #{managerPhone},
                                    size = #{size},
                                    c_year = #{cyear},
-                                   created_at = #{createdAt},
+                                   created_at = #{createdAt}
                                    where id = #{id} 
     </update>    
 </mapper>
