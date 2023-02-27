@@ -9,15 +9,15 @@
 
         <div class="border rounded p-3 m-3" style="width: 300px;">
 
-            <form action="/person/login" method="post">
+            <form action="/personLogin" method="post">
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type=" text" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
-                    <label for="floatingInput">사용자 이름
+                    <input type="text" name ="email" class="form-control" id="floatingInput" placeholder="사용자 이메일" required>
+                    <label for="floatingInput">사용자 이메일
                 </div>
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com"
+                    <input type="password" name = "password" class="form-control" id="floatingInput" placeholder="name@example.com"
                         required>
                     <label for="floatingInput">password</label>
                 </div>

@@ -15,7 +15,7 @@ public class PersonReq {
 
     @Getter
     @Setter
-    public static class LoginReqPersonDto {
+    public static class LoginPersonReqDto {
         private String email;
         private String password;
     }

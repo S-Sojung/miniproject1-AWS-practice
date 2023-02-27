@@ -5,23 +5,93 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
+import shop.mtcoding.miniproject.handler.ex.CustomException;
+import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.PersonService;
 
 @Controller
 public class CompanyContoller {
+
     @Autowired
     private HttpSession session;
 
-    public void companyMocLogin() {
-        User user = new User();
-        user.setId(2);
-        user.setPInfoId(0);
-        user.setCInfoId(1);
-        user.setEmail("init@nate.com");
-        user.setPassword("1234");
+    @Autowired
+    private PersonService personService;
 
-        session.setAttribute("principal", user);
+    @Autowired
+    private PersonRepository personRepository;
+
+    // public void companyMocLogin() {
+    // User user = new User();
+    // user.setId(2);
+    // user.setPInfoId(0);
+    // user.setCInfoId(1);
+    // user.setEmail("init@nate.com");
+    // user.setPassword("1234");
+
+    // session.setAttribute("principal", user);
+    // }
+
+    @PostMapping("/personJoin")
+    public String join(JoinPersonReqDto joinPersonReqDto) {
+
+        System.out.println("테스트 : " + joinPersonReqDto.getName());
+        System.out.println("테스트 : " + joinPersonReqDto.getPassword());
+
+        if (joinPersonReqDto.getName() == null ||
+                joinPersonReqDto.getName().isEmpty()) {
+            throw new CustomException("name을 작성해주세요");
+        }
+        if (joinPersonReqDto.getPassword() == null ||
+                joinPersonReqDto.getPassword().isEmpty()) {
+            throw new CustomException("password를 작성해주세요");
+        }
+        if (joinPersonReqDto.getEmail() == null ||
+                joinPersonReqDto.getEmail().isEmpty()) {
+            throw new CustomException("email을 작성해주세요");
+        }
+        personService.회원가입(joinPersonReqDto);
+
+        // Person 인서트를 이름만!
+        // Person 인서트한 id 값을 유저에게 인서트하기
+
+        return "redirect:/personJoinForm2";
+    }
+
+    @PostMapping("/personJoin2")
+    public String join() {
+        return "";
+    }
+
+    @PostMapping("/personLogin")
+    public String personLoginForm(LoginPersonReqDto loginPersonReqDto) {
+
+        System.out.println("테스트: " + loginPersonReqDto.getEmail());
+        System.out.println("테스트: " + loginPersonReqDto.getPassword());
+
+        if (loginPersonReqDto.getEmail() == null ||
+                loginPersonReqDto.getEmail().isEmpty()) {
+            throw new CustomException("email을 작성해주세요");
+        }
+        if (loginPersonReqDto.getPassword() == null ||
+                loginPersonReqDto.getPassword().isEmpty()) {
+            throw new CustomException("password를 작성해주세요");
+        }
+
+        User principal = personRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
+                loginPersonReqDto.getPassword());
+        if (principal == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+
+        session.setAttribute("principal", principal);
+
+        return "redirect:/person/main";
     }
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
@@ -43,7 +113,7 @@ public class CompanyContoller {
 
     @GetMapping({ "/company/main", "/company" })
     public String companyMain() {
-        companyMocLogin();
+        // companyMocLogin();
         return "company/main";
     }
 

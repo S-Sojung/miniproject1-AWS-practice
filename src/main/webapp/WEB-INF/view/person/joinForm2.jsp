@@ -9,7 +9,7 @@
 
         <div class="border rounded p-3 m-3" style="width: 300px;">
 
-            <form action="/personLogin" method="post">
+            <form action="/personJoin2" method="post">
 
                 <div class="form-group form-floating m-3 mx-auto">
                     <input type="email" name = "email" class="form-control" id="floatingInput" placeholder="이메일" required>
