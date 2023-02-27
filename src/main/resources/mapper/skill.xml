@@ -11,7 +11,11 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.Skill">
         select * from skill_tb where id = #{id}
-    </select>   
+    </select>
+
+    <select id="findByPInfoId" resultType="shop.mtcoding.miniproject.model.Skill">
+        select * from skill_tb where p_info_id = #{pInfoId}
+    </select>
 
     <select id="findByPostId" resultType="shop.mtcoding.miniproject.model.Skill">
         select * from skill_tb where post_id = #{postId}
@@ -20,18 +24,18 @@
     <insert id="insert">
         insert into skill_tb (p_info_id, post_id, resume_id, skills, created_at) 
             values(#{pInfoId}, #{postId}, #{resumeId}, #{skills}, now())
-    </insert>    
+    </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from skill_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
+    <update id="updateById">
         update skill_tb set p_info_id = #{pInfoId},
                                    post_id = #{postId},
                                    resume_id = #{resumeId},
                                    skills = #{skills},
                                    created_at = #{createdAt}
                                    where id = #{id} 
-    </update>    
+    </update>
 </mapper>

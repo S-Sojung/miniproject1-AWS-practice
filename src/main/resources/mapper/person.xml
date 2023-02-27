@@ -11,7 +11,7 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.Person">
         select * from person_info_tb where id = #{id}
-    </select>   
+    </select>
 
     <insert id="insert">
         insert into person_info_tb (name, created_at) 

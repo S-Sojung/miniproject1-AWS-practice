@@ -15,6 +15,8 @@ public interface SkillRepository {
 
         public Skill findByPostId(int postId);
 
+        public Skill findByPInfoId(int pInfoId);
+
         public int insert(@Param("pInfoId") int pInfoId, @Param("postId") int postId,
                         @Param("resumeId") int resumeId,
                         @Param("skills") String skills);
