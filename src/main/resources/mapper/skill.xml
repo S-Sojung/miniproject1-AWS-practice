@@ -13,6 +13,10 @@
         select * from skill_tb where id = #{id}
     </select>   
 
+    <select id="findById" resultType="shop.mtcoding.miniproject.model.Skill">
+        select * from skill_tb where p_info_id = #{pInfoId}
+    </select>   
+
     <insert id="insert">
         insert into skill_tb (p_info_id, post_id, resume_id, skills, created_at) 
             values(#{pInfoId}, #{postId}, #{resumeId}, #{skills}, now())
