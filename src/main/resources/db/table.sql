@@ -9,10 +9,10 @@ CREATE TABLE user_tb(
 
 CREATE TABLE person_info_tb( -- skill에 있는 p_info_id
     id int auto_increment primary key,
-    p_name varchar(20) not null,
-    p_phone varchar(11),
-    p_address varchar, 
-    p_birthday TIMESTAMP,
+    name varchar(20) not null,
+    phone varchar(11),
+    address varchar, 
+    birthday TIMESTAMP,
     created_at timestamp not null
 );
 
@@ -28,13 +28,13 @@ CREATE TABLE skill_tb(
 CREATE TABLE company_info_tb(
     id int auto_increment primary key,
     logo longtext,
-    c_name varchar(20) not null,
-    c_number varchar not null,
-    c_address varchar not null,
-    c_manager_name varchar(20) not null,
-    c_manager_phone varchar(11),
-    c_size int ,
-    c_year int ,
+    name varchar(20) not null,
+    number varchar not null,
+    address varchar not null,
+    manager_name varchar(20) not null,
+    manager_phone varchar(11),
+    size int ,
+    cyear int ,
     created_at timestamp not null
 );
 
