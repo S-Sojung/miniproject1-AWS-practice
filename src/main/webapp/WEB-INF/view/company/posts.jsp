@@ -13,7 +13,7 @@
                 <h1 class="hs_line">등록한 공고</h1>
                 <hr>
                 <div class="jh_resume mt-5">
-                    <button class="jh_resume_button mb-5 rounded bg-light" onclick="location.href=`/company/savePostForm`;"">➕ 새로운 공고
+                    <button class="jh_resume_button mb-5 rounded bg-light" onclick="location.href=`/company/savePostForm`;">➕ 새로운 공고
                         등록</button>
                     
                     <c:forEach items="${postTitleList}" var="post">

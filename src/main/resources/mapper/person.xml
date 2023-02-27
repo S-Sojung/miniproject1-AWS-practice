@@ -14,20 +14,20 @@
     </select>   
 
     <insert id="insert">
-        insert into person_info_tb (p_name, created_at) 
+        insert into person_info_tb (name, created_at) 
             values(#{name}, now())
-    </insert>    
+    </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from person_info_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
-        update person_info_tb set p_name = #{name},
-                                   p_phone = #{phone},
-                                   p_address = #{address},
-                                   p_birthday = #{birthday},
+    <update id="updateById">
+        update person_info_tb set name = #{name},
+                                   phone = #{phone},
+                                   address = #{address},
+                                   birthday = #{birthday},
                                    created_at = #{createdAt},
                                    where id = #{id} 
-    </update>    
+    </update>
 </mapper>
