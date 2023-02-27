@@ -47,10 +47,10 @@
                                     <h4>기술스택</h4>
                                     <div class="">
                                         <ul>
+                                        <c:forEach items="${pSkillArr}" var="pSkill">
+                                            <li>${pSkill}</li>
+                                        </c:forEach>
 
-                                       <c:forEach items="${pSkillArr}" var="pSkill">
-                                       <li>${pSkill}</li>
-                                       </c:forEach> 
                                         </ul>
                                     </div>
                                 </div>
