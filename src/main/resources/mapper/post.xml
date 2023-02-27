@@ -11,18 +11,18 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.Post">
         select * from job_post_tb where id = #{id}
-    </select>   
+    </select>
 
     <insert id="insert">
         insert into job_post_tb (title, c_info_id, career, pay, condition, start_hour, end_hour, deadline, c_intro, job_intro, created_at) 
             values(#{title}, #{cInfoId}, #{career},  #{pay}, #{condition}, #{startHour}, #{endHour}, #{deadline}, #{cIntro}, #{jobIntro}, now())
-    </insert>    
+    </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from job_post_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
+    <update id="updateById">
         update job_post_tb set title = #{title},
                                 c_info_id = #{cInfoId},
                                 career = #{career},
@@ -33,7 +33,7 @@
                                 deadline = #{deadline},
                                 c_intro = #{cIntro},
                                 job_intro = #{jobIntro},
-                                created_at = #{createdAt},
+                                created_at = #{createdAt}
                                 where id = #{id} 
-    </update>    
+    </update>
 </mapper>
