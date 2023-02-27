@@ -13,7 +13,7 @@
         select * from skill_tb where id = #{id}
     </select>   
 
-    <select id="findById" resultType="shop.mtcoding.miniproject.model.Skill">
+    <select id="findByPInfoId" resultType="shop.mtcoding.miniproject.model.Skill">
         select * from skill_tb where p_info_id = #{pInfoId}
     </select>   
 
