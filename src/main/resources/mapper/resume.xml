@@ -28,7 +28,7 @@
                                 title = #{title},
                                 portfolio = #{portfolio},
                                 self_intro = #{selfIntro},
-                                created_at = #{createdAt},
+                                created_at = #{createdAt}
                                 where id = #{id} 
     </update>    
 </mapper>

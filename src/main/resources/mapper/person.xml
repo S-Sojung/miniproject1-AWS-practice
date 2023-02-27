@@ -27,7 +27,7 @@
                                    phone = #{phone},
                                    address = #{address},
                                    birthday = #{birthday},
-                                   created_at = #{createdAt},
+                                   created_at = #{createdAt}
                                    where id = #{id} 
     </update>
 </mapper>

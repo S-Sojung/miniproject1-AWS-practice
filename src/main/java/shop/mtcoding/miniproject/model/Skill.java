@@ -14,4 +14,9 @@ public class Skill {
     private Integer resumeId;
     private String skills;
     private Timestamp createdAt;
+
+    public static String[] madeSkills() {
+        String[] st = { "Java", "Spring", "Html", "Javascript", "Sql", "Android", "React", "Node.js", "Express" };
+        return st;
+    }
 }

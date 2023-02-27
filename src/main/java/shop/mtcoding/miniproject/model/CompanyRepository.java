@@ -24,7 +24,7 @@ public interface CompanyRepository {
                         @Param("managerName") String managerName,
                         @Param("managerPhone") String managerPhone,
                         @Param("size") int size,
-                        @Param("year") int year,
+                        @Param("cyear") int cyear,
                         @Param("createdAt") Timestamp createdAt);
 
         public int deleteById(int id);

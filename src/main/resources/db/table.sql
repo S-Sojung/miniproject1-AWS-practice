@@ -34,7 +34,7 @@ CREATE TABLE company_info_tb(
     manager_name varchar(20) not null,
     manager_phone varchar(11),
     size int ,
-    year int ,
+    cyear int ,
     created_at timestamp not null
 );
 
@@ -45,8 +45,8 @@ CREATE TABLE job_post_tb(
     career int not null,
     pay varchar not null,
     condition varchar not null,
-    start_hour TIME not null,
-    end_hour TIME not null,
+    start_hour varchar not null,
+    end_hour varchar not null,
     deadline timestamp not null,
     c_intro varchar(200) not null,
     job_intro varchar(200) not null,    -- skill에     post_id int, 
