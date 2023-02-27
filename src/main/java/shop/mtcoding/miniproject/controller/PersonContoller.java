@@ -4,9 +4,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import shop.mtcoding.miniproject.model.Person;
+import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.Skill;
+import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 
 @Controller
@@ -14,6 +19,12 @@ public class PersonContoller {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private PersonRepository personRepository;
+
+    @Autowired
+    private SkillRepository skillRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -60,7 +71,19 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/info")
-    public String personInfo() {
+    public String personInfo(Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        Person PersonPS = personRepository.findById(principal.getPInfoId());
+        System.out.println("테스트 : " + PersonPS.toString());
+        model.addAttribute("person", PersonPS);
+
+        Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
+        String pSkills = pSkill.getSkills();
+
+        String[] pSkillArr = pSkills.split(",");
+        model.addAttribute("pSkillArr", pSkillArr);
+
         return "person/info";
     }
 
