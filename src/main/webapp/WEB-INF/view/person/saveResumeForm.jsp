@@ -70,31 +70,31 @@
                         <div class="my-5">
                             <h4>기술스택 (최대 5개 선택)</h4>
                             <div class="row row-cols-auto gap-3 justify-content-center my-3">
-                                <input type="checkbox" class="btn-check" id="btn1" value="java" name="java"
+                                <input type="checkbox" class="btn-check" id="btn1" value="java" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn1">java</label>
-                                <input type="checkbox" class="btn-check" id="btn2" value="spring" name="spring"
+                                <input type="checkbox" class="btn-check" id="btn2" value="spring" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn2">spring</label>
-                                <input type="checkbox" class="btn-check" id="btn3" value="html" name="html"
+                                <input type="checkbox" class="btn-check" id="btn3" value="html" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn3">html</label>
-                                <input type="checkbox" class="btn-check" id="btn4" value="javascript" name="javascript"
+                                <input type="checkbox" class="btn-check" id="btn4" value="javascript" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn4">javascript</label>
-                                <input type="checkbox" class="btn-check" id="btn5" value="sql" name="sql"
+                                <input type="checkbox" class="btn-check" id="btn5" value="sql" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn5">sql</label>
-                                <input type="checkbox" class="btn-check" id="btn6" value="android" name="android"
+                                <input type="checkbox" class="btn-check" id="btn6" value="android" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn6">android</label>
-                                <input type="checkbox" class="btn-check" id="btn7" value="React" name="React"
+                                <input type="checkbox" class="btn-check" id="btn7" value="React" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn7">React</label>
-                                <input type="checkbox" class="btn-check" id="btn8" value="Node.js" name="Node.js"
+                                <input type="checkbox" class="btn-check" id="btn8" value="Node.js" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn8">Node.js</label>
-                                <input type="checkbox" class="btn-check" id="btn9" value="Express" name="Express"
+                                <input type="checkbox" class="btn-check" id="btn9" value="Express" name="skills"
                                     autocomplete="off" onclick="countCheck(this)">
                                 <label class="btn btn-outline-primary" for="btn9">Express</label>
                             </div>

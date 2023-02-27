@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpateReqDto;
+import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.ResumeService;
 
@@ -100,10 +100,11 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/resumes")
-    public String personInsertResumeForm(ResumeUpateReqDto resumeDto) {
+    public String personInsertResumeForm(Resume resume) {
         User user = (User) session.getAttribute("principal");
         int pInfoId = user.getPInfoId();
-        resumeService.insertNewResume(resumeDto, pInfoId);
+        resume.setPInfoId(pInfoId);
+        resumeService.insertNewResume(resume);
         return "redirect:/person/resumes";
     }
 }

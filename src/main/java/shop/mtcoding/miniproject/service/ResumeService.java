@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpateReqDto;
+import shop.mtcoding.miniproject.dto.Person.PersonReq.PersonUpdateReqDto;
+import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
+import shop.mtcoding.miniproject.dto.Skill.SkillReq.SkillUpdateReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Resume;
@@ -22,7 +24,7 @@ public class ResumeService {
     @Autowired
     SkillRepository skillRepository;
 
-    public void insertNewResume(ResumeUpateReqDto resumeDto, int pInfoId) {
+    public void insertNewResume(Resume resume) {
         Resume resume = new Resume(resumeDto);
         resume.setPInfoId(pInfoId);
         int result = resumeRepository.insert(resume);
@@ -33,7 +35,7 @@ public class ResumeService {
         System.out.println(resume.getId());
         int resumId = resume.getId();
 
-        personRepository.updateById(resumId, null, null, null, null, null)
+        personRepository.updateById(pInfoId, personDto);
     }
 
 }
