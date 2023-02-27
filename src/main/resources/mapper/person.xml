@@ -11,7 +11,7 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.Person">
         select * from person_info_tb where id = #{id}
-    </select>   
+    </select>
 
     <!-- <insert id="insert">
         insert into person_info_tb (name, created_at) 
@@ -20,18 +20,20 @@
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into person_info_tb (name, created_at) values (#{name}, now())
+
     </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from person_info_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
+
+    <update id="updateById">
         update person_info_tb set name = #{name},
                                    phone = #{phone},
                                    address = #{address},
                                    birthday = #{birthday},
                                    created_at = #{createdAt}
                                    where id = #{id} 
-    </update>    
+    </update>
 </mapper>

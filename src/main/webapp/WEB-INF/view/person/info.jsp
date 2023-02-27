@@ -24,22 +24,22 @@
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">이름</span>
-                                    <input type="text" class="form-control" value="성소정" readonly>
+                                    <input type="text" class="form-control" value="${person.name}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
-                                    <input type="text" class="form-control" value="000-000-0000" readonly>
+                                    <input type="text" class="form-control" value="${person.phone}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">이메일</span>
-                                    <input type="text" class="form-control" value="email@email.com" readonly>
+                                    <input type="text" class="form-control" value="${principal.email}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
-                                    <input type="text" class="form-control" value="부산광역시 진구 서면" readonly>
+                                    <input type="text" class="form-control" value="${person.address}" readonly>
                                 </div>
 
                                 <hr class="my-4">
@@ -47,12 +47,10 @@
                                     <h4>기술스택</h4>
                                     <div class="">
                                         <ul>
-                                            <li>HTML</li>
-                                            <li>CSS</li>
-                                            <li>JavaScript</li>
-                                            <li>React</li>
-                                            <li>Node.js</li>
-                                            <li>Express</li>
+                                        <c:forEach items="${pSkillArr}" var="pSkill">
+                                            <li>${pSkill}</li>
+                                        </c:forEach>
+
                                         </ul>
                                     </div>
                                 </div>

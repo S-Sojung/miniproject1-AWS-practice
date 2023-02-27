@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 
 @Getter
 @Setter
@@ -14,6 +15,24 @@ public class Resume {
     private String title;
     private String portfolio;
     private String selfIntro;
-    private Timestamp createdAt;
+    private String name;
+    private String phone;
+    private String address;
+    private Timestamp birthday;
+    private String skills;
 
+    // public Resume() {
+    // }
+
+    // public Resume(ResumeUpdateReqDto resumeUpateReqDto) {
+    // this.profile = resumeUpateReqDto.getProfile();
+    // this.title = resumeUpateReqDto.getTitle();
+    // this.portfolio = resumeUpateReqDto.getPortfolio();
+    // this.selfIntro = resumeUpateReqDto.getSelfIntro();
+    // this.name = resumeUpateReqDto.getName();
+    // this.phone = resumeUpateReqDto.getPhone();
+    // this.address = resumeUpateReqDto.getAddress();
+    // this.birthday = resumeUpateReqDto.getBirthday();
+    // this.skills = resumeUpateReqDto.getSkills();
+    // }
 }
