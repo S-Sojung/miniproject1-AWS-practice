@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     </div>
+    <footer>
     <div class="sj_full_container py-1 bg-light text-center border bottom-0"
         style="font-size: 12px;">
         Copyright© KDT-1 <br /><br/>
@@ -8,6 +9,7 @@
         help@xxxx.co.kr<br />
         부산 수영구 XX동<br />
     </div>
+    </footer>
 </body>
 
 </html>

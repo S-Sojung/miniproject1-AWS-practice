@@ -11,13 +11,12 @@
 
 
 
-            <div class="ms-2 p-4">
-                <div class="border border-tertiary w-100 p-5 rounded ">
+            <div class="ms-2 p-4" style="width:1150px;">
+                <div class="border border-tertiary p-5 rounded ">
                     <div class="d-flex justify-content-between">
-                        <h1 class="hs_line">개인회원 정보</h1>
-                        <button type="button" class="btn btn-dark hs_update_button"
-                            onclick="location.href=`/person/updateInfoForm`;">수정하기</button>
-                    </div>
+                        <h1 class="hs_line d-inline-flex">회원 정보</h1>
+                    <button type="button" class="btn btn-dark" style="width:100px; height:40px;" onclick="location.href=`/person/updateInfoForm`;">수정하기</button>
+                     </div>
                     <hr />
                     <div>
                         <div class="container w-50 mt-5 text ">
@@ -62,6 +61,5 @@
                     </div>
                 </div>
             </div>
-
-
+        </div>
             <%@ include file="../layout/footer.jsp" %>

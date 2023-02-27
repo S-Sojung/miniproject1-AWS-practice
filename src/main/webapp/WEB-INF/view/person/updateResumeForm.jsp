@@ -71,8 +71,8 @@
                         </div>
                         <div class="">
                             <h4>자기소개</h4>
-                            <textarea name="resume_content" cols="105"
-                                rows="10">안녕하십니까 저는 chatGPT를 뛰어넘는 인공지능 성소정이라고 합니다.</textarea>
+                            <textarea name="resume_content" cols="109" rows="10">
+                            안녕하십니까 저는 chatGPT를 뛰어넘는 인공지능 성소정이라고 합니다.</textarea>
                         </div>
 						    <div class="d-flex mt-4 justify-content-center">
                             <div class="px-2">

@@ -39,8 +39,8 @@
                     <button type="submit" class="btn btn-dark btn-block" style="width: 265px;">회원가입</button>
                 </div>
             </form>
-            <div class="text-center">
-                <p><a href="/person/loginForm">이미 회원이신가요?</a></p>
+            <div class="text-center sj_login_join">
+                <p><a href="/personLoginForm">이미 회원이신가요?</a></p>
             </div>
         </div>
     </div>

@@ -18,31 +18,31 @@
         </head>
 
         <body>
+        <header>
             <input type="hidden" id="current" val="siteMain" />
             <c:choose>
                 <c:when test="${principal==null}">
                     <nav class="sj_full_container navbar bg-body-tertiary">
                         <div class="container">
-                            <a class="navbar-brand" href="/">
-                                <img src="/images/logo.png" width="80" height="80">
-                                INITi
-                            </a>
+                                <a class="navbar-brand fs-2" href="/">
+                                    <img src="/images/INITilogo.png" alt="" width="50" height="40"
+                                        class="d-inline-block align-text-top">
+                                    INITi
+                                </a>
                         </div>
                     </nav>
                 </c:when>
                 <c:when test="${principal.PInfoId!=0}">
                     <%-- 개인 로그인 --%>
                         <nav
-                            class="sj_full_container navbar navbar-light bg-light sticky-top border-bottom align-self-center">
+                            class="sj_full_container navbar navbar-light bg-light  d-flex justify-content-around sticky-top border-bottom align-self-center">
                             <div class="container">
                                 <a class="navbar-brand fs-2" href="/person">
                                     <img src="/images/INITilogo.png" alt="" width="50" height="40"
                                         class="d-inline-block align-text-top">
                                     INITi
                                 </a>
-                                <div class="justify-content-between ">
-                                    <div></div>
-                                    <ul class="nav link-dark" style="position: absolute; left:45%; bottom:0">
+                                    <ul class="nav link-dark" style="position: relative; bottom:-12px">
                                         <li class="nav-item border-bottom border-warning pb-2 border-3">
                                             <a class="nav-link active link-dark" aria-current="page"
                                                 href="/person/main">채용공고</a>
@@ -69,16 +69,14 @@
                 <c:otherwise>
                     <%-- 기업 로그인 --%>
                         <nav
-                            class="sj_full_container navbar navbar-light bg-light sticky-top border-bottom align-self-center">
+                            class="sj_full_container navbar navbar-light  d-flex justify-content-around  bg-light sticky-top border-bottom align-self-center">
                             <div class="container">
                                 <a class="navbar-brand fs-2" href="/company">
                                     <img src="/images/INITilogo.png" alt="" width="50" height="40"
                                         class="d-inline-block align-text-top">
                                     INITi
                                 </a>
-                                <div class="justify-content-around ">
-                                    <div></div>
-                                    <ul class="nav link-dark" style="position: absolute; left:45%; bottom:0">
+                                    <ul class="nav link-dark" style="position: relative; bottom:-12px">
                                         <li class="nav-item border-bottom border-warning pb-2 border-3">
                                             <a class="nav-link active link-dark" aria-current="page"
                                                 href="/company/recommend">인재추천</a>
@@ -96,4 +94,5 @@
                         </nav>
                 </c:otherwise>
             </c:choose>
-            <div class="sj_full_container">
+            </header>
+    <div class="sj_full_container mb-5">

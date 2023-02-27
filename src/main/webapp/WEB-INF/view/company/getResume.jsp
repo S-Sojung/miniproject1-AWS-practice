@@ -27,25 +27,25 @@
                         <tr>
                             <td> &nbsp &nbsp 백엔드 개발자</td>
                             <td>성소정</td>
-                            <td><a href="#">성실한 지원자입니다.</a></td>
+                            <td><a href="#" class="text-decoration-none">성실한 지원자입니다.</a></td>
                             <td>2023.02.04 16:04</td>
                         </tr>
                         <tr>
                             <td> &nbsp &nbsp 백엔드 개발자</td>
                             <td>장희선</td>
-                            <td><a href="#">완전 성실한 지원자입니다.</a></td>
+                            <td><a href="#" class="text-decoration-none">완전 성실한 지원자입니다.</a></td>
                             <td>2023.02.04 16:05</td>
                         </tr>
                         <tr>
                             <td> &nbsp &nbsp 백엔드 개발자</td>
                             <td>오주혜</td>
-                            <td><a href="#">진짜 성실한 지원자입니다.</a></td>
+                            <td><a href="#" class="text-decoration-none">진짜 성실한 지원자입니다.</a></td>
                             <td>2023.02.04 16:06</td>
                         </tr>
                         <tr>
                             <td> &nbsp &nbsp 백엔드 개발자</td>
                             <td>김정민</td>
-                            <td><a href="#">진심으로 성실한 지원자입니다.</a></td>
+                            <td><a href="#" class="text-decoration-none">진심으로 성실한 지원자입니다.</a></td>
                             <td>2023.02.04 16:07</td>
                         </tr>
 

@@ -26,7 +26,7 @@
                     <button type="submit" class="btn btn-dark btn-block" style="width: 265px;">로그인</button>
                 </div>
             </form>
-            <div class="text-center">
+            <div class="text-center sj_login_join">
                 <p><a href="/companyJoinForm1">아직 회원이 아니신가요?</a></p>
             </div>
         </div>

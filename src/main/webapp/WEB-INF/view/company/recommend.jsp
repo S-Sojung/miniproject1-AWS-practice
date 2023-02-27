@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <td class="px-5">성소정</td>
-                <td>성실한 지원자입니다</td>
+                <td><a href="#" class="text-decoration-none">성실한 지원자입니다</a></td>
                 <td><span class="badge text-bg-info">JAVA</span>
                     <span class="badge text-bg-danger">FLUTTER</span>
                 </td>
@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td class="px-5">장희선</td>
-                <td>더 성실한 지원자입니다</td>
+                <td><a href="#" class="text-decoration-none">더 성실한 지원자입니다</a></td>
                 <td><span class="badge text-bg-info">JAVA</span>
                     <span class="badge text-bg-success">JPA</span>
                 </td>
@@ -37,7 +37,7 @@
                 </tr>
                 <tr>
                     <td class="px-5">오주혜</td>
-                    <td>더더 성실한 지원자입니다</td>
+                    <td><a href="#" class="text-decoration-none">더더 성실한 지원자입니다</a></td>
                     <td><span class="badge text-bg-info">JAVA</span>
                         <span class="badge text-bg-secondary">SPRING</span>
                     </td>
@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td class="px-5">김정민</td>
-                    <td>더더더 성실한 지원자입니다</td>
+                    <td><a href="#" class="text-decoration-none">더더더 성실한 지원자입니다</a></td>
                     <td><span class="badge text-bg-info">JAVA</span>
                         <span class="badge text-bg-danger">FLUTTER</span>
                         <span class="badge text-bg-success">JPA</span>

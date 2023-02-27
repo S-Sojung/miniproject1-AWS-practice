@@ -96,8 +96,8 @@
                 <div>
 
 
-                    <div class="card mt-4 p-4 ms-2 hs_card_size">
-                        <img src="/images/logo1.jpg" class="rounded mb-4 h-75">
+                <div class="card mt-4 p-4 ms-2" style="width:350px; height: 450px;">
+                    <img src="/images/logo1.jpg" class="rounded mb-4 h-75 w-100">   
                         <div class="d-flex justify-content-between m-1">
                             <h4><b>백엔드 개발자 구인</b></h4>
                         </div>
