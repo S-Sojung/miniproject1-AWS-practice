@@ -10,8 +10,8 @@ import lombok.Setter;
 public class Skill {
     private Integer id;
     private Integer pInfoId;
-    private Integer postId;
-    private Integer resumeId;
+    private Integer postId; // 0
+    private Integer resumeId; // 0
     private String skills;
     private Timestamp createdAt;
 

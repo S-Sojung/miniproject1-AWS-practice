@@ -9,6 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import org.springframework.web.bind.annotation.PostMapping;
+
+import shop.mtcoding.miniproject.model.Resume;
+import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.ResumeService;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,14 +30,12 @@ import shop.mtcoding.miniproject.service.PersonService;
 
 @Controller
 public class PersonContoller {
+
+    @Autowired
+    private ResumeService resumeService;
+    
     @Autowired
     private PersonService personService;
-
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private SkillRepository skillRepository;
 
     @Autowired
     private HttpSession session;
@@ -175,5 +179,14 @@ public class PersonContoller {
     @GetMapping("/person/scrap")
     public String personScrap() {
         return "person/scrap";
+    }
+
+    @PostMapping("/person/resumes")
+    public String personInsertResumeForm(Resume resume) {
+        User user = (User) session.getAttribute("principal");
+        int pInfoId = user.getPInfoId();
+        resume.setPInfoId(pInfoId);
+        resumeService.insertNewResume(resume);
+        return "redirect:/person/resumes";
     }
 }
