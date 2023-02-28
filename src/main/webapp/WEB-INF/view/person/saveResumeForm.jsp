@@ -11,7 +11,7 @@
             <form action="/person/resumes" method="post" enctype="multipart/form-data">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
-                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"></h1>
+                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px" name="title"></h1>
                         <hr>
                         <div class="d-flex justify-content-center">
                             <div style="width: 85%;">
@@ -19,13 +19,11 @@
                                     <img src="/images/logo.png" id="imagePreview" border="1"
                                         style="width: 188px; height: 226px;">
                                     <div class="jh_resume_personal_info">
-
                                         <div class="input-group mb-3">
-
                                             <div class="input-group-prepend ">
                                                 <span class="input-group-text">이름</span>
                                             </div>
-                                            <input type="text" class="form-control" style="width: 120px;" value="ssar">
+                                            <input type="text" class="form-control" style="width: 120px;" value="ssar" name="name">
                                         </div>
 
                                         <div class="input-group mb-3">
@@ -33,21 +31,21 @@
                                                 <span class="input-group-text">생년월일</span>
                                             </div>
                                             <input type="date" class="form-control" style="width: 120px;"
-                                                value="2022-07-06">
+                                                value="2022-07-06" name="birthday">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">연락처</span>
                                             </div>
-                                            <input type="tel" class="form-control" value="01040486042">
+                                            <input type="tel" class="form-control" value="01040486042" name="phone">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">주소</span>
                                             </div>
-                                            <input type="text" class="form-control" value="부산시 북구 만덕2동">
+                                            <input type="text" class="form-control" value="부산시 북구 만덕2동" name="address">
                                         </div>
 
                                         <div class="input-group mb-3">
@@ -64,8 +62,8 @@
                             onchange="chooseImage(this)" />
                         <div class="mt-5">
                             <h4>포트폴리오 주소</h4>
-                            <input type="url" class="form-control mt-2" id="floatingInput"
-                                placeholder="git 또는 blog 주소를 입력해주세요" required style="display: block;">
+                            <input type="text" class="form-control mt-2" id="floatingInput"
+                                placeholder="git 또는 blog 주소를 입력해주세요" name="portfolio" style="display: block;" required>
                         </div>
                         <div class="my-5">
                             <h4>기술스택 (최대 5개 선택)</h4>
@@ -101,7 +99,7 @@
                         </div>
                         <div>
                             <h4>자기소개</h4>
-                            <textarea name="resume_content" cols="109" rows="10" placeholder="내용을 입력하세요"></textarea>
+                            <textarea name="selfIntro" cols="109" rows="10" placeholder="내용을 입력하세요"></textarea>
                         </div>
                         <div class="d-flex mt-4 justify-content-center">
                             <div class="px-2">

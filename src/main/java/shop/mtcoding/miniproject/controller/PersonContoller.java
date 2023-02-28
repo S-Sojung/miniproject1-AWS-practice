@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.ResumeService;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
@@ -25,7 +27,6 @@ import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
-import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.PersonService;
 
 @Controller
@@ -33,7 +34,7 @@ public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
-    
+
     @Autowired
     private PersonService personService;
 

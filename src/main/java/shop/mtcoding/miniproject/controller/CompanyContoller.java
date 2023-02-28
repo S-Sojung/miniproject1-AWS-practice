@@ -17,7 +17,6 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.service.PersonService;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;

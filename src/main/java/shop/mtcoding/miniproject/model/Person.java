@@ -26,7 +26,6 @@ public class Person {
         this.name = resumeUpdateReqDto.getName();
         this.phone = resumeUpdateReqDto.getPhone();
         this.address = resumeUpdateReqDto.getAddress();
-        this.birthday = resumeUpdateReqDto.getBirthday();
     }
 
 }
