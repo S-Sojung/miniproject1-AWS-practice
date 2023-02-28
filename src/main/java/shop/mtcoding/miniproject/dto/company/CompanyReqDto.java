@@ -14,7 +14,7 @@ public class CompanyReqDto {
     public static class CompanyUpdateInfoDto {
         private MultipartFile logo;
         private String bossName;
-        private String size;
+        private Integer size;
         private String cyear;
         private String managerName;
         private String managerPhone;

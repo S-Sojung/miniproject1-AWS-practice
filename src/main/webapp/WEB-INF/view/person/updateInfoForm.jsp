@@ -114,10 +114,10 @@
 
                 $('input:checkbox[name=skills]').each(function () {
                     if ($(this).is(":checked") == true) {
-                        skillList.push($(this).val());
+                        skillList.push($(this).val())
                     }
                 });
-                if (skillList.length >= 6) {
+                if (skillList.length > 6) {
                     alert("기술 스택이 5개를 초과할 수 없습니다!");
                     $('input:checkbox[name=skills]').prop("checked", false);
                     // $('input:checkbox[name=checkSkills]').val().remove();

@@ -24,7 +24,7 @@ public interface CompanyRepository {
                         @Param("address") String address,
                         @Param("managerName") String managerName,
                         @Param("managerPhone") String managerPhone,
-                        @Param("size") String size,
+                        @Param("size") int size,
                         @Param("cyear") int cyear,
                         @Param("createdAt") Timestamp createdAt);
 

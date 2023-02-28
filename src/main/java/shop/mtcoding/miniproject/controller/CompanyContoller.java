@@ -197,7 +197,7 @@ public class CompanyContoller {
         if (companyUpdateInfoDto.getManagerPhone() == null || companyUpdateInfoDto.getManagerPhone().isEmpty()) {
             throw new CustomApiException("담당자 번호를 확인해주세요");
         }
-        if (companyUpdateInfoDto.getSize() == null || companyUpdateInfoDto.getSize().isEmpty()) {
+        if (companyUpdateInfoDto.getSize() == null) {
             throw new CustomApiException("사원수를 확인해주세요");
         }
         companyService.updateInfo(companyUpdateInfoDto);
