@@ -15,8 +15,10 @@ import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
+
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
+
 
 @Service
 public class PersonService {

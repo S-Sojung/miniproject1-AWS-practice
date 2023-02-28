@@ -20,6 +20,8 @@ import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
@@ -55,10 +57,10 @@ public class CompanyContoller {
 
     @Autowired
     private PersonRepository personRepository;
-
+    
     @Autowired
     private CompanyService companyService;
-
+    
     public void companyMocLogin() {
         User user = new User();
         user.setId(2);
