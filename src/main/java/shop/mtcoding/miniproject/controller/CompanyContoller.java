@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.security.KeyStore.PrivateKeyEntry;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +23,7 @@ import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.CompanyService;
 import shop.mtcoding.miniproject.service.PersonService;
 
@@ -36,28 +39,36 @@ public class CompanyContoller {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
     public String companyLoginForm() {
         return "company/loginForm";
     }
 
-    @PostMapping
+    @PostMapping("companyLogin")
     public String personLogin(LoginCompanyReqDto loginCompanyReqDto) {
+
         if (loginCompanyReqDto.getEmail() == null ||
                 loginCompanyReqDto.getEmail().isEmpty()) {
             throw new CustomException("이메일을 작성해주세요");
         }
+
         if (loginCompanyReqDto.getPassword() == null ||
                 loginCompanyReqDto.getPassword().isEmpty()) {
             throw new CustomException("패스워드를 작성해주세요");
         }
 
-        User principal = companyRepository.findByEmailAndPassword(loginCompanyReqDto.getEmail(),
+        User principal = userRepository.findByEmailAndPassword(loginCompanyReqDto.getEmail(),
                 loginCompanyReqDto.getPassword());
         if (principal == null) {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
         }
+
+        session.setAttribute("principal", principal);
+
         return "redirect:/company/main";
     }
 
@@ -88,8 +99,8 @@ public class CompanyContoller {
             throw new CustomException("담당자 성함을 작성해주세요");
         }
 
-        if (joinCompanyReqDto.getManagerEmail() == null ||
-                joinCompanyReqDto.getManagerEmail().isEmpty()) {
+        if (joinCompanyReqDto.getEmail() == null ||
+                joinCompanyReqDto.getEmail().isEmpty()) {
             throw new CustomException("담당자 이메일을 작성해주세요");
         }
 

@@ -37,7 +37,7 @@ public class CompanyService {
         if (result != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        int result2 = userRepository.insert(joinCompanyReqDto.getManagerEmail(), joinCompanyReqDto.getPassword(), 0,
+        int result2 = userRepository.insert(joinCompanyReqDto.getEmail(), joinCompanyReqDto.getPassword(), 0,
                 company.getId());
 
         companyRepository.insert(company);

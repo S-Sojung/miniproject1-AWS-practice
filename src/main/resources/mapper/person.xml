@@ -38,4 +38,11 @@
 
   
 
+
+    <select id="findByEmailAndPassword" resultType="shop.mtcoding.miniproject.model.Person">
+        SELECT user_tb.email, person_info_tb.name
+        FROM user_tb
+        INNER JOIN person_info_tb ON user_tb.p_info_id = person_info_tb.id;
+    </select>
+
 </mapper>

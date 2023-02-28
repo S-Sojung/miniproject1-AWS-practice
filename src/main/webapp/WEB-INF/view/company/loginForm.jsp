@@ -12,7 +12,7 @@
             <form action="/companyLogin" method="post">
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type="email" name = "managerEmail" class="form-control" id="floatingInput" placeholder="담당자 이름" required>
+                    <input type="email" name = "email" class="form-control" id="floatingInput" placeholder="담당자 이름" required>
                     <label for="floatingInput">담당자 이메일
                 </div>
 

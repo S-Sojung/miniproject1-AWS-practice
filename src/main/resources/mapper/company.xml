@@ -39,5 +39,6 @@
         select * from company_info_tb where name = #{name} and number = #{number}
     </select>
 
+
 </mapper>
 
