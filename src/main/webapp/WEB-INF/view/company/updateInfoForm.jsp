@@ -42,12 +42,25 @@
                                     <input type="text" class="form-control" value="${companyPS.number}" name="number"
                                         readonly>
                                 </div>
+
                                 <div class="input-group mb-3">
-                                    <span
+                                <c:choose>
+                                   <c:when test="${companyPS.cyear != null}">
+                                            <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">설립년도</span>
-                                    <input type="date" class="form-control" value="${companyPS.cyear}" id="companyYear"
+                                    <input type="text" class="form-control" value="${companyPS.cyear}" id="companyYear"
                                         name="cyear">
-                                </div>
+                                   </c:when>
+                                
+                                   <c:otherwise>
+                                      <span
+                                        class="input-group-text bg-light justify-content-center hs_span_size">설립년도</span>
+                                    <input type="date" class="form-control" id="companyYear"
+                                        name="cyear">
+                                   </c:otherwise>
+                                </c:choose>
+                                 </div>
+                                 
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">주소</span>

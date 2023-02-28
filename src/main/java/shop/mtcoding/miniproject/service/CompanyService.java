@@ -41,8 +41,13 @@ public class CompanyService {
             password = companyUpdateInfoDto.getPassword();
         }
 
-        String uuidComapnyLogo = PathUtil.writeImageFile(companyUpdateInfoDto.getLogo());
-        companyPS.setLogo(uuidComapnyLogo);
+        if (companyUpdateInfoDto.getLogo() == null || companyUpdateInfoDto.getLogo().isEmpty()) {
+            companyPS.setLogo(companyPS.getLogo());
+        } else {
+
+            String uuidComapnyLogo = PathUtil.writeImageFile(companyUpdateInfoDto.getLogo());
+            companyPS.setLogo(uuidComapnyLogo);
+        }
 
         String t = companyUpdateInfoDto.getCyear();
         String[] times = t.split("-");
