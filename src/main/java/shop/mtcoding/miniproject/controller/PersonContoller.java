@@ -1,7 +1,5 @@
 package shop.mtcoding.miniproject.controller;
 
-import java.sql.Timestamp;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,23 +9,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
-
-import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
-import shop.mtcoding.miniproject.model.User;
-import shop.mtcoding.miniproject.service.ResumeService;
-
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import shop.mtcoding.miniproject.dto.ResponseDto;
+import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
+import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
+import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.PersonService;
+import shop.mtcoding.miniproject.service.ResumeService;
 
 @Controller
 public class PersonContoller {
@@ -185,10 +183,37 @@ public class PersonContoller {
     @PostMapping("/person/resumes")
     public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto) {
         personMocLogin();
-        User user = (User) session.getAttribute("principal");
-        int pInfoId = user.getPInfoId();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        if (resumeUpdateReqDto.getProfile().isEmpty()) {
+            throw new CustomException("프로필 사진을 업로드 해주세요");
+        }
+        if (resumeUpdateReqDto.getTitle() == null || resumeUpdateReqDto.getTitle().isEmpty()) {
+            throw new CustomException("제목를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPortfolio() == null || resumeUpdateReqDto.getPortfolio().isEmpty()) {
+            throw new CustomException("포트폴리오 주소를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSelfIntro() == null || resumeUpdateReqDto.getSelfIntro().isEmpty()) {
+            throw new CustomException("자기소개서를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getName() == null || resumeUpdateReqDto.getName().isEmpty()) {
+            throw new CustomException("이름를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPhone() == null || resumeUpdateReqDto.getPhone().isEmpty()) {
+            throw new CustomException("휴대폰 번호를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getBirthday() == null || resumeUpdateReqDto.getBirthday().isEmpty()) {
+            throw new CustomException("생년월일을 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSkills() == null || resumeUpdateReqDto.getSkills().isEmpty()) {
+            throw new CustomException("기술스택을 선택해주세요");
+        }
+        int pInfoId = principal.getPInfoId();
         resumeService.insertNewResume(pInfoId, resumeUpdateReqDto);
-        return "redirect:/person/resumes";
 
+        return "redirect:/person/resumes";
     }
 }
