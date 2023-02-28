@@ -13,9 +13,9 @@
         select * from company_info_tb where id = #{id}
     </select>
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into company_info_tb (name, number, address, manager_name, created_at) 
-            values(#{name}, #{number}, #{address},  #{managerName}, now())
+            values(#{name}, #{number}, #{address}, #{managerName}, now())
     </insert>
 
     <delete id="deleteById">
@@ -35,5 +35,11 @@
                                    created_at = #{createdAt}
                                    where id = #{id} 
     </update>
+
+    <select id="findByCompanyNameAndNumber" resultType="shop.mtcoding.miniproject.model.Company">
+        select * from company_info_tb where name = #{name} and number = #{number}
+    </select>
+
+
 </mapper>
 

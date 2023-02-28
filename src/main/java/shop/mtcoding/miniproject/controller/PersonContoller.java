@@ -13,6 +13,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import shop.mtcoding.miniproject.model.Resume;
+import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.model.UserRepository;
+import shop.mtcoding.miniproject.service.ResumeService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -27,7 +36,6 @@ import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
-import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.ResumeService;
 
@@ -36,6 +44,7 @@ public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
+
 
     @Autowired
     private ResumeRepository resumeRepository;
@@ -48,6 +57,9 @@ public class PersonContoller {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -67,15 +79,82 @@ public class PersonContoller {
         return "person/loginForm";
     }
 
+    @PostMapping("/personLogin")
+    public String personLogin(LoginPersonReqDto loginPersonReqDto) {
+
+        if (loginPersonReqDto.getEmail() == null ||
+                loginPersonReqDto.getEmail().isEmpty()) {
+            throw new CustomException("이메일을 작성해주세요");
+        }
+
+        if (loginPersonReqDto.getPassword() == null ||
+                loginPersonReqDto.getPassword().isEmpty()) {
+            throw new CustomException("패스워드를 작성해주세요");
+        }
+
+        User principal = userRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
+                loginPersonReqDto.getPassword());
+        if (principal == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+
+        session.setAttribute("principal", principal);
+
+        return "redirect:/person/main";
+    }
+
     @GetMapping("/personJoinForm1")
     public String personJoinForm1() {
         return "person/joinForm1";
     }
 
+    @PostMapping("/personJoin")
+    public String join(JoinPersonReqDto joinPersonReqDto, RedirectAttributes redirectAttributes) {
+
+        System.out.println("테스트 : " + joinPersonReqDto.getName());
+        System.out.println("테스트 : " + joinPersonReqDto.getPassword());
+
+        if (joinPersonReqDto.getName() == null ||
+                joinPersonReqDto.getName().isEmpty()) {
+            throw new CustomException("이름을 작성해주세요");
+        }
+        if (joinPersonReqDto.getPassword() == null ||
+                joinPersonReqDto.getPassword().isEmpty()) {
+            throw new CustomException("비밀번호를 작성해주세요");
+        }
+        if (joinPersonReqDto.getEmail() == null ||
+                joinPersonReqDto.getEmail().isEmpty()) {
+            throw new CustomException("이메일을 작성해주세요");
+        }
+        int id = personService.join(joinPersonReqDto);
+        redirectAttributes.addAttribute("pInfoId", id);
+        // Person 인서트를 이름만!
+        // Person 인서트한 id 값을 유저에게 인서트하기
+
+        return "redirect:/personJoinForm2";
+    }
+
     @GetMapping("/personJoinForm2")
-    public String personJoinForm2() {
-        // jsp에서 받은 값을 여기에 들고와서 넘겨줘야함
+    public String personJoinForm2(Model model, int pInfoId) {
+        model.addAttribute("pInfoId", pInfoId);
+        model.addAttribute("skills", Skill.madeSkills());
         return "person/joinForm2";
+    }
+
+    @PostMapping("/personJoin2")
+    public String join(String[] skills, int pInfoId) {
+
+        String checkedSkills = "";
+        for (int i = 0; i < skills.length; i++) {
+            if (checkedSkills != "") {
+                checkedSkills += ",";
+            }
+            checkedSkills += skills[i];
+            // System.out.println(checkedSkills); 테스트
+        }
+        System.out.println("테스트: " + pInfoId);
+
+        return "redirect:/personLoginForm";
     }
 
     @GetMapping({ "/person/main", "/person" })
