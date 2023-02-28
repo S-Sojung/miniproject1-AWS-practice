@@ -33,7 +33,7 @@ public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
-    
+
     @Autowired
     private PersonService personService;
 
@@ -119,9 +119,8 @@ public class PersonContoller {
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
         String pSkills = pSkill.getSkills();
 
-        String[] pSkillArr = pSkills.split(",");
-        model.addAttribute("pSkillArr", pSkillArr);
-
+        model.addAttribute("pSkills", pSkills);
+        model.addAttribute("skills", Skill.madeSkills());
         return "person/updateInfoForm";
     }
 
@@ -146,9 +145,6 @@ public class PersonContoller {
         }
         if (personUpdateDto.getAddress() == null || personUpdateDto.getAddress().isEmpty()) {
             throw new CustomApiException("주소를 확인해주세요");
-        }
-        if (personUpdateDto.getPassword() == null || personUpdateDto.getPassword().isEmpty()) {
-            throw new CustomApiException("비밀번호를 확인해주세요");
         }
 
         personService.update(personUpdateDto, principal.getPInfoId());

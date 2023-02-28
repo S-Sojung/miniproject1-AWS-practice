@@ -18,7 +18,7 @@
 
 
                 <hr>
-                <img src="/images/kakao.jpg" class="rounded mx-auto d-block rounded-4 mt-5 my-3 w-25" style="width:300px; height:250px;">
+                <img src="${companyPS.logo == null ? '/images/defaultLogo.png' : companyPS.logo}" class="rounded mx-auto d-block rounded-4 mt-5 my-3 w-25" style="width:300px; height:250px;">
 
                 <div>
                     <div class="container w-50 mt-5 text ">
@@ -34,10 +34,6 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">사업자번호</span>
                                 <input type="text" class="form-control" value="${companyPS.number}" readonly>
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
-                                <input type="text" class="form-control" value="${companyPS.managerPhone}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">설립년도</span>
