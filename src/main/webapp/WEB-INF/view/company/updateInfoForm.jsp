@@ -180,8 +180,6 @@
 
 
             function companyUpdate(params) {
-
-
                 let formData = new FormData($("#companyUpdate")[0]);
 
                 $.ajax({
