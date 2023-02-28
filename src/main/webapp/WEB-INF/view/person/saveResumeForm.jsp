@@ -23,7 +23,7 @@
                                             <div class="input-group-prepend ">
                                                 <span class="input-group-text">이름</span>
                                             </div>
-                                            <input type="text" class="form-control" style="width: 120px;" value="ssar" name="name">
+                                            <input type="text" class="form-control" style="width: 120px;" value="${personPS.name}" name="name">
                                         </div>
 
                                         <div class="input-group mb-3">
@@ -31,28 +31,28 @@
                                                 <span class="input-group-text">생년월일</span>
                                             </div>
                                             <input type="date" class="form-control" style="width: 120px;"
-                                                value="2022-07-06" name="birthday">
+                                                value="${personPS.birthday}" name="birthday">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">연락처</span>
                                             </div>
-                                            <input type="tel" class="form-control" value="01040486042" name="phone">
+                                            <input type="tel" class="form-control" value="${personPS.phone}" name="phone">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">주소</span>
                                             </div>
-                                            <input type="text" class="form-control" value="부산시 북구 만덕2동" name="address">
+                                            <input type="text" class="form-control" value="${personPS.address}" name="address">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">이메일</span>
                                             </div>
-                                            <input type="email" class="form-control" value="ssar@nate.com" readonly>
+                                            <input type="email" class="form-control" value="${principal.email}" readonly>
                                         </div>
                                     </div>
                                 </div>

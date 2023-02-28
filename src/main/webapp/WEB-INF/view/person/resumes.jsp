@@ -17,7 +17,7 @@
                         <button class="jh_resume_button mb-5 rounded bg-light"
                             onclick="location.href=`/person/saveResumeForm`">➕ 새 이력서 등록</button>
                         <c:forEach items="${resume}" var="resume">
-                        <div id="resume_del" class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between">
+                        <div id="resume_del" class="jh_resume_content mt-5 mb-3" onclick="goToDetailPage(${resume.id})" style="display: flex; justify-content: space-between" >
                             ${resume.title}
                             <button type="button"  class="btn btn-secondary" onclick="deleteResume(${resume.id})">삭제</button>
                         </div>
@@ -28,6 +28,17 @@
         </div>
 
         <script>
+        function goToDetailPage(id) {
+            $.ajax({
+            type: "GET",
+            url : "/person/resumeDetail/"+id,
+            }).done((res) => {
+                location.href="/person/resumeDetail/"+id;
+            }).fail((err)=>{
+            });
+            
+        }
+
         function deleteResume(id) {
                  
             $.ajax({

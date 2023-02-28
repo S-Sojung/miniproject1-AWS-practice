@@ -174,8 +174,11 @@ public class PersonContoller {
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
+        int pInfoId = principal.getPInfoId();
         List<Resume> resumeAll = resumeRepository.findAll();
         model.addAttribute("resume", resumeAll);
+        Person personPS = personRepository.findById(pInfoId);
+        model.addAttribute("personPS", personPS);
         return "person/resumes";
     }
 
@@ -198,8 +201,22 @@ public class PersonContoller {
         return "person/saveResumeForm";
     }
 
-    @GetMapping("/person/resumeDetail")
-    public String personResumeDetail() {
+    @GetMapping("/person/resumeDetail/{id}")
+    public String personResumeDetail(@PathVariable int id, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        Resume resumePS = resumeRepository.findById(id);
+        if (resumePS == null) {
+            throw new CustomApiException("없는 게시글을 수정할 수 없습니다");
+        }
+        Person personPS = personRepository.findById(resumePS.getPInfoId());
+        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        model.addAttribute("resumeDetail", resumePS);
+        model.addAttribute("personDetail", personPS);
+        model.addAttribute("skillDetail", skillPS.getSkills().split(","));
         return "person/resumeDetail";
     }
 
@@ -209,12 +226,13 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/resumes")
-    public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto) {
+    public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
         personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
+        int pInfoId = principal.getPInfoId();
         if (resumeUpdateReqDto.getProfile().isEmpty()) {
             throw new CustomException("프로필 사진을 업로드 해주세요");
         }
@@ -239,7 +257,6 @@ public class PersonContoller {
         if (resumeUpdateReqDto.getSkills() == null || resumeUpdateReqDto.getSkills().isEmpty()) {
             throw new CustomException("기술스택을 선택해주세요");
         }
-        int pInfoId = principal.getPInfoId();
         resumeService.insertNewResume(pInfoId, resumeUpdateReqDto);
 
         return "redirect:/person/resumes";
