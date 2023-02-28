@@ -65,18 +65,18 @@ public class PersonContoller {
     }
 
     @PostMapping("/personLogin")
-    public String personLoginForm(LoginPersonReqDto loginPersonReqDto) {
+    public String personLogin(LoginPersonReqDto loginPersonReqDto) {
 
         System.out.println("테스트: " + loginPersonReqDto.getEmail());
         System.out.println("테스트: " + loginPersonReqDto.getPassword());
 
         if (loginPersonReqDto.getEmail() == null ||
                 loginPersonReqDto.getEmail().isEmpty()) {
-            throw new CustomException("email을 작성해주세요");
+            throw new CustomException("이메일을 작성해주세요");
         }
         if (loginPersonReqDto.getPassword() == null ||
                 loginPersonReqDto.getPassword().isEmpty()) {
-            throw new CustomException("password를 작성해주세요");
+            throw new CustomException("패스워드를 작성해주세요");
         }
 
         User principal = personRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
@@ -103,17 +103,17 @@ public class PersonContoller {
 
         if (joinPersonReqDto.getName() == null ||
                 joinPersonReqDto.getName().isEmpty()) {
-            throw new CustomException("name을 작성해주세요");
+            throw new CustomException("이름을 작성해주세요");
         }
         if (joinPersonReqDto.getPassword() == null ||
                 joinPersonReqDto.getPassword().isEmpty()) {
-            throw new CustomException("password를 작성해주세요");
+            throw new CustomException("비밀번호를 작성해주세요");
         }
         if (joinPersonReqDto.getEmail() == null ||
                 joinPersonReqDto.getEmail().isEmpty()) {
-            throw new CustomException("email을 작성해주세요");
+            throw new CustomException("이메일을 작성해주세요");
         }
-        personService.회원가입(joinPersonReqDto);
+        personService.join(joinPersonReqDto);
 
         // Person 인서트를 이름만!
         // Person 인서트한 id 값을 유저에게 인서트하기

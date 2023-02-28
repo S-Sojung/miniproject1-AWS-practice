@@ -1,6 +1,5 @@
 package shop.mtcoding.miniproject.service;
 
-
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
@@ -19,7 +17,6 @@ import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
-
 
 @Service
 public class PersonService {
@@ -32,14 +29,12 @@ public class PersonService {
 
     @Autowired
     private HttpSession session;
-   
+
     @Autowired
     private UserRepository userRepository;
-   
-  
 
     @Transactional
-    public void 회원가입(JoinPersonReqDto joinPersonReqDto) {
+    public void join(JoinPersonReqDto joinPersonReqDto) {
         Person person = new Person();
         person.setName(joinPersonReqDto.getName());
         int result = personRepository.insert(person); // joinReqDto(인수)를 매핑
@@ -64,7 +59,6 @@ public class PersonService {
     // }
     // return principal;
     // }
-
 
     @Transactional
     public void update(PersonUpdateDto personUpdateDto, int pInfoId) {

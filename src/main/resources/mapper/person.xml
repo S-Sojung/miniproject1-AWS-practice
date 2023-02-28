@@ -20,7 +20,6 @@
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into person_info_tb (name, created_at) values (#{name}, now())
-
     </insert>
 
     <delete id="deleteById">
@@ -36,4 +35,7 @@
                                    created_at = #{createdAt}
                                    where id = #{id} 
     </update>
+
+  
+
 </mapper>

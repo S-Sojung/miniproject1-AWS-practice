@@ -9,11 +9,11 @@
 
         <div class="border rounded p-3 m-3" style="width: 300px;">
 
-            <form action="#" method="post">
+            <form action="/companyLogin" method="post">
 
                 <div class="form-group form-floating m-3 mx-auto">
                     <input type=" text" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
-                    <label for="floatingInput">사용자 이름
+                    <label for="floatingInput">담당자 이름
                 </div>
 
                 <div class="form-group form-floating m-3 mx-auto">

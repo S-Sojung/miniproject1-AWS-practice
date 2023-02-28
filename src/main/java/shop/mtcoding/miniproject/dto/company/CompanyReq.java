@@ -11,7 +11,7 @@ public class CompanyReq {
 
         private String name;
         private String address;
-        private Integer number;
+        private String number;
         private String managerName;
         private String managerEmail;
         private String password;

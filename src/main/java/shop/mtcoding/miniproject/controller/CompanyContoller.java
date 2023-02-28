@@ -1,18 +1,25 @@
 package shop.mtcoding.miniproject.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import shop.mtcoding.miniproject.dto.company.CompanyReq;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.CompanyService;
 import shop.mtcoding.miniproject.service.PersonService;
 
 @Controller
@@ -27,16 +34,8 @@ public class CompanyContoller {
     @Autowired
     private PersonRepository personRepository;
 
-    // public void companyMocLogin() {
-    // User user = new User();
-    // user.setId(2);
-    // user.setPInfoId(0);
-    // user.setCInfoId(1);
-    // user.setEmail("init@nate.com");
-    // user.setPassword("1234");
-
-    // session.setAttribute("principal", user);
-    // }
+    @Autowired
+    private CompanyService companyService;
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
@@ -44,16 +43,18 @@ public class CompanyContoller {
         return "company/loginForm";
     }
 
-    @GetMapping("/companyJoinForm1")
-    public String companyJoinForm1() {
-        return "company/joinForm1";
+    @PostMapping("/companyLogin")
+    public String companyLogin() {
     }
 
-    @PostMapping("/companyJoin1")
-    public String join(JoinCompanyReqDto joinCompanyReqDto) {
+    @GetMapping("/companyJoinForm")
+    public String companyJoinForm1(Model model) {
+        model.addAttribute("companyReq", new JoinCompanyReqDto()); // UserForm: 사용자 정보를 담는 모델 클래스
+        return "company/joinForm";
+    }
 
-        System.out.println("테스트 : " + joinCompanyReqDto.getName());
-        System.out.println("테스트 : " + joinCompanyReqDto.getPassword());
+    @PostMapping("/companyJoin")
+    public String join(JoinCompanyReqDto joinCompanyReqDto) {
 
         if (joinCompanyReqDto.getName() == null ||
                 joinCompanyReqDto.getName().isEmpty()) {
@@ -64,18 +65,27 @@ public class CompanyContoller {
             throw new CustomException("회사 주소를 작성해주세요");
         }
         if (joinCompanyReqDto.getNumber() == null ||
-                joinCompanyReqDto.getNumber() == 0) {
+                joinCompanyReqDto.getNumber().isEmpty()) {
             throw new CustomException("사업자 번호를 작성해주세요");
         }
-        // companyService.회원가입(JoinCompanyReqDto);
 
-        return "redirect:/company/joinForm2";
-    }
+        if (joinCompanyReqDto.getManagerName() == null ||
+                joinCompanyReqDto.getManagerName().isEmpty()) {
+            throw new CustomException("담당자 성함을 작성해주세요");
+        }
 
-    @GetMapping("/companyJoinForm2")
-    public String companyJoinForm2() {
-        // jsp에서 받은 값을 여기에 들고와서 넘겨줘야함
-        return "company/joinForm2";
+        if (joinCompanyReqDto.getManagerEmail() == null ||
+                joinCompanyReqDto.getManagerEmail().isEmpty()) {
+            throw new CustomException("담당자 이메일을 작성해주세요");
+        }
+
+        if (joinCompanyReqDto.getPassword() == null ||
+                joinCompanyReqDto.getPassword().isEmpty()) {
+            throw new CustomException("비밀번호를 작성해주세요");
+        }
+
+        companyService.join(joinCompanyReqDto);
+        return "redirect:/company/loginForm";
     }
 
     @GetMapping({ "/company/main", "/company" })

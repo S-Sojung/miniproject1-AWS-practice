@@ -12,9 +12,11 @@ public interface CompanyRepository {
 
         public Company findById(int id);
 
-        public int insert(@Param("name") String name, @Param("number") String number,
-                        @Param("address") String address,
-                        @Param("managerName") String managerName);
+        // public int insert(@Param("name") String name, @Param("number") String number,
+        // @Param("address") String address,
+        // @Param("managerName") String managerName);
+
+        public int insert(Company company);
 
         public int updateById(@Param("id") int id,
                         @Param("logo") String logo,
@@ -28,5 +30,7 @@ public interface CompanyRepository {
                         @Param("createdAt") Timestamp createdAt);
 
         public int deleteById(int id);
+
+        public Company findByCompanyNameAndNumber(String name, String number);
 
 }
