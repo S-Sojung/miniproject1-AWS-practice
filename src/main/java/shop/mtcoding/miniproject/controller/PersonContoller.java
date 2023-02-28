@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.mtcoding.miniproject.dto.ResponseDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
+import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
@@ -33,7 +35,7 @@ public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
-    
+
     @Autowired
     private PersonService personService;
 
@@ -61,15 +63,72 @@ public class PersonContoller {
         return "person/loginForm";
     }
 
+    @PostMapping("/personLogin")
+    public String personLoginForm(LoginPersonReqDto loginPersonReqDto) {
+
+        System.out.println("테스트: " + loginPersonReqDto.getEmail());
+        System.out.println("테스트: " + loginPersonReqDto.getPassword());
+
+        if (loginPersonReqDto.getEmail() == null ||
+                loginPersonReqDto.getEmail().isEmpty()) {
+            throw new CustomException("email을 작성해주세요");
+        }
+        if (loginPersonReqDto.getPassword() == null ||
+                loginPersonReqDto.getPassword().isEmpty()) {
+            throw new CustomException("password를 작성해주세요");
+        }
+
+        User principal = personRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
+                loginPersonReqDto.getPassword());
+        if (principal == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+
+        session.setAttribute("principal", principal);
+
+        return "redirect:/person/main";
+    }
+
     @GetMapping("/personJoinForm1")
     public String personJoinForm1() {
         return "person/joinForm1";
+    }
+
+    @PostMapping("/personJoin")
+    public String join(JoinPersonReqDto joinPersonReqDto) {
+
+        System.out.println("테스트 : " + joinPersonReqDto.getName());
+        System.out.println("테스트 : " + joinPersonReqDto.getPassword());
+
+        if (joinPersonReqDto.getName() == null ||
+                joinPersonReqDto.getName().isEmpty()) {
+            throw new CustomException("name을 작성해주세요");
+        }
+        if (joinPersonReqDto.getPassword() == null ||
+                joinPersonReqDto.getPassword().isEmpty()) {
+            throw new CustomException("password를 작성해주세요");
+        }
+        if (joinPersonReqDto.getEmail() == null ||
+                joinPersonReqDto.getEmail().isEmpty()) {
+            throw new CustomException("email을 작성해주세요");
+        }
+        personService.회원가입(joinPersonReqDto);
+
+        // Person 인서트를 이름만!
+        // Person 인서트한 id 값을 유저에게 인서트하기
+
+        return "redirect:/personJoinForm2";
     }
 
     @GetMapping("/personJoinForm2")
     public String personJoinForm2() {
         // jsp에서 받은 값을 여기에 들고와서 넘겨줘야함
         return "person/joinForm2";
+    }
+
+    @PostMapping("/personJoin2")
+    public String join() {
+        return "";
     }
 
     @GetMapping({ "/person/main", "/person" })
