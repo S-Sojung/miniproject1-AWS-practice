@@ -16,4 +16,11 @@ public class CompanyReq {
         private String managerEmail;
         private String password;
     }
+
+    @Getter
+    @Setter
+    public static class LoginCompanyReqDto {
+        private String managerEmail;
+        private String password;
+    }
 }

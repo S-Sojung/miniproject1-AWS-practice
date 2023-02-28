@@ -43,8 +43,9 @@ public class CompanyContoller {
         return "company/loginForm";
     }
 
-    @PostMapping("/companyLogin")
-    public String companyLogin() {
+    @PostMapping
+    public String personLogin() {
+        return "";
     }
 
     @GetMapping("/companyJoinForm")
