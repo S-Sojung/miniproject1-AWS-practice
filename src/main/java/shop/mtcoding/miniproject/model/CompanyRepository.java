@@ -33,4 +33,6 @@ public interface CompanyRepository {
 
         public Company findByCompanyNameAndNumber(String name, String number);
 
+        public User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+
 }

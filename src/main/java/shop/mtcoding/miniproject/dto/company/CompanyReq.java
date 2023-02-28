@@ -13,14 +13,14 @@ public class CompanyReq {
         private String address;
         private String number;
         private String managerName;
-        private String managerEmail;
+        private String email;
         private String password;
     }
 
     @Getter
     @Setter
     public static class LoginCompanyReqDto {
-        private String managerEmail;
+        private String email;
         private String password;
     }
 }

@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.mtcoding.miniproject.dto.company.CompanyReq;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
+import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
+import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.CompanyService;
@@ -29,13 +31,10 @@ public class CompanyContoller {
     private HttpSession session;
 
     @Autowired
-    private PersonService personService;
-
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
@@ -44,8 +43,22 @@ public class CompanyContoller {
     }
 
     @PostMapping
-    public String personLogin() {
-        return "";
+    public String personLogin(LoginCompanyReqDto loginCompanyReqDto) {
+        if (loginCompanyReqDto.getEmail() == null ||
+                loginCompanyReqDto.getEmail().isEmpty()) {
+            throw new CustomException("이메일을 작성해주세요");
+        }
+        if (loginCompanyReqDto.getPassword() == null ||
+                loginCompanyReqDto.getPassword().isEmpty()) {
+            throw new CustomException("패스워드를 작성해주세요");
+        }
+
+        User principal = companyRepository.findByEmailAndPassword(loginCompanyReqDto.getEmail(),
+                loginCompanyReqDto.getPassword());
+        if (principal == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+        return "redirect:/company/main";
     }
 
     @GetMapping("/companyJoinForm")
