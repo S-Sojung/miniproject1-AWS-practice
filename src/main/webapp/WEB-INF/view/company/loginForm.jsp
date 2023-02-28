@@ -9,17 +9,17 @@
 
         <div class="border rounded p-3 m-3" style="width: 300px;">
 
-            <form action="#" method="post">
+            <form action="/companyLogin" method="post">
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type=" text" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
-                    <label for="floatingInput">사용자 이름
+                    <input type="email" name = "email" class="form-control" id="floatingInput" placeholder="담당자 이름" required>
+                    <label for="floatingInput">담당자 이메일
                 </div>
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com"
+                    <input type="password" name = "password" class="form-control" id="floatingInput" placeholder="name@example.com"
                         required>
-                    <label for="floatingInput">password</label>
+                    <label for="floatingInput">비밀번호</label>
                 </div>
 
                 <div class="form-group form-floating m-3 mx-auto">
@@ -27,7 +27,7 @@
                 </div>
             </form>
             <div class="text-center sj_login_join">
-                <p><a href="/companyJoinForm1">아직 회원이 아니신가요?</a></p>
+                <p><a href="/companyJoinForm">아직 회원이 아니신가요?</a></p>
             </div>
         </div>
     </div>

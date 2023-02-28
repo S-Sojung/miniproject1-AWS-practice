@@ -1,5 +1,6 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -11,15 +12,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.miniproject.dto.ResponseDto;
+import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
+import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
+
+
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
@@ -33,6 +43,10 @@ import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
+
+
+import shop.mtcoding.miniproject.model.UserRepository;
+import shop.mtcoding.miniproject.service.CompanyService;
 import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.PostService;
 
@@ -41,21 +55,31 @@ public class CompanyContoller {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private PostRespository postRepository;
+
     @Autowired
     private CompanyRepository companyRepository;
+
     @Autowired
     private SkillRepository skillRepository;
+
     @Autowired
     private PostService postService;
-
-    @Autowired
-    private PersonService personService;
-
+    
     @Autowired
     private PersonRepository personRepository;
-
+    
+    @Autowired
+    private CompanyService companyService;
+    
     public void companyMocLogin() {
         User user = new User();
         user.setId(2);
@@ -67,62 +91,6 @@ public class CompanyContoller {
         session.setAttribute("principal", user);
     }
 
-    @PostMapping("/personJoin")
-    public String join(JoinPersonReqDto joinPersonReqDto) {
-
-        System.out.println("테스트 : " + joinPersonReqDto.getName());
-        System.out.println("테스트 : " + joinPersonReqDto.getPassword());
-
-        if (joinPersonReqDto.getName() == null ||
-                joinPersonReqDto.getName().isEmpty()) {
-            throw new CustomException("name을 작성해주세요");
-        }
-        if (joinPersonReqDto.getPassword() == null ||
-                joinPersonReqDto.getPassword().isEmpty()) {
-            throw new CustomException("password를 작성해주세요");
-        }
-        if (joinPersonReqDto.getEmail() == null ||
-                joinPersonReqDto.getEmail().isEmpty()) {
-            throw new CustomException("email을 작성해주세요");
-        }
-        personService.회원가입(joinPersonReqDto);
-
-        // Person 인서트를 이름만!
-        // Person 인서트한 id 값을 유저에게 인서트하기
-
-        return "redirect:/personJoinForm2";
-    }
-
-    @PostMapping("/personJoin2")
-    public String join() {
-        return "";
-    }
-
-    @PostMapping("/personLogin")
-    public String personLoginForm(LoginPersonReqDto loginPersonReqDto) {
-
-        System.out.println("테스트: " + loginPersonReqDto.getEmail());
-        System.out.println("테스트: " + loginPersonReqDto.getPassword());
-
-        if (loginPersonReqDto.getEmail() == null ||
-                loginPersonReqDto.getEmail().isEmpty()) {
-            throw new CustomException("email을 작성해주세요");
-        }
-        if (loginPersonReqDto.getPassword() == null ||
-                loginPersonReqDto.getPassword().isEmpty()) {
-            throw new CustomException("password를 작성해주세요");
-        }
-
-        User principal = personRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
-                loginPersonReqDto.getPassword());
-        if (principal == null) {
-            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
-        }
-
-        session.setAttribute("principal", principal);
-
-        return "redirect:/person/main";
-    }
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
@@ -130,15 +98,69 @@ public class CompanyContoller {
         return "company/loginForm";
     }
 
-    @GetMapping("/companyJoinForm1")
-    public String companyJoinForm1() {
-        return "company/joinForm1";
+    @PostMapping("companyLogin")
+    public String companyLogin(LoginCompanyReqDto loginCompanyReqDto) {
+
+        if (loginCompanyReqDto.getEmail() == null ||
+                loginCompanyReqDto.getEmail().isEmpty()) {
+            throw new CustomException("이메일을 작성해주세요");
+        }
+
+        if (loginCompanyReqDto.getPassword() == null ||
+                loginCompanyReqDto.getPassword().isEmpty()) {
+            throw new CustomException("패스워드를 작성해주세요");
+        }
+
+        User principal = userRepository.findByEmailAndPassword(loginCompanyReqDto.getEmail(),
+                loginCompanyReqDto.getPassword());
+        if (principal == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+
+        session.setAttribute("principal", principal);
+
+        return "redirect:/company/main";
     }
 
-    @GetMapping("/companyJoinForm2")
-    public String companyJoinForm2() {
-        // jsp에서 받은 값을 여기에 들고와서 넘겨줘야함
-        return "company/joinForm2";
+    @GetMapping("/companyJoinForm")
+    public String companyJoinForm1(Model model) {
+        model.addAttribute("companyReq", new JoinCompanyReqDto()); // UserForm: 사용자 정보를 담는 모델 클래스
+        return "company/joinForm";
+    }
+
+    @PostMapping("/companyJoin")
+    public String join(JoinCompanyReqDto joinCompanyReqDto) {
+
+        if (joinCompanyReqDto.getName() == null ||
+                joinCompanyReqDto.getName().isEmpty()) {
+            throw new CustomException("회사명을 작성해주세요");
+        }
+        if (joinCompanyReqDto.getAddress() == null ||
+                joinCompanyReqDto.getAddress().isEmpty()) {
+            throw new CustomException("회사 주소를 작성해주세요");
+        }
+        if (joinCompanyReqDto.getNumber() == null ||
+                joinCompanyReqDto.getNumber().isEmpty()) {
+            throw new CustomException("사업자 번호를 작성해주세요");
+        }
+
+        if (joinCompanyReqDto.getManagerName() == null ||
+                joinCompanyReqDto.getManagerName().isEmpty()) {
+            throw new CustomException("담당자 성함을 작성해주세요");
+        }
+
+        if (joinCompanyReqDto.getEmail() == null ||
+                joinCompanyReqDto.getEmail().isEmpty()) {
+            throw new CustomException("담당자 이메일을 작성해주세요");
+        }
+
+        if (joinCompanyReqDto.getPassword() == null ||
+                joinCompanyReqDto.getPassword().isEmpty()) {
+            throw new CustomException("비밀번호를 작성해주세요");
+        }
+
+        companyService.join(joinCompanyReqDto);
+        return "redirect:/companyLoginForm";
     }
 
     @GetMapping({ "/company/main", "/company" })
@@ -158,13 +180,47 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/info")
-    public String companyInfo() {
+    public String companyInfo(Model model) {
+        companyMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        Company companyPS = companyRepository.findById(principal.getCInfoId());
+        model.addAttribute("companyPS", companyPS);
         return "company/info";
     }
 
     @GetMapping("/company/updateInfoForm")
-    public String companyUpdateInfoForm() {
+    public String companyUpdateInfoForm(Model model) {
+        companyMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        Company companyPS = companyRepository.findById(principal.getCInfoId());
+        model.addAttribute("companyPS", companyPS);
         return "company/updateInfoForm";
+    }
+
+    @PostMapping("/company/updateInfo")
+    public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto)
+            throws IOException {
+        companyMocLogin();
+        if (companyUpdateInfoDto.getBossName() == null || companyUpdateInfoDto.getBossName().isEmpty()) {
+            throw new CustomApiException("대표자명을 확인해주세요");
+        }
+        if (companyUpdateInfoDto.getAddress() == null || companyUpdateInfoDto.getAddress().isEmpty()) {
+            throw new CustomApiException("주소를 확인해주세요");
+        }
+        if (companyUpdateInfoDto.getCyear() == null || companyUpdateInfoDto.getCyear().isEmpty()) {
+            throw new CustomApiException("설립년도를 확인해주세요");
+        }
+        if (companyUpdateInfoDto.getManagerName() == null || companyUpdateInfoDto.getManagerName().isEmpty()) {
+            throw new CustomApiException("담당자 이름을 확인해주세요");
+        }
+        if (companyUpdateInfoDto.getManagerPhone() == null || companyUpdateInfoDto.getManagerPhone().isEmpty()) {
+            throw new CustomApiException("담당자 번호를 확인해주세요");
+        }
+        if (companyUpdateInfoDto.getSize() == null) {
+            throw new CustomApiException("사원수를 확인해주세요");
+        }
+        companyService.updateInfo(companyUpdateInfoDto);
+        return new ResponseEntity<>(new ResponseDto<>(1, "기업 정보 수정 완료", null), HttpStatus.OK);
     }
 
     @GetMapping("/company/scrap")
@@ -174,7 +230,7 @@ public class CompanyContoller {
 
     @GetMapping("/company/posts")
     public String companyPosts(Model model) {
-        companyMocLogin();
+        // companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -189,6 +245,7 @@ public class CompanyContoller {
     @GetMapping("/company/postDetail/{id}")
     public String companyDetail(@PathVariable int id, Model model) {
         companyMocLogin();
+
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -309,6 +366,7 @@ public class CompanyContoller {
     @GetMapping("/company/savePostForm")
     public String companySavePostForm(Model model) {
         companyMocLogin();
+
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
@@ -332,6 +390,7 @@ public class CompanyContoller {
     @PostMapping("/company/savePost")
     public String companySavePost(Model model, PostSaveReqDto postSaveReqDto) {
         companyMocLogin();
+
         User userPS = (User) session.getAttribute("principal");
 
         if (postSaveReqDto.getTitle() == null ||
