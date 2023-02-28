@@ -261,4 +261,62 @@ public class PersonContoller {
 
         return "redirect:/person/resumes";
     }
+
+    @GetMapping("/person/updateResume/{id}")
+    public String getUpdateResumeForm(@PathVariable int id, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        Resume resumePS = resumeRepository.findById(id);
+        Person personPS = personRepository.findById(resumePS.getPInfoId());
+        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        model.addAttribute("resumePS", resumePS);
+        model.addAttribute("personPS", personPS);
+        model.addAttribute("skillPS", skillPS.getSkills().split(","));
+        model.addAttribute("skills", Skill.madeSkills());
+        return "person/updateResumeForm";
+    }
+
+    @PostMapping("/person/updateResume/{id}")
+    public String UpdateResumeForm(@PathVariable int id, ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        if (resumeUpdateReqDto.getProfile().isEmpty()) {
+            throw new CustomException("프로필 사진을 업로드 해주세요");
+        }
+        if (resumeUpdateReqDto.getTitle() == null || resumeUpdateReqDto.getTitle().isEmpty()) {
+            throw new CustomException("제목를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPortfolio() == null || resumeUpdateReqDto.getPortfolio().isEmpty()) {
+            throw new CustomException("포트폴리오 주소를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSelfIntro() == null || resumeUpdateReqDto.getSelfIntro().isEmpty()) {
+            throw new CustomException("자기소개서를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getName() == null || resumeUpdateReqDto.getName().isEmpty()) {
+            throw new CustomException("이름를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPhone() == null || resumeUpdateReqDto.getPhone().isEmpty()) {
+            throw new CustomException("휴대폰 번호를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getBirthday() == null || resumeUpdateReqDto.getBirthday().isEmpty()) {
+            throw new CustomException("생년월일을 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSkills() == null || resumeUpdateReqDto.getSkills().isEmpty()) {
+            throw new CustomException("기술스택을 선택해주세요");
+        }
+        int pInfoId = principal.getPInfoId();
+        resumeService.updateById(id, pInfoId, resumeUpdateReqDto);
+        Resume resumePS = resumeRepository.findById(id);
+        model.addAttribute("resumePS", resumePS);
+
+        return "redirect:/person/resumeDetail/" + id;
+
+    }
+
 }

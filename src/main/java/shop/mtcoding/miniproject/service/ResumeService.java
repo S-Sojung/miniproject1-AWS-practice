@@ -60,4 +60,38 @@ public class ResumeService {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public void updateById(int id, int pInfoId, ResumeUpdateReqDto resumeUpdateReqDto) {
+        String uuidImageName = PathUtil.writeImageFile(resumeUpdateReqDto.getProfile());
+        Timestamp birthday = CvTimestamp.convertStringToTimestamp(resumeUpdateReqDto.getBirthday());
+
+        Resume resume = new Resume(resumeUpdateReqDto);
+        resume.setProfile(uuidImageName);
+        resume.setPInfoId(pInfoId);
+        Person person = new Person(resumeUpdateReqDto);
+        person.setBirthday(birthday);
+        Skill skill = new Skill(resumeUpdateReqDto);
+
+        Resume resumePS = resumeRepository.findById(id);
+        int result1 = resumeRepository.updateById(id, pInfoId, resume.getProfile(), resume.getTitle(),
+                resume.getPortfolio(), resume.getSelfIntro(), resumePS.getCreatedAt());
+        if (result1 != 1) {
+            throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Person personPS = personRepository.findById(resume.getPInfoId());
+        int result2 = personRepository.updateById(resume.getPInfoId(), person.getName(), person.getPhone(),
+                person.getAddress(),
+                person.getBirthday(), personPS.getCreatedAt());
+        if (result2 != 1) {
+            throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        Skill skillPS = skillRepository.findByPInfoId(resume.getPInfoId());
+        int result3 = skillRepository.updateById(skillPS.getId(), resume.getPInfoId(), 0, 0, skill.getSkills(),
+                skillPS.getCreatedAt());
+        if (result3 != 1) {
+            throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }

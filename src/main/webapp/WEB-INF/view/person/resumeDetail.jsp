@@ -63,7 +63,7 @@
                        </div>
 						    <div class="d-flex mt-4 justify-content-center">
                             <div class="px-2">
-                                <button type="button" class="btn btn-light">수정하기</button>
+                                <button type="button" class="btn btn-light" onclick="updateResumeForm(${resumeDetail.id})">수정하기</button>
                             </div>
                         </div>
                     </div>
@@ -71,5 +71,17 @@
             </div>
         </div>
         </div>
-
+        <script>
+        function updateResumeForm(id) {
+            console.log(id);
+            $.ajax({
+            type: "GET",
+            url: "/person/updateResume/"+id
+            }).done((res) => {
+            location.href="/person/updateResume/"+id;
+            }).fail((err)=>{
+            
+            });
+        }
+        </script>
     <%@ include file="../layout/footer.jsp" %>

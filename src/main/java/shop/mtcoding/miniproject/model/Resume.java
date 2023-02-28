@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.model;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
@@ -13,6 +15,7 @@ public class Resume {
     private String title;
     private String portfolio;
     private String selfIntro;
+    private Timestamp createdAt;
 
     public Resume() {
     }

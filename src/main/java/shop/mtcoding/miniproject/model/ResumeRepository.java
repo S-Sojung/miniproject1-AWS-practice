@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 @Mapper
 public interface ResumeRepository {
@@ -22,7 +21,7 @@ public interface ResumeRepository {
         // skill은 따로 insert 해줘서 관리해줘야함!
 
         public int updateById(@Param("id") int id,
-                        @Param("pInfoId") int pInfoId, @Param("profile") MultipartFile profile,
+                        @Param("pInfoId") int pInfoId, @Param("profile") String profile,
                         @Param("title") String title,
                         @Param("portfolio") String portfolio, @Param("selfIntro") String selfIntro,
                         @Param("createdAt") Timestamp createdAt);
