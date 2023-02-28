@@ -11,7 +11,7 @@
             <div class="border rounded p-3 m-3" style="width: 300px;">
             
                 <!-- companyJoin 실행 후 이동해도 됨! -->
-            <form action="/companyJoin" method="post"> 
+            <form action="/companyJoin1" method="post"> 
                     <div class="form-group form-floating m-3 mx-auto">
                         <input type="text" name ="name" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
                         <label for="floatingInput">회사명

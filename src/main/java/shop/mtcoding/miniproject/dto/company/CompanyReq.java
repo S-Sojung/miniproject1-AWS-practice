@@ -10,7 +10,7 @@ public class CompanyReq {
     public static class JoinCompanyReqDto {
 
         private String name;
-        private String aaddress;
+        private String address;
         private Integer number;
         private String managerName;
         private String managerEmail;
