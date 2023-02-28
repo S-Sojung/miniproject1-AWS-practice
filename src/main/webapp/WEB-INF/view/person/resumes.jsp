@@ -17,9 +17,9 @@
                         <button class="jh_resume_button mb-5 rounded bg-light"
                             onclick="location.href=`/person/saveResumeForm`">➕ 새 이력서 등록</button>
                         <c:forEach items="${resume}" var="resume">
-                        <div class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between">
+                        <div id="resume_del" class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between">
                             ${resume.title}
-                            <button type="button" id="resume_del" class="btn btn-secondary" onclick="deleteById()">삭제</button>
+                            <button type="button"  class="btn btn-secondary" onclick="deleteResume(${resume.id})">삭제</button>
                         </div>
                         </c:forEach>
                     </div>
@@ -28,8 +28,17 @@
         </div>
 
         <script>
-        function deleteById() {
-            
+        function deleteResume(id) {
+                 
+            $.ajax({
+              type: "DELETE",
+              url : "/person/resumes/"+id,      
+            }).done((res) => {
+                $("#resume_del").remove();
+                alert("이력서 삭제에 성공하였습니다");
+            }).fail((err)=>{
+                alert("이력서 삭제에 실패하였습니다");
+            });
         }
         </script>
         <%@ include file="../layout/footer.jsp" %>
