@@ -65,35 +65,13 @@
 
                                     <div class="my-5">
                                         <h4>기술스택</h4>
-                                        <div class="row row-cols-auto gap-3 justify-content-center my-3 jh_form_group">
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn1"
-                                                value="java" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn1">java</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn2"
-                                                value="spring" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn2">spring</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn3"
-                                                value="html" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn3">html</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn4"
-                                                value="javascript" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn4">javascript</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn5"
-                                                value="sql" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn5">sql</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn6"
-                                                value="android" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn6">android</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn7"
-                                                value="React" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn7">React</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn8"
-                                                value="Node.js" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btn8">Node.js</label>
-                                            <input type="checkbox" class="btn-check" name="checkSkills" id="btn9"
-                                                value="Express" autocomplete="off">
-                                            <label class="btn btn-outline-primary" name="checkSkills"
-                                                for="btn9">Express</label>
+                                        <input type="hidden" value="${pSkills}" id="check">
+                                        <div class="row row-cols-auto gap-3 justify-content-center my-3">
+                                            <c:forEach items="${skills}" var="skill">
+                                                <input type="checkbox" name="skills" class="btn-check" id="${skill}"
+                                                    value="${skill}" autocomplete="off">
+                                                <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
+                                            </c:forEach>
                                         </div>
                                     </div>
                             </form>
@@ -104,7 +82,11 @@
         </div>
 
         <script>
+            let checkSkill = $("#check").val().split(",");
 
+            checkSkill.forEach(element => {
+                $("input:checkbox[id='" + element + "']").prop("checked", true);
+            });
 
 
             function checkingPassword() {
@@ -130,15 +112,14 @@
             function chooseSkiil() {
                 skillList = [];
 
-                $('input:checkbox[name=checkSkills]').each(function () {
+                $('input:checkbox[name=skills]').each(function () {
                     if ($(this).is(":checked") == true) {
                         skillList.push($(this).val());
                     }
                 });
-
                 if (skillList.length >= 6) {
-                    alert("5개를 초과할 수 없습니다!");
-                    $('input:checkbox[name=checkSkills]').prop("checked", false);
+                    alert("기술 스택이 5개를 초과할 수 없습니다!");
+                    $('input:checkbox[name=skills]').prop("checked", false);
                     // $('input:checkbox[name=checkSkills]').val().remove();
                     return false;
                 }
