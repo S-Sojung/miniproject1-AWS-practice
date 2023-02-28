@@ -11,19 +11,19 @@
             <div class="border rounded p-3 m-3" style="width: 300px;">
             
                 <!-- companyJoin 실행 후 이동해도 됨! -->
-            <form action="/companyJoinFrom2" method="post"> 
+            <form action="/companyJoin" method="post"> 
                     <div class="form-group form-floating m-3 mx-auto">
-                        <input type=" text" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
+                        <input type="text" name ="name" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
                         <label for="floatingInput">회사명
                     </div>
 
                     <div class="form-group form-floating m-3 mx-auto">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+                        <input type="text" name = "address" class="form-control" id="floatingInput" placeholder="name@example.com"
                             required>
                         <label for="floatingInput">회사 주소</label>
                     </div>
                     <div class="form-group form-floating m-3 mx-auto">
-                        <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com"
+                        <input type="password" name = "number" class="form-control" id="floatingInput" placeholder="name@example.com"
                             required>
                         <label for="floatingInput">사업자 번호</label>
                     </div>

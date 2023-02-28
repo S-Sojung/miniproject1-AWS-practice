@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;

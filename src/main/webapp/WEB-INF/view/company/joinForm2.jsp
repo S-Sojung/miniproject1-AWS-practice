@@ -9,19 +9,19 @@
 
         <div class="border rounded p-3 m-3" style="width: 300px;">
 
-            <form action="/companyJoin" method="post">
+            <form action="/companyJoin2" method="post">
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type=" text" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
+                    <input type="text" name = "managerName" class="form-control" id="floatingInput" placeholder="사용자 이름" required>
                     <label for="floatingInput">사용자 이름
                 </div>
 
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                    <input type="email" name = "managerEmail" class="form-control" id="floatingInput" placeholder="name@example.com" required>
                     <label for="floatingInput">Email</label>
                 </div>
                 <div class="form-group form-floating m-3 mx-auto">
-                    <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com"
+                    <input type="password" name = "password" class="form-control" id="floatingInput" placeholder="name@example.com"
                         required>
                     <label for="floatingInput">password</label>
                 </div>
