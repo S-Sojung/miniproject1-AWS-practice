@@ -1,7 +1,5 @@
 package shop.mtcoding.miniproject.dto.company;
 
-import java.sql.Timestamp;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;

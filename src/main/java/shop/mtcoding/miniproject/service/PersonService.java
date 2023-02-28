@@ -1,8 +1,6 @@
 package shop.mtcoding.miniproject.service;
 
-
 import javax.servlet.http.HttpSession;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +16,8 @@ import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 
-
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
-
 
 @Service
 public class PersonService {
@@ -60,6 +56,9 @@ public class PersonService {
     @Transactional
     public void join2(String skills, int pInfoId) {
         int result = skillRepository.insert(pInfoId, 0, 0, skills);
+        if (result != 1) {
+            throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // public User 로그인(LoginReqPersonDto loginReqPersonDto) {
