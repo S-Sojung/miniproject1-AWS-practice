@@ -89,7 +89,7 @@
                                                 <th>사원수</th>
                                                 <td>${company.size}</td>
                                                 <th>대표자</th>
-                                                <td>${company.managerName}</td>
+                                                <td>${company.bossName}</td>
                                             </tr>
                                             <tr>
                                                 <th>설립년도</th>

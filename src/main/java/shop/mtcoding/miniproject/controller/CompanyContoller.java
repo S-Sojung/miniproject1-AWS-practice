@@ -30,6 +30,7 @@ import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.PostService;
+import shop.mtcoding.miniproject.util.Script;
 
 @Controller
 public class CompanyContoller {
@@ -51,16 +52,16 @@ public class CompanyContoller {
     @Autowired
     private PersonRepository personRepository;
 
-    // public void companyMocLogin() {
-    // User user = new User();
-    // user.setId(2);
-    // user.setPInfoId(0);
-    // user.setCInfoId(1);
-    // user.setEmail("init@nate.com");
-    // user.setPassword("1234");
+    public void companyMocLogin() {
+        User user = new User();
+        user.setId(2);
+        user.setPInfoId(0);
+        user.setCInfoId(1);
+        user.setEmail("init@nate.com");
+        user.setPassword("1234");
 
-    // session.setAttribute("principal", user);
-    // }
+        session.setAttribute("principal", user);
+    }
 
     @PostMapping("/personJoin")
     public String join(JoinPersonReqDto joinPersonReqDto) {
@@ -172,6 +173,10 @@ public class CompanyContoller {
         companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
+
         List<PostTitleRespDto> postTitleList = postRepository.findAllTitleByCInfoId(userPS.getCInfoId());
         model.addAttribute("postTitleList", postTitleList);
         return "company/posts";
@@ -182,14 +187,21 @@ public class CompanyContoller {
         companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
+
         Post postPS = (Post) postRepository.findById(id);
+        if (postPS == null) {
+            throw new CustomException("없는 공고 입니다.");
+        }
+        if (postPS.getCInfoId() != userPS.getCInfoId()) {
+            throw new CustomException("게시글을 볼 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
         Company companyPS = (Company) companyRepository.findById(userPS.getCInfoId());
         Skill skillPS = (Skill) skillRepository.findByPostId(id);
         StringTokenizer skills = new StringTokenizer(skillPS.getSkills(), ",");
 
-        if (postPS.getCInfoId() != userPS.getCInfoId()) {
-            throw new CustomException("게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
         // 공고 디테일 보기 //인증 및 권한체크
         model.addAttribute("post", postPS);
         model.addAttribute("company", companyPS);
@@ -202,7 +214,19 @@ public class CompanyContoller {
     public String personSavePostForm(Model model) {
         companyMocLogin();
         User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
+
         Company companyPS = (Company) companyRepository.findById(userPS.getCInfoId());
+        // if (companyPS.getBossName() == null || companyPS.getBossName().isEmpty()
+        // || companyPS.getCyear() == null || companyPS.getLogo() == null ||
+        // companyPS.getLogo().isEmpty()
+        // || companyPS.getManagerPhone() == null ||
+        // companyPS.getManagerPhone().isEmpty()
+        // || companyPS.getSize() == null || companyPS.getCyear() == null) {
+        // return "redirect:/company/info";
+        // }
 
         model.addAttribute("company", companyPS);
         model.addAttribute("skills", Skill.madeSkills());

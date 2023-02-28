@@ -1,8 +1,6 @@
 package shop.mtcoding.miniproject.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalTime;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +35,9 @@ public class Post {
         this.condition = postSaveReqDto.getCondition();
         this.startHour = postSaveReqDto.getStartHour();
         this.endHour = postSaveReqDto.getEndHour();
-        String deadTime = postSaveReqDto.getDeadline().split("T")[0] + " " + postSaveReqDto.getDeadline().split("T")[1];
+        // String deadTime = postSaveReqDto.getDeadline().split("T")[0] + " " +
+        // postSaveReqDto.getDeadline().split("T")[1];
+        String deadTime = postSaveReqDto.getDeadline() + " 00:00:00";
         this.deadline = Timestamp.valueOf(deadTime);
         this.cIntro = postSaveReqDto.getCIntro();
         this.jobIntro = postSaveReqDto.getJobIntro();

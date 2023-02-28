@@ -99,23 +99,23 @@
                                 <div class="border border-tertiary ps-5 pe-2 pt-3 d-inline-flex mb-3 w-100">
                                     <table class="table table-borderless pt-5 ms-5">
                                         <tr class="pb-5">
-                                            <th>사원수</th>
-                                            <td>10명</td>
-                                            <th>대표자</th>
-                                            <td>춘식이</td>
-                                        </tr>
-                                        <tr>
-                                            <th>설립년도</th>
-                                            <td>2023.02.24</td>
-                                            <th>전화번호</th>
-                                            <td>02-1110-8282</td>
-                                        </tr>
-                                        <tr>
-                                            <th>주소</th>
-                                            <td>부산 진구 xx동 xx번지</td>
-                                            <th>이메일</th>
-                                            <td>my-kakao@naver.com</td>
-                                        </tr>
+                                                <th>사원수</th>
+                                                <td>${company.size}</td>
+                                                <th>대표자</th>
+                                                <td>${company.bossName}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>설립년도</th>
+                                                <td>${company.cyear}</td>
+                                                <th>전화번호</th>
+                                                <td>${company.managerPhone}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>주소</th>
+                                                <td>${company.address}</td>
+                                                <th>이메일</th>
+                                                <td>${principal.email}</td>
+                                            </tr>
                                     </table>
                                 </div>
                             </div>

@@ -30,6 +30,7 @@ CREATE TABLE company_info_tb(
     logo longtext,
     name varchar(20) not null,
     number varchar not null,
+    boss_name varchar,
     address varchar not null,
     manager_name varchar(20) not null,
     manager_phone varchar(11),
