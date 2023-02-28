@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="form-group form-floating m-3 mx-auto">
-                        <input type="email" name="managerEmail" class="form-control" id="floatingInput"
+                        <input type="email" name="email" class="form-control" id="floatingInput"
                             placeholder="name@example.com" required>
                         <label for="floatingInput">담당자 이메일</label>
                     </div>

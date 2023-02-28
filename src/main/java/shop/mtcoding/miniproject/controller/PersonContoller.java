@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.ResumeService;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
@@ -28,7 +30,6 @@ import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
-import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.service.PersonService;
 
 @Controller
@@ -45,6 +46,9 @@ public class PersonContoller {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -67,19 +71,17 @@ public class PersonContoller {
     @PostMapping("/personLogin")
     public String personLogin(LoginPersonReqDto loginPersonReqDto) {
 
-        System.out.println("테스트: " + loginPersonReqDto.getEmail());
-        System.out.println("테스트: " + loginPersonReqDto.getPassword());
-
         if (loginPersonReqDto.getEmail() == null ||
                 loginPersonReqDto.getEmail().isEmpty()) {
             throw new CustomException("이메일을 작성해주세요");
         }
+
         if (loginPersonReqDto.getPassword() == null ||
                 loginPersonReqDto.getPassword().isEmpty()) {
             throw new CustomException("패스워드를 작성해주세요");
         }
 
-        User principal = personRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
+        User principal = userRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
                 loginPersonReqDto.getPassword());
         if (principal == null) {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
@@ -96,7 +98,7 @@ public class PersonContoller {
     }
 
     @PostMapping("/personJoin")
-    public String join(JoinPersonReqDto joinPersonReqDto) {
+    public String join(JoinPersonReqDto joinPersonReqDto, RedirectAttributes redirectAttributes) {
 
         System.out.println("테스트 : " + joinPersonReqDto.getName());
         System.out.println("테스트 : " + joinPersonReqDto.getPassword());
@@ -113,8 +115,8 @@ public class PersonContoller {
                 joinPersonReqDto.getEmail().isEmpty()) {
             throw new CustomException("이메일을 작성해주세요");
         }
-        personService.join(joinPersonReqDto);
-
+        int id = personService.join(joinPersonReqDto);
+        redirectAttributes.addAttribute("pInfoId", id);
         // Person 인서트를 이름만!
         // Person 인서트한 id 값을 유저에게 인서트하기
 
@@ -122,14 +124,26 @@ public class PersonContoller {
     }
 
     @GetMapping("/personJoinForm2")
-    public String personJoinForm2() {
-        // jsp에서 받은 값을 여기에 들고와서 넘겨줘야함
+    public String personJoinForm2(Model model, int pInfoId) {
+        model.addAttribute("pInfoId", pInfoId);
+        model.addAttribute("skills", Skill.madeSkills());
         return "person/joinForm2";
     }
 
     @PostMapping("/personJoin2")
-    public String join() {
-        return "";
+    public String join(String[] skills, int pInfoId) {
+
+        String checkedSkills = "";
+        for (int i = 0; i < skills.length; i++) {
+            if (checkedSkills != "") {
+                checkedSkills += ",";
+            }
+            checkedSkills += skills[i];
+            // System.out.println(checkedSkills); 테스트
+        }
+        System.out.println("테스트: " + pInfoId);
+
+        return "redirect:/personLoginForm";
     }
 
     @GetMapping({ "/person/main", "/person" })

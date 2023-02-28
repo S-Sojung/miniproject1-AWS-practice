@@ -13,7 +13,7 @@
         select * from company_info_tb where id = #{id}
     </select>
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into company_info_tb (name, number, address, manager_name, created_at) 
             values(#{name}, #{number}, #{address}, #{managerName}, now())
     </insert>

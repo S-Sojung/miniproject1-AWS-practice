@@ -31,8 +31,6 @@ public interface CompanyRepository {
 
         public int deleteById(int id);
 
-        public Company findByCompanyNameAndNumber(String name, String number);
-
-        public User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+        public Company findByCompanyNameAndNumber(@Param("name") String name, @Param("number") String number);
 
 }

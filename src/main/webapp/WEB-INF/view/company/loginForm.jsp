@@ -27,7 +27,7 @@
                 </div>
             </form>
             <div class="text-center sj_login_join">
-                <p><a href="/companyJoinForm1">아직 회원이 아니신가요?</a></p>
+                <p><a href="/companyJoinForm">아직 회원이 아니신가요?</a></p>
             </div>
         </div>
     </div>

@@ -1,31 +1,19 @@
 package shop.mtcoding.miniproject.controller;
 
-import java.security.KeyStore.PrivateKeyEntry;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import shop.mtcoding.miniproject.dto.company.CompanyReq;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
-import shop.mtcoding.miniproject.model.CompanyRepository;
-import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.CompanyService;
-import shop.mtcoding.miniproject.service.PersonService;
 
 @Controller
 public class CompanyContoller {
@@ -35,9 +23,6 @@ public class CompanyContoller {
 
     @Autowired
     private CompanyService companyService;
-
-    @Autowired
-    private CompanyRepository companyRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -110,7 +95,7 @@ public class CompanyContoller {
         }
 
         companyService.join(joinCompanyReqDto);
-        return "redirect:/company/loginForm";
+        return "redirect:/companyLoginForm";
     }
 
     @GetMapping({ "/company/main", "/company" })

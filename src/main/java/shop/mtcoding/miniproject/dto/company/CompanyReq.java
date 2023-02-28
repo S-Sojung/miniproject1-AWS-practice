@@ -8,7 +8,6 @@ public class CompanyReq {
     @Getter
     @Setter
     public static class JoinCompanyReqDto {
-
         private String name;
         private String address;
         private String number;
