@@ -11,24 +11,26 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.User">
         select * from user_tb where id = #{id}
-    </select>   
+    </select>
 
     <select id="findByEmail" resultType="shop.mtcoding.miniproject.model.User">
         select * from user_tb where email = #{email}
-    </select> 
+    </select>
     <select id="findByEmailAndPassword" resultType="shop.mtcoding.miniproject.model.User">
         select * from user_tb where email = #{email} and password = #{password}
-    </select> 
+    </select>
 
     <insert id="insert">
         insert into user_tb (email, password, p_info_id, c_info_id, created_at) values(#{email}, #{password}, #{pInfoId},  #{cInfoId}, now())
-    </insert>    
+    </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from user_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
-        update user_tb set email= #{email},password= #{password}, p_info_id= #{pInfoId},c_infoid= #{cInfoId},created_at=#{createdAt} where id = #{id} 
-    </update>    
+    <update id="updateById">
+        update user_tb set email= #{email} ,password= #{password}
+            , p_info_id= #{pInfoId} ,c_info_id= #{cInfoId} ,created_at=#{createdAt} 
+            where id = #{id} 
+    </update>
 </mapper>

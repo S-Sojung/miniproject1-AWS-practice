@@ -12,6 +12,7 @@ public class Company {
     private String logo;
     private String name;
     private String number;
+    private String bossName;
     private String address;
     private String managerName;
     private String managerPhone;

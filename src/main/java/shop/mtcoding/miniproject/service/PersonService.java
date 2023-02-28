@@ -8,14 +8,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
-import shop.mtcoding.miniproject.handler.ex.CustomException;
-import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
+import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
+
+import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.model.UserRepository;
+
 
 @Service
 public class PersonService {
@@ -62,7 +65,15 @@ public class PersonService {
     @Transactional
     public void update(PersonUpdateDto personUpdateDto, int pInfoId) {
 
+        User principal = (User) session.getAttribute("principal");
         Person personPS = personRepository.findById(pInfoId);
+        String password;
+
+        if (personUpdateDto.getPassword() == null || personUpdateDto.getPassword().isEmpty()) {
+            password = principal.getPassword();
+        } else {
+            password = personUpdateDto.getPassword();
+        }
 
         int result = personRepository.updateById(pInfoId, personUpdateDto.getName(), personUpdateDto.getPhone(),
                 personUpdateDto.getAddress(), null, personPS.getCreatedAt());
@@ -81,6 +92,14 @@ public class PersonService {
                 skillPS.getCreatedAt());
 
         if (result2 != 1) {
+            throw new CustomApiException("정보 수정 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        int result3 = userRepository.updateById(principal.getId(), principal.getEmail(), password,
+                principal.getPInfoId(),
+                principal.getCInfoId(), personPS.getCreatedAt());
+
+        if (result3 != 1) {
             throw new CustomApiException("정보 수정 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
