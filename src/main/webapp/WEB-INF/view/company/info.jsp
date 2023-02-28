@@ -25,27 +25,27 @@
                         <form>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">회사명</span>
-                                <input type="text" class="form-control" value="카카오" readonly>
+                                <input type="text" class="form-control" value="${companyPS.name}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">대표자</span>
-                                <input type=" text" class="form-control" value="춘식이" readonly>
+                                <input type=" text" class="form-control" value="${companyPS.bossName}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">사업자번호</span>
-                                <input type="text" class="form-control" value="1111-8282-7979-7777" readonly>
+                                <input type="text" class="form-control" value="${companyPS.number}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
-                                <input type="text" class="form-control" value="02-1111-8888" readonly>
+                                <input type="text" class="form-control" value="${companyPS.managerPhone}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">설립년도</span>
-                                <input type="text" class="form-control" value="2023.02.24" readonly>
+                                <input type="text" class="form-control" value="${companyPS.cyear}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">사원수</span>
-                                <input type="text" class="form-control" value="10명" readonly>
+                                <input type="text" class="form-control" value="${companyPS.size}" readonly>
                             </div>
 
                             <div class="mt-5">
@@ -55,15 +55,15 @@
                             <br>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">이름</span>
-                                <input type="text" class="form-control" value="어피치" readonly>
+                                <input type="text" class="form-control" value="${companyPS.managerName}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
-                                <input type="text" class="form-control" value="010-8282-7979" readonly>
+                                <input type="text" class="form-control" value="${companyPS.managerPhone}" readonly>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text bg-light justify-content-center hs_span_size">이메일</span>
-                                <input type="text" class="form-control" value="my-kakao@naver.com" readonly>
+                                <input type="text" class="form-control" value="${principal.email}" readonly>
                             </div>
 
                         </form>
