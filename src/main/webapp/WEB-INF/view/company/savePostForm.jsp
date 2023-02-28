@@ -2,10 +2,10 @@
     <%@ include file="../layout/header.jsp" %>
         <div class="container d-flex mt-4">
             <div class="list-group ms-2 mt-4">
-                <a href="#" class="list-group-item">회사 정보</a>
-                <a href="#" class="list-group-item hs_list_effect" style="width: 150px;">공고 관리</a>
-                <a href="#" class="list-group-item">받은 이력서</a>
-                <a href="#" class="list-group-item">스크랩한 유저</a>
+                <a href="/company/info" class="list-group-item " style="width: 150px;">회사 정보</a>
+                <a href="/company/posts" class="list-group-item hs_list_effect">공고 관리</a>
+                <a href="/company/getResume" class="list-group-item">받은 이력서</a>
+                <a href="/company/scrap" class="list-group-item ">스크랩한 유저</a>
             </div>
 
             <div class="container justify-content-center mt-4">
@@ -64,9 +64,10 @@
                                                 </td>
                                                 <th>근무 시간</th>
                                                 <td class="d-flex"><input class="form-control" type="time"
-                                                        style="width: 38%;" name="startHour" id="startHour" required>~
+                                                        style="width: 38%;" name="startHour" id="startHour"
+                                                        value="09:00" required>~
                                                     <input class="form-control" type="time" style="width: 38%;"
-                                                        name="endHour" id="endHour" required>
+                                                        name="endHour" id="endHour" value="18:00" required>
                                                 </td>
 
                                             </tr>
@@ -75,8 +76,8 @@
                                     <div class="mt-4">
                                         <h5><b>마감 일자</b></h5>
                                         <div class="border border-tertiary p-3 d-inline-flex me-3 mb-3 w-100">
-                                            <input class="form-control" type="datetime-local" id="deadline"
-                                                name="deadline" required>
+                                            <input class="form-control" type="date" id="deadline" name="deadline"
+                                                required>
                                         </div>
                                     </div>
 
@@ -115,7 +116,7 @@
                                                     <th>사원수</th>
                                                     <td>${company.size}</td>
                                                     <th>대표자</th>
-                                                    <td>${company.managerName}</td>
+                                                    <td>${company.bossName}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>설립년도</th>
@@ -144,14 +145,34 @@
         </div>
 
         <script>
-            let date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, -5);
-            $("#deadline").attr("value", date);
-            $("#deadline").attr("min", date);
+            let skillList = [];
 
             function Check() {
+                skillList = [];
                 if ($("#startHour").val() > $("#endHour").val()) {
                     alert("근무 시간이 잘못 설정되었습니다");
                     $("#startHour").focus();
+                    return false;
+                }
+
+                let now = new Date();
+                let deadline = new Date($("#deadline").val());
+                if (deadline <= now) {
+                    alert("마감날짜 현재날짜보다 빠를수 없습니다.");
+                    $("#deadline").focus();
+                    return false;
+                }
+
+
+                $('input:checkbox[name=skills]').each(function () {
+                    if ($(this).is(":checked") == true) {
+                        skillList.push($(this).val());
+                    }
+                });
+                if (skillList.length >= 6) {
+                    alert("기술 스택이 5개를 초과할 수 없습니다!");
+                    $('input:checkbox[name=skills]').prop("checked", false);
+                    // $('input:checkbox[name=checkSkills]').val().remove();
                     return false;
                 }
                 return ture;

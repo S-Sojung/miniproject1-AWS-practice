@@ -19,5 +19,4 @@ public class Company {
     private Integer size;
     private Integer cyear;
     private Timestamp createdAt;
-
 }
