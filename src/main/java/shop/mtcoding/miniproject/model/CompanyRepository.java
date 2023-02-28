@@ -20,10 +20,11 @@ public interface CompanyRepository {
                         @Param("logo") String logo,
                         @Param("name") String name,
                         @Param("number") String number,
+                        @Param("bossName") String bossName,
                         @Param("address") String address,
                         @Param("managerName") String managerName,
                         @Param("managerPhone") String managerPhone,
-                        @Param("size") int size,
+                        @Param("size") String size,
                         @Param("cyear") int cyear,
                         @Param("createdAt") Timestamp createdAt);
 
