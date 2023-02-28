@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
@@ -21,6 +22,8 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.Resume;
+import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
@@ -32,6 +35,9 @@ public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
+
+    @Autowired
+    private ResumeRepository resumeRepository;
 
     @Autowired
     private PersonService personService;
@@ -161,7 +167,14 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/resumes")
-    public String personResumes() {
+    public String personResumes(Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        List<Resume> resumeAll = resumeRepository.findAll();
+        model.addAttribute("resume", resumeAll);
         return "person/resumes";
     }
 

@@ -21,6 +21,5 @@ public class Resume {
         this.title = resumeUpdateReqDto.getTitle();
         this.portfolio = resumeUpdateReqDto.getPortfolio();
         this.selfIntro = resumeUpdateReqDto.getSelfIntro();
-        // ?????
     }
 }
