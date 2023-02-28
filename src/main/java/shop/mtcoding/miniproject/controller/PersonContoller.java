@@ -32,19 +32,16 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
-import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.service.PersonService;
-import shop.mtcoding.miniproject.service.ResumeService;
 
 @Controller
 public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
-
 
     @Autowired
     private ResumeRepository resumeRepository;

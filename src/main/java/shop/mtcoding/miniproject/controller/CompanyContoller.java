@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,13 +21,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
-
 
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
@@ -37,17 +33,14 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
-import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 
-
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.CompanyService;
-import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.PostService;
 
 @Controller
@@ -55,9 +48,6 @@ public class CompanyContoller {
 
     @Autowired
     private HttpSession session;
-
-    @Autowired
-    private CompanyService companyService;
 
     @Autowired
     private UserRepository userRepository;
@@ -73,13 +63,10 @@ public class CompanyContoller {
 
     @Autowired
     private PostService postService;
-    
-    @Autowired
-    private PersonRepository personRepository;
-    
+
     @Autowired
     private CompanyService companyService;
-    
+
     public void companyMocLogin() {
         User user = new User();
         user.setId(2);
@@ -90,7 +77,6 @@ public class CompanyContoller {
 
         session.setAttribute("principal", user);
     }
-
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
@@ -245,7 +231,6 @@ public class CompanyContoller {
     @GetMapping("/company/postDetail/{id}")
     public String companyDetail(@PathVariable int id, Model model) {
         companyMocLogin();
-
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {

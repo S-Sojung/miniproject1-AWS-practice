@@ -1,7 +1,5 @@
 package shop.mtcoding.miniproject.dto.post;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 
