@@ -10,25 +10,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
-import shop.mtcoding.miniproject.model.PersonRepository;
-import shop.mtcoding.miniproject.service.PersonService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
+import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.PostService;
 
 @Controller
@@ -51,16 +49,16 @@ public class CompanyContoller {
     @Autowired
     private PersonRepository personRepository;
 
-    // public void companyMocLogin() {
-    // User user = new User();
-    // user.setId(2);
-    // user.setPInfoId(0);
-    // user.setCInfoId(1);
-    // user.setEmail("init@nate.com");
-    // user.setPassword("1234");
+    public void companyMocLogin() {
+        User user = new User();
+        user.setId(2);
+        user.setPInfoId(0);
+        user.setCInfoId(1);
+        user.setEmail("init@nate.com");
+        user.setPassword("1234");
 
-    // session.setAttribute("principal", user);
-    // }
+        session.setAttribute("principal", user);
+    }
 
     @PostMapping("/personJoin")
     public String join(JoinPersonReqDto joinPersonReqDto) {
@@ -153,7 +151,11 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/info")
-    public String companyInfo() {
+    public String companyInfo(Model model) {
+        companyMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        Company companyPS = companyRepository.findById(principal.getCInfoId());
+        model.addAttribute("companyPS", companyPS);
         return "company/info";
     }
 
