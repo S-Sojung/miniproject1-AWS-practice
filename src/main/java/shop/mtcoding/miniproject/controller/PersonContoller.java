@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,36 +9,45 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.PostMapping;
 
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.ResumeService;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import shop.mtcoding.miniproject.dto.ResponseDto;
+import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.Resume;
+import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.service.PersonService;
+import shop.mtcoding.miniproject.service.ResumeService;
 
 @Controller
 public class PersonContoller {
 
     @Autowired
     private ResumeService resumeService;
+
+
+    @Autowired
+    private ResumeRepository resumeRepository;
 
     @Autowired
     private PersonService personService;
@@ -193,9 +204,8 @@ public class PersonContoller {
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
         String pSkills = pSkill.getSkills();
 
-        String[] pSkillArr = pSkills.split(",");
-        model.addAttribute("pSkillArr", pSkillArr);
-
+        model.addAttribute("pSkills", pSkills);
+        model.addAttribute("skills", Skill.madeSkills());
         return "person/updateInfoForm";
     }
 
@@ -221,9 +231,6 @@ public class PersonContoller {
         if (personUpdateDto.getAddress() == null || personUpdateDto.getAddress().isEmpty()) {
             throw new CustomApiException("주소를 확인해주세요");
         }
-        if (personUpdateDto.getPassword() == null || personUpdateDto.getPassword().isEmpty()) {
-            throw new CustomApiException("비밀번호를 확인해주세요");
-        }
 
         personService.update(personUpdateDto, principal.getPInfoId());
 
@@ -236,8 +243,32 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/resumes")
-    public String personResumes() {
+    public String personResumes(Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        int pInfoId = principal.getPInfoId();
+        List<Resume> resumeAll = resumeRepository.findAll();
+        model.addAttribute("resume", resumeAll);
+        Person personPS = personRepository.findById(pInfoId);
+        model.addAttribute("personPS", personPS);
         return "person/resumes";
+    }
+
+    @DeleteMapping("/person/resumes/{id}")
+    public ResponseEntity<?> deleteResume(@PathVariable int id) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        int result = resumeRepository.deleteById(id);
+        if (result != 1) {
+            throw new CustomApiException("이력서 삭제 실패하였습니다", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(new ResponseDto<>(1, "게시글 삭제 성공", null), HttpStatus.OK);
     }
 
     @GetMapping("/person/saveResumeForm")
@@ -245,8 +276,22 @@ public class PersonContoller {
         return "person/saveResumeForm";
     }
 
-    @GetMapping("/person/resumeDetail")
-    public String personResumeDetail() {
+    @GetMapping("/person/resumeDetail/{id}")
+    public String personResumeDetail(@PathVariable int id, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        Resume resumePS = resumeRepository.findById(id);
+        if (resumePS == null) {
+            throw new CustomApiException("없는 게시글을 수정할 수 없습니다");
+        }
+        Person personPS = personRepository.findById(resumePS.getPInfoId());
+        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        model.addAttribute("resumeDetail", resumePS);
+        model.addAttribute("personDetail", personPS);
+        model.addAttribute("skillDetail", skillPS.getSkills().split(","));
         return "person/resumeDetail";
     }
 
@@ -256,11 +301,97 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/resumes")
-    public String personInsertResumeForm(Resume resume) {
-        User user = (User) session.getAttribute("principal");
-        int pInfoId = user.getPInfoId();
-        resume.setPInfoId(pInfoId);
-        resumeService.insertNewResume(resume);
+    public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        int pInfoId = principal.getPInfoId();
+        if (resumeUpdateReqDto.getProfile().isEmpty()) {
+            throw new CustomException("프로필 사진을 업로드 해주세요");
+        }
+        if (resumeUpdateReqDto.getTitle() == null || resumeUpdateReqDto.getTitle().isEmpty()) {
+            throw new CustomException("제목를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPortfolio() == null || resumeUpdateReqDto.getPortfolio().isEmpty()) {
+            throw new CustomException("포트폴리오 주소를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSelfIntro() == null || resumeUpdateReqDto.getSelfIntro().isEmpty()) {
+            throw new CustomException("자기소개서를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getName() == null || resumeUpdateReqDto.getName().isEmpty()) {
+            throw new CustomException("이름를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPhone() == null || resumeUpdateReqDto.getPhone().isEmpty()) {
+            throw new CustomException("휴대폰 번호를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getBirthday() == null || resumeUpdateReqDto.getBirthday().isEmpty()) {
+            throw new CustomException("생년월일을 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSkills() == null || resumeUpdateReqDto.getSkills().isEmpty()) {
+            throw new CustomException("기술스택을 선택해주세요");
+        }
+        resumeService.insertNewResume(pInfoId, resumeUpdateReqDto);
+
         return "redirect:/person/resumes";
     }
+
+    @GetMapping("/person/updateResume/{id}")
+    public String getUpdateResumeForm(@PathVariable int id, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        Resume resumePS = resumeRepository.findById(id);
+        Person personPS = personRepository.findById(resumePS.getPInfoId());
+        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        model.addAttribute("resumePS", resumePS);
+        model.addAttribute("personPS", personPS);
+        model.addAttribute("skillPS", skillPS.getSkills());
+        model.addAttribute("skills", Skill.madeSkills());
+        return "person/updateResumeForm";
+    }
+
+    @PostMapping("/person/updateResume/{id}")
+    public String UpdateResumeForm(@PathVariable int id, ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        if (resumeUpdateReqDto.getProfile().isEmpty()) {
+            throw new CustomException("프로필 사진을 업로드 해주세요");
+        }
+        if (resumeUpdateReqDto.getTitle() == null || resumeUpdateReqDto.getTitle().isEmpty()) {
+            throw new CustomException("제목를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPortfolio() == null || resumeUpdateReqDto.getPortfolio().isEmpty()) {
+            throw new CustomException("포트폴리오 주소를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSelfIntro() == null || resumeUpdateReqDto.getSelfIntro().isEmpty()) {
+            throw new CustomException("자기소개서를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getName() == null || resumeUpdateReqDto.getName().isEmpty()) {
+            throw new CustomException("이름를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getPhone() == null || resumeUpdateReqDto.getPhone().isEmpty()) {
+            throw new CustomException("휴대폰 번호를 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getBirthday() == null || resumeUpdateReqDto.getBirthday().isEmpty()) {
+            throw new CustomException("생년월일을 작성해주세요");
+        }
+        if (resumeUpdateReqDto.getSkills() == null || resumeUpdateReqDto.getSkills().isEmpty()) {
+            throw new CustomException("기술스택을 선택해주세요");
+        }
+        int pInfoId = principal.getPInfoId();
+        resumeService.updateById(id, pInfoId, resumeUpdateReqDto);
+        Resume resumePS = resumeRepository.findById(id);
+        model.addAttribute("resumePS", resumePS);
+
+        return "redirect:/person/resumeDetail/" + id;
+
+    }
+
 }

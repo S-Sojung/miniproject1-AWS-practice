@@ -14,7 +14,7 @@
             <div class="ms-2 p-4" style="width:1150px;">
                 <div class="border border-tertiary p-5 rounded ">
                     <div class="d-flex justify-content-between">
-                        <h1 class="hs_line d-inline-flex">회원 정보</h1>
+                        <h1 class="hs_line d-inline-flex">${person.name}의 정보</h1>
                     <button type="button" class="btn btn-dark" style="width:100px; height:40px;" onclick="location.href=`/person/updateInfoForm`;">수정하기</button>
                      </div>
                     <hr />

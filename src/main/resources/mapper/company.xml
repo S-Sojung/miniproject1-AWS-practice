@@ -26,6 +26,7 @@
         update company_info_tb set logo = #{logo},
                                    name = #{name},
                                    number = #{number},
+                                   boss_name = #{bossName},
                                    address = #{address},
                                    manager_name = #{managerName},
                                    manager_phone = #{managerPhone},

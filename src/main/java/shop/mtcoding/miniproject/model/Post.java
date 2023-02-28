@@ -1,8 +1,6 @@
 package shop.mtcoding.miniproject.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalTime;
 
 import lombok.Getter;
 import lombok.Setter;
