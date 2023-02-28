@@ -170,7 +170,7 @@
                     }
                 });
                 if (skillList.length >= 6) {
-                    alert("5개를 초과할 수 없습니다!");
+                    alert("기술 스택이 5개를 초과할 수 없습니다!");
                     $('input:checkbox[name=skills]').prop("checked", false);
                     // $('input:checkbox[name=checkSkills]').val().remove();
                     return false;

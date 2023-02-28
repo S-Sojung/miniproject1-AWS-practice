@@ -7,30 +7,34 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
-import shop.mtcoding.miniproject.model.PersonRepository;
-import shop.mtcoding.miniproject.service.PersonService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.miniproject.dto.ResponseDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
+import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
+import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
+import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.PostService;
-import shop.mtcoding.miniproject.util.Script;
 
 @Controller
 public class CompanyContoller {
@@ -183,7 +187,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/postDetail/{id}")
-    public String personDetail(@PathVariable int id, Model model) {
+    public String companyDetail(@PathVariable int id, Model model) {
         companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
@@ -210,8 +214,100 @@ public class CompanyContoller {
         return "company/postDetail";
     }
 
+    @GetMapping("/company/updatePostForm/{id}")
+    public String companyUpdatePost(@PathVariable int id, Model model) {
+        companyMocLogin();
+
+        User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        Post postPS = (Post) postRepository.findById(id);
+        if (postPS == null) {
+            throw new CustomException("없는 공고 입니다.");
+        }
+        if (postPS.getCInfoId() != userPS.getCInfoId()) {
+            throw new CustomException("게시글을 수정할 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        Company companyPS = (Company) companyRepository.findById(userPS.getCInfoId());
+        Skill skillPS = (Skill) skillRepository.findByPostId(id);
+
+        // 공고 디테일 보기 //인증 및 권한체크
+        model.addAttribute("post", postPS);
+        model.addAttribute("company", companyPS);
+        model.addAttribute("skillsPS", skillPS.getSkills());
+        model.addAttribute("skills", Skill.madeSkills());
+        return "company/updatePostForm";
+    }
+
+    @PutMapping("/company/updatePost/{id}")
+    public @ResponseBody ResponseEntity<?> companyUpdatePost(@PathVariable int id,
+            @RequestBody PostUpdateReqDto postUpdateReqDto) {
+        companyMocLogin();
+        User userPS = (User) session.getAttribute("principal");
+
+        if (postUpdateReqDto.getTitle() == null ||
+                postUpdateReqDto.getTitle().isEmpty()) {
+            throw new CustomApiException("title 작성해주세요");
+        }
+        if (postUpdateReqDto.getPay() == null ||
+                postUpdateReqDto.getPay().isEmpty()) {
+            throw new CustomApiException("연봉 작성해주세요");
+        }
+        if (postUpdateReqDto.getCareer() == null) {
+            throw new CustomApiException("지원 자격 작성해주세요");
+        }
+        if (postUpdateReqDto.getPay() == null ||
+                postUpdateReqDto.getPay().isEmpty()) {
+            throw new CustomApiException("연봉 작성해주세요");
+        }
+        if (postUpdateReqDto.getCondition() == null ||
+                postUpdateReqDto.getCondition().isEmpty()) {
+            throw new CustomApiException("근무조건 작성해주세요");
+        }
+        if (postUpdateReqDto.getDeadline() == null ||
+                postUpdateReqDto.getDeadline().isEmpty()) {
+            throw new CustomApiException("마감시간 작성해주세요");
+        }
+        if (postUpdateReqDto.getStartHour() == null ||
+                postUpdateReqDto.getStartHour().isEmpty() || (postUpdateReqDto.getEndHour() == null ||
+                        postUpdateReqDto.getEndHour().isEmpty())) {
+            throw new CustomApiException("근무 시간을 작성해주세요");
+        }
+        if (postUpdateReqDto.getJobIntro() == null ||
+                postUpdateReqDto.getJobIntro().isEmpty()) {
+            throw new CustomApiException("업무소개를 작성해주세요");
+        }
+        System.out.println(postUpdateReqDto.getComIntro());
+        if (postUpdateReqDto.getComIntro() == null ||
+                postUpdateReqDto.getComIntro().isEmpty()) {
+            throw new CustomApiException("기업소개를 작성해주세요");
+        }
+        if (postUpdateReqDto.getTitle().length() >= 20) {
+            throw new CustomApiException("title의 길이가 20자 이하여야 합니다");
+        }
+        if (postUpdateReqDto.getSkills() == null || postUpdateReqDto.getSkills().isEmpty()) {
+            throw new CustomApiException("기술스택은 최소1개 선택해 주십시오");
+        }
+        if (postUpdateReqDto.getComIntro().length() >= 200) {
+            throw new CustomApiException("기업소개를 길이가 20자 이하여야 합니다");
+        }
+        if (postUpdateReqDto.getJobIntro().length() >= 200) {
+            throw new CustomApiException("업무소개를 길이가 20자 이하여야 합니다");
+        }
+        if (postUpdateReqDto.getSkills().split(",").length > 5) {
+            throw new CustomApiException("기술스택은 최대 5개 선택해 주십시오");
+        }
+        postService.공고수정하기(postUpdateReqDto, id, userPS.getCInfoId());
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "공고 수정 성공", null), HttpStatus.CREATED);
+        // return "redirect:/company/postDetail/1"; // +id
+    }
+
     @GetMapping("/company/savePostForm")
-    public String personSavePostForm(Model model) {
+    public String companySavePostForm(Model model) {
         companyMocLogin();
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -234,12 +330,58 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/savePost")
-    public String personSavePost(Model model, PostSaveReqDto PostSaveReqDto) {
+    public String companySavePost(Model model, PostSaveReqDto postSaveReqDto) {
         companyMocLogin();
         User userPS = (User) session.getAttribute("principal");
 
+        if (postSaveReqDto.getTitle() == null ||
+                postSaveReqDto.getTitle().isEmpty()) {
+            throw new CustomException("title 작성해주세요");
+        }
+        if (postSaveReqDto.getPay() == null ||
+                postSaveReqDto.getPay().isEmpty()) {
+            throw new CustomException("연봉 작성해주세요");
+        }
+        if (postSaveReqDto.getCareer() == null) {
+            throw new CustomException("지원 자격 작성해주세요");
+        }
+        if (postSaveReqDto.getPay() == null ||
+                postSaveReqDto.getPay().isEmpty()) {
+            throw new CustomException("연봉 작성해주세요");
+        }
+        if (postSaveReqDto.getCondition() == null ||
+                postSaveReqDto.getCondition().isEmpty()) {
+            throw new CustomException("근무조건 작성해주세요");
+        }
+        if (postSaveReqDto.getDeadline() == null ||
+                postSaveReqDto.getDeadline().isEmpty()) {
+            throw new CustomException("마감시간 작성해주세요");
+        }
+        if (postSaveReqDto.getStartHour() == null ||
+                postSaveReqDto.getStartHour().isEmpty() || (postSaveReqDto.getEndHour() == null ||
+                        postSaveReqDto.getEndHour().isEmpty())) {
+            throw new CustomException("근무 시간을 작성해주세요");
+        }
+        if (postSaveReqDto.getJobIntro() == null ||
+                postSaveReqDto.getJobIntro().isEmpty()) {
+            throw new CustomException("업무소개를 작성해주세요");
+        }
+        if (postSaveReqDto.getCIntro() == null ||
+                postSaveReqDto.getCIntro().isEmpty()) {
+            throw new CustomException("기업소개를 작성해주세요");
+        }
+        if (postSaveReqDto.getTitle().length() >= 20) {
+            throw new CustomException("title의 길이가 20자 이하여야 합니다");
+        }
+        if (postSaveReqDto.getJobIntro().length() >= 200) {
+            throw new CustomException("기업소개를 길이가 20자 이하여야 합니다");
+        }
+        if (postSaveReqDto.getCIntro().length() >= 200) {
+            throw new CustomException("업무소개를 길이가 20자 이하여야 합니다");
+        }
+
         // postinsert skillinsert 동시 진행
-        int id = postService.공고등록(PostSaveReqDto, userPS.getCInfoId());
+        int id = postService.공고등록(postSaveReqDto, userPS.getCInfoId());
 
         return "redirect:/company/postDetail/" + id; // +id
     }

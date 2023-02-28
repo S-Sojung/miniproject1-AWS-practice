@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
+import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 
 @Getter
 @Setter
@@ -35,11 +36,24 @@ public class Post {
         this.condition = postSaveReqDto.getCondition();
         this.startHour = postSaveReqDto.getStartHour();
         this.endHour = postSaveReqDto.getEndHour();
-        // String deadTime = postSaveReqDto.getDeadline().split("T")[0] + " " +
-        // postSaveReqDto.getDeadline().split("T")[1];
         String deadTime = postSaveReqDto.getDeadline() + " 00:00:00";
         this.deadline = Timestamp.valueOf(deadTime);
         this.cIntro = postSaveReqDto.getCIntro();
         this.jobIntro = postSaveReqDto.getJobIntro();
+    }
+
+    public static Post postSetting(Post postPS, PostUpdateReqDto postUpdateReqDto, int cInfoId) {
+        postPS.title = postUpdateReqDto.getTitle();
+        postPS.cInfoId = cInfoId;
+        postPS.career = postUpdateReqDto.getCareer();
+        postPS.pay = postUpdateReqDto.getPay();
+        postPS.condition = postUpdateReqDto.getCondition();
+        postPS.startHour = postUpdateReqDto.getStartHour();
+        postPS.endHour = postUpdateReqDto.getEndHour();
+        String deadTime = postUpdateReqDto.getDeadline() + " 00:00:00";
+        postPS.deadline = Timestamp.valueOf(deadTime);
+        postPS.cIntro = postUpdateReqDto.getComIntro();
+        postPS.jobIntro = postUpdateReqDto.getJobIntro();
+        return postPS;
     }
 }
