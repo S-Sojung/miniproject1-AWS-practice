@@ -20,11 +20,11 @@ public class Person {
 
     }
 
-    public Person(ResumeUpdateReqDto resumeUpateReqDto) {
-        this.name = resumeUpateReqDto.getName();
-        this.phone = resumeUpateReqDto.getPhone();
-        this.address = resumeUpateReqDto.getAddress();
-        this.birthday = resumeUpateReqDto.getBirthday();
+    public Person(ResumeUpdateReqDto resumeUpdateReqDto) {
+        this.name = resumeUpdateReqDto.getName();
+        this.phone = resumeUpdateReqDto.getPhone();
+        this.address = resumeUpdateReqDto.getAddress();
+        this.birthday = resumeUpdateReqDto.getBirthday();
     }
 
 }

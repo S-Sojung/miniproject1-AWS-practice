@@ -20,7 +20,7 @@ public class Skill {
 
     }
 
-    public Skill(ResumeUpdateReqDto resumeUpateReqDto) {
-        this.skills = resumeUpateReqDto.getSkills();
+    public Skill(ResumeUpdateReqDto resumeUpdateReqDto) {
+        this.skills = resumeUpdateReqDto.getSkills();
     }
 }

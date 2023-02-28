@@ -8,7 +8,7 @@
                 <a href="/person/scrap" class="list-group-item">스크랩</a>
                 <a href="/person/history" class="list-group-item ">지원 이력</a>
             </div>
-            <form action="/person/resumes" method="post">
+            <form action="/person/resumes" method="post" enctype="multipart/form-data">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
                         <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"></h1>
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="file" class="form-control mt-2" name="resume_profile"
+                        <input type="file" class="form-control mt-2" name="profile"
                             onchange="chooseImage(this)" />
                         <div class="mt-5">
                             <h4>포트폴리오 주소</h4>

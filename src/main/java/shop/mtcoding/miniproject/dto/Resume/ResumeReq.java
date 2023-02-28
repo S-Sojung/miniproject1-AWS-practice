@@ -2,15 +2,14 @@ package shop.mtcoding.miniproject.dto.Resume;
 
 import java.sql.Timestamp;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Getter;
-import lombok.Setter;
 
 public class ResumeReq {
-
-    @Setter
     @Getter
     public static class ResumeUpdateReqDto {
-        private String profile;
+        private MultipartFile profile;
         private String title;
         private String portfolio;
         private String selfIntro;
