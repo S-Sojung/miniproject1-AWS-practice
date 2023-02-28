@@ -274,7 +274,7 @@ public class PersonContoller {
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
         model.addAttribute("resumePS", resumePS);
         model.addAttribute("personPS", personPS);
-        model.addAttribute("skillPS", skillPS.getSkills().split(","));
+        model.addAttribute("skillPS", skillPS.getSkills());
         model.addAttribute("skills", Skill.madeSkills());
         return "person/updateResumeForm";
     }

@@ -12,8 +12,8 @@ INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour
 
 INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한지원자입니다','https://naver.com','저는성실해요',now());
 
-INSERT INTO skill_tb(p_info_id,skills,created_at) values(1,'java,javascript,c++',now());
-INSERT INTO skill_tb(post_id,skills,created_at) values(1,'java,javascript,c++',now());
-INSERT INTO skill_tb(resume_id,skills,created_at) values(1,'java,javascript,c++',now());
+INSERT INTO skill_tb(p_info_id,skills,created_at) values(1,'Java,Javascript,Sql',now());
+INSERT INTO skill_tb(post_id,skills,created_at) values(1,'Java,Javascript,Android',now());
+INSERT INTO skill_tb(resume_id,skills,created_at) values(1,'Java,Javascript,Sql',now());
 
 commit;
