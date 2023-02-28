@@ -12,7 +12,9 @@ public interface PersonRepository {
 
         public Person findById(int id);
 
-        public int insert(@Param("name") String name); // 이름만 필수로 들어감!
+        public User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+
+        public int insert(Person person); // 이름만 필수로 들어감!
         // skill은 따로 insert 해줘서 관리해줘야함!
 
         public int updateById(@Param("id") int id,

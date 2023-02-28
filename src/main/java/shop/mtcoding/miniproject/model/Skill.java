@@ -23,4 +23,9 @@ public class Skill {
     public Skill(ResumeUpdateReqDto resumeUpdateReqDto) {
         this.skills = resumeUpdateReqDto.getSkills();
     }
+
+    public static String[] madeSkills() {
+        String[] st = { "Java", "Spring", "Html", "Javascript", "Sql", "Android", "React", "Node.js", "Express" };
+        return st;
+    }
 }

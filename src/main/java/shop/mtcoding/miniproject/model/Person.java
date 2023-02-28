@@ -5,7 +5,9 @@ import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
 public class Person {

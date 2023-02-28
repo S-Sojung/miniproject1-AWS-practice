@@ -13,14 +13,20 @@
         select * from person_info_tb where id = #{id}
     </select>
 
-    <insert id="insert">
+    <!-- <insert id="insert">
         insert into person_info_tb (name, created_at) 
             values(#{name}, now())
+    </insert>     -->
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into person_info_tb (name, created_at) values (#{name}, now())
+
     </insert>
 
     <delete id="deleteById">
         delete from person_info_tb where id = #{id} 
     </delete>
+
 
     <update id="updateById">
         update person_info_tb set name = #{name},

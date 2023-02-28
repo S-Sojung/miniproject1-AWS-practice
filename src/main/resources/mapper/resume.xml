@@ -11,18 +11,18 @@
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.Resume">
         select * from resume_tb where id = #{id}
-    </select>   
+    </select>
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into resume_tb (p_info_id, profile, title, portfolio,self_intro, created_at) 
             values(#{pInfoId}, #{profile}, #{title},  #{portfolio}, #{selfIntro}, now())
-    </insert>    
+    </insert>
 
-    <delete id="deleteById" >
+    <delete id="deleteById">
         delete from resume_tb where id = #{id} 
-    </delete>    
+    </delete>
 
-    <update id="updateById" >
+    <update id="updateById">
         update resume_tb set p_info_id = #{pInfoId},
                                 profile = #{profile},
                                 title = #{title},
@@ -30,5 +30,5 @@
                                 self_intro = #{selfIntro},
                                 created_at = #{createdAt}
                                 where id = #{id} 
-    </update>    
+    </update>
 </mapper>
