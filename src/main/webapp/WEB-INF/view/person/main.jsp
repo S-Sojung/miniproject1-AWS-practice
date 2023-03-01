@@ -59,7 +59,7 @@
                                 <div class="jm_company_title"> ${post.title} </div>
                                 <div class="jm_company_address">${post.address}</div>
                                 <div class="jm_D-day d-flex justify-content-between">
-                                <div id="dDay-${post.postId}"></div>
+                                    <div id="dDay-${post.postId}"></div>
                                     <button type="button" class="btn btn-sm">
                                         <!--<%--  구독? 스크랩 버튼  --%>-->
                                         <i class="fa-regular fa-thumbs-up fa-2xl"></i>

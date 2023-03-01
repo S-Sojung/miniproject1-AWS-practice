@@ -1,8 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,8 +26,11 @@ import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
+import shop.mtcoding.miniproject.model.Company;
+import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
@@ -65,6 +67,9 @@ public class PersonContoller {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -173,8 +178,24 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/detail/{id}")
-    public String personDetail(@PathVariable int id) {
+    public String personDetail(@PathVariable int id, Model model) {
+        User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
 
+        Post postPS = (Post) postRepository.findById(id);
+        if (postPS == null) {
+            throw new CustomException("없는 공고 입니다.");
+        }
+
+        Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
+        Skill skillPS = (Skill) skillRepository.findByPostId(id);
+        StringTokenizer skills = new StringTokenizer(skillPS.getSkills(), ",");
+
+        model.addAttribute("post", postPS);
+        model.addAttribute("company", companyPS);
+        model.addAttribute("skills", skills);
         return "person/detail";
     }
 
