@@ -11,21 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.miniproject.dto.ResponseDto;
-import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
-
+import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
@@ -38,7 +36,6 @@ import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
-
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.CompanyService;
 import shop.mtcoding.miniproject.service.PostService;
@@ -220,7 +217,7 @@ public class CompanyContoller {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
-            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
         }
 
         List<PostTitleRespDto> postTitleList = postRepository.findAllTitleByCInfoId(userPS.getCInfoId());
@@ -234,7 +231,7 @@ public class CompanyContoller {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
-            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
         }
 
         Post postPS = (Post) postRepository.findById(id);
@@ -262,7 +259,7 @@ public class CompanyContoller {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
-            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
         }
 
         Post postPS = (Post) postRepository.findById(id);
@@ -322,7 +319,6 @@ public class CompanyContoller {
                 postUpdateReqDto.getJobIntro().isEmpty()) {
             throw new CustomApiException("업무소개를 작성해주세요");
         }
-        System.out.println(postUpdateReqDto.getComIntro());
         if (postUpdateReqDto.getComIntro() == null ||
                 postUpdateReqDto.getComIntro().isEmpty()) {
             throw new CustomApiException("기업소개를 작성해주세요");
@@ -354,7 +350,7 @@ public class CompanyContoller {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
-            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
         }
 
         Company companyPS = (Company) companyRepository.findById(userPS.getCInfoId());
@@ -428,6 +424,19 @@ public class CompanyContoller {
         int id = postService.공고등록(postSaveReqDto, userPS.getCInfoId());
 
         return "redirect:/company/postDetail/" + id; // +id
+    }
+
+    @DeleteMapping("/company/deletePost/{id}")
+    public @ResponseBody ResponseEntity<?> companyDeletePost(@PathVariable int id) {
+        companyMocLogin();
+        User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
+        }
+
+        postService.공고삭제하기(id, userPS.getCInfoId());
+
+        return new ResponseEntity<>(new ResponseDto<>(1, "공고 삭제 성공", null), HttpStatus.CREATED);
     }
 
 }

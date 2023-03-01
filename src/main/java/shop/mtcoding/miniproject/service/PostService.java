@@ -69,4 +69,26 @@ public class PostService {
             throw new CustomApiException("공고 수정할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public void 공고삭제하기(int postId, int cInfoId) {
+        Post postPS = postRespository.findById(postId);
+        if (postPS == null) {
+            throw new CustomApiException("없는 공고를 삭제 할 수 없습니다.");
+        }
+        if (cInfoId != postPS.getCInfoId()) {
+            throw new CustomApiException("공고를 삭제 할 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            postRespository.deleteById(postId);
+        } catch (Exception e) {
+            throw new CustomApiException("공고를 삭제실패.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try {
+            skillRepository.deleteByPostId(postId);
+        } catch (Exception e) {
+            throw new CustomApiException("공고를 삭제실패.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }

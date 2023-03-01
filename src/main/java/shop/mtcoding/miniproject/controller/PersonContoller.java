@@ -118,9 +118,6 @@ public class PersonContoller {
     @PostMapping("/personJoin")
     public String join(JoinPersonReqDto joinPersonReqDto, RedirectAttributes redirectAttributes) {
 
-        System.out.println("테스트 : " + joinPersonReqDto.getName());
-        System.out.println("테스트 : " + joinPersonReqDto.getPassword());
-
         if (joinPersonReqDto.getName() == null ||
                 joinPersonReqDto.getName().isEmpty()) {
             throw new CustomException("이름을 작성해주세요");
@@ -159,7 +156,6 @@ public class PersonContoller {
             checkedSkills += skills[i];
             // System.out.println(checkedSkills); 테스트
         }
-        System.out.println("테스트: " + pInfoId);
 
         return "redirect:/personLoginForm";
     }

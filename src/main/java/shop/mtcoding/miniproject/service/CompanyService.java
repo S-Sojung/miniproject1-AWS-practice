@@ -1,13 +1,11 @@
 package shop.mtcoding.miniproject.service;
 
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
@@ -20,7 +18,6 @@ import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.util.PathUtil;
 
-
 @Service
 public class CompanyService {
 
@@ -32,7 +29,6 @@ public class CompanyService {
 
     @Autowired
     private HttpSession session;
-
 
     @Transactional
     public void join(JoinCompanyReqDto joinCompanyReqDto) {
@@ -63,8 +59,6 @@ public class CompanyService {
         }
         // companyRepository.insert(company);
     }
-
-    
 
     @Transactional
     public void updateInfo(CompanyUpdateInfoDto companyUpdateInfoDto) {
@@ -107,5 +101,8 @@ public class CompanyService {
         if (result2 != 1) {
             throw new CustomApiException("기업 정보 수정 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public void 공고삭제하기(int id, Integer cInfoId) {
     }
 }
