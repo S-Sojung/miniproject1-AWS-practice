@@ -13,7 +13,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     // public void addInterceptors(InterceptorRegistry registry) {
     // registry.addInterceptor(new WebInterceptor())
     // .addPathPatterns("/person/**", "/company/**")
-    // .excludePathPatterns("/css/**", "/images/**", "/js/**");
-    // // .excludePathPatterns("/board"); //이런식으로 이용
+    // .excludePathPatterns("/css/**", "/images/**", "/js/**","/personLogin",
+    // "/companyLogin,"/personJoin1","/personJoin2",
+    // "/companyJoin","/siteMain","customerService");
     // }
 }

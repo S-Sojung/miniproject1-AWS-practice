@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-
+<script>
+    let deadline;
+    let today = new Date();
+    let dDay;
+    let currDay = 24 * 60 * 60 * 1000;
+</script>
 <div class="jm_body">
-
     <div class="sj_full_container">
         <div class="select_box jm_select_box mt-5">
             <select id="skill" class="jm_select selectpicker" data-style="btn-info" name="">
@@ -44,54 +48,20 @@
 
         <div class="container jm_container mt-5">
             <div class="row row-cols-3 g-4 d-flex flex-wrap">
+            <c:forEach items="${mainPosts}" var="post">
+            
                 <div class="col-xs-4">
-                    <a href="#" style="color: inherit; text-decoration: none;">
+                    <a href="/person/detail/${post.postId}" style="color: inherit; text-decoration: none;">
                         <div class="card jm_card h-100">
-                            <img src="/images/logo1.jpg" class="card-img-top jm_card_img_top">
+                            <img src="${post.logo}" class="card-img-top jm_card_img_top">
                             <div class="card-body jm_card_body">
-                                <div class="jm_company_name">다음</div>
-                                <div class="jm_company_title"> 백엔드개발백엔드개발백엔드개발백엔드개발 </div>
-                                <div class="jm_company_address">경기도 성남시</div>
-                                <div class="jm_D-day d-flex justify-content-between">D-18
+                                <div class="jm_company_name">${post.name}</div>
+                                <div class="jm_company_title"> ${post.title} </div>
+                                <div class="jm_company_address">${post.address}</div>
+                                <div class="jm_D-day d-flex justify-content-between">
+                                <div id="dDay-${post.postId}"></div>
                                     <button type="button" class="btn btn-sm">
-                                        <i class="fa-regular fa-thumbs-up fa-2xl"></i>
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-4">
-                    <a href="#" style="color: inherit; text-decoration: none;">
-                        <div class="card jm_card h-100">
-                            <img src="/images/logo2.jfif" class="card-img-top jm_card_img_top">
-                            <div class="card-body jm_card_body">
-                                <div class="jm_company_name">던킨도너츠</div>
-                                <div class="jm_company_title">웹 퍼플리셔 구합니다.</div>
-                                <div class="jm_company_address">서울시 은평구</div>
-
-                                <div class="jm_D-day d-flex justify-content-between">D-6
-                                    <button type="button" class="btn btn-sm">
-                                        <i class="fa-regular fa-thumbs-up fa-2xl"></i>
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-4">
-                    <a href="#" style="color: inherit; text-decoration: none;">
-                        <div class="card jm_card h-100">
-                            <img src="/images/logo3.jfif" class="card-img-top jm_card_img_top">
-                            <div class="card-body jm_card_body">
-                                <div class="jm_company_name">나이키코리아</div>
-                                <div class="jm_company_title">
-                                    백엔드개발백엔드개발백엔드개발백엔드개발 </div>
-                                <div class="jm_company_address">서울시 관악구</div>
-                                <div class="jm_D-day d-flex  justify-content-between">D-24
-                                    <button type="button" class="btn btn-sm">
+                                        <!--<%--  구독? 스크랩 버튼  --%>-->
                                         <i class="fa-regular fa-thumbs-up fa-2xl"></i>
                                     </button>
                                 </div>
@@ -99,27 +69,26 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-xs-4">
-                    <a href="#" style="color: inherit; text-decoration: none;">
-                        <div class="card jm_card h-100">
-                            <img src="/images/logo4.svg" class="card-img-top jm_card_img_top">
-                            <div class="card-body jm_card_body">
-                                <div class="jm_company_name">그린컴퓨터아카데미</div>
-                                <div class="jm_company_title">백엔드 개발자 구합니다.</div>
-                                <div class="jm_company_address">부산시 진구</div>
-                                <div class="jm_D-day d-flex  justify-content-between">D-18
-                                    <button type="button" class="btn btn-sm">
-                                        <i class="fa-regular fa-thumbs-up fa-2xl"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                <input type="hidden" value="${post.deadline}" id="deadline-${post.postId}"/>
+            </c:forEach>
+            <input type="hidden" value="${size}" id="postSize"/>
             </div>
-
         </div>
     </div>
 </div>
-
+    <script>
+        let size =  $("#postSize").val();
+        for (let i = 1; i <=size; i++) {
+            deadline = new Date($("#deadline-"+i).val());
+            dDay = Math.ceil((deadline-today)/currDay);
+            if(dDay>0){
+                $("#dDay-"+i).text(dDay+"-Day");
+            }else if(dDay<-1){
+                $("#dDay-"+i).text("마감되었습니다.");
+            }else{
+                $("#dDay-"+i).text("D-Day");
+            }
+        }
+        
+    </script>
     <%@ include file="../layout/footer.jsp" %>
