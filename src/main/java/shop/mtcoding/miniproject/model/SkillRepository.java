@@ -30,4 +30,5 @@ public interface SkillRepository {
 
         public int deleteById(int id);
 
+        public int deleteByPostId(int postId);
 }

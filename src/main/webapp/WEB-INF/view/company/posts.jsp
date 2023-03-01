@@ -19,7 +19,7 @@
                     <c:forEach items="${postTitleList}" var="post">
                     <div class="jh_resume_content mb-3" style="display: flex; justify-content: space-between">
                         <a href="/company/postDetail/${post.id}">${post.title}</a>
-                        <button type="button" class="btn btn-secondary">삭제</button>
+                        <button type="button" class="btn btn-secondary" onclick="deleteById(${post.id})">삭제</button>
                     </div>
                     </c:forEach>
                 </div>
@@ -27,5 +27,22 @@
         </div>
     </div>
 
+<script>
+    function deleteById(id) {
+        $.ajax({
+            type: "delete",
+            url: "/company/deletePost/" + id,
+            dataType: "json"
+        })
+        .done(res => { //20X 일때
+            alert(res.msg);
+            location.reload();
+        })
+        .fail(err => { //40X , 50X 일때
+            console.log(err.responseJSON);
+            alert(err.responseJSON.msg);
+        });
+    }
+</script>
 
     <%@ include file="../layout/footer.jsp" %>

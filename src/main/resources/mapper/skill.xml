@@ -29,6 +29,10 @@
     <delete id="deleteById">
         delete from skill_tb where id = #{id} 
     </delete>
+    
+    <delete id="deleteByPostId">
+        delete from skill_tb where post_id = #{post_id} 
+    </delete>
 
     <update id="updateById">
         update skill_tb set p_info_id = #{pInfoId},
