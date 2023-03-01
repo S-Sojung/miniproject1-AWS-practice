@@ -66,10 +66,18 @@ CREATE TABLE resume_tb(
 
 CREATE TABLE person_proposal_tb(
     id int auto_increment primary key,  
+    p_info_id int not null,
     post_id int not null,
     resume_id int not null,
     status int not null default 0, -- 0 : pending 
     created_at timestamp not null    
+);
+
+CREATE TABLE skill_filter_tb(
+    id int auto_increment primary key,  
+    skill varchar not null,
+    post_id int default 0,
+    resume_id int default 0
 );
 
 CREATE TABLE person_scrap_tb(
@@ -92,3 +100,4 @@ CREATE TABLE customer_service_tb(
     answer varchar not null,
     created_at timestamp not null  
 );
+

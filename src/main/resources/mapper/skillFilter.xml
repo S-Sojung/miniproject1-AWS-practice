@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="shop.mtcoding.miniproject.model.SkillFilterRepository">
+
+    <select id="findAll" resultType="shop.mtcoding.miniproject.model.SkillFilter">
+        select * from skill_filter_tb
+    </select>
+
+    <select id="findById" resultType="shop.mtcoding.miniproject.model.SkillFilter">
+        select * from skill_filter_tb where id = #{id}
+    </select>
+
+    <insert id="insert">
+        insert into skill_filter_tb (skill, post_id, resume_id) 
+            values(#{skill}, #{postId}, #{resumeId})
+    </insert>
+
+    <delete id="deleteById">
+        delete from skill_filter_tb where id = #{id} 
+    </delete>
+
+    <update id="updateById">
+        update skill_filter_tb set skill = #{skill},
+                                   post_id = #{postId},
+                                   resume_id = #{resumeId}
+                                   where id = #{id} 
+    </update>
+</mapper>
