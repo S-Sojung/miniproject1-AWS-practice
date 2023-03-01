@@ -1,6 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,29 +14,32 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import shop.mtcoding.miniproject.model.Resume;
-import shop.mtcoding.miniproject.model.User;
-import shop.mtcoding.miniproject.model.UserRepository;
-import shop.mtcoding.miniproject.service.ResumeService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
+import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
+import shop.mtcoding.miniproject.model.Company;
+import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.Post;
+import shop.mtcoding.miniproject.model.PostRespository;
+import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
+import shop.mtcoding.miniproject.model.User;
+import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.PersonService;
+import shop.mtcoding.miniproject.service.ResumeService;
 
 @Controller
 public class PersonContoller {
@@ -59,7 +63,13 @@ public class PersonContoller {
     private UserRepository userRepository;
 
     @Autowired
+    private PostRespository postRepository;
+
+    @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -155,15 +165,37 @@ public class PersonContoller {
     }
 
     @GetMapping({ "/person/main", "/person" })
-    public String personMain() {
+    public String personMain(Model model) {
         personMocLogin();
+        // 회사로고, 회사이름, 공고이름, 회사 주소, D-day
+        // cInfo : 회사로고, 회사이름, 회사주소
+        // 공고 정보 : 공고이름, 디데이
+        List<PostMainRespDto> postList = (List<PostMainRespDto>) postRepository.findAllWithCInfo();
 
+        model.addAttribute("mainPosts", postList);
+        model.addAttribute("size", postList.size());
         return "person/main";
     }
 
     @GetMapping("/person/detail/{id}")
-    public String personDetail(@PathVariable int id) {
+    public String personDetail(@PathVariable int id, Model model) {
+        User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
 
+        Post postPS = (Post) postRepository.findById(id);
+        if (postPS == null) {
+            throw new CustomException("없는 공고 입니다.");
+        }
+
+        Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
+        Skill skillPS = (Skill) skillRepository.findByPostId(id);
+        StringTokenizer skills = new StringTokenizer(skillPS.getSkills(), ",");
+
+        model.addAttribute("post", postPS);
+        model.addAttribute("company", companyPS);
+        model.addAttribute("skills", skills);
         return "person/detail";
     }
 
