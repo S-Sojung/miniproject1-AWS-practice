@@ -26,4 +26,6 @@ public interface PersonRepository {
 
         public int deleteById(int id);
 
+        public Person findByPersonNameAndEmail(@Param("name") String name, @Param("email") String email);
+
 }

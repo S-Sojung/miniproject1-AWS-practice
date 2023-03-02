@@ -131,6 +131,7 @@ public class PersonContoller {
             throw new CustomException("이메일을 작성해주세요");
         }
         int id = personService.join(joinPersonReqDto);
+
         redirectAttributes.addAttribute("pInfoId", id);
         // Person 인서트를 이름만!
         // Person 인서트한 id 값을 유저에게 인서트하기
