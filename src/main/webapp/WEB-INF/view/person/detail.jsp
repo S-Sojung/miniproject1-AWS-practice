@@ -119,6 +119,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <!-- 지원하기 버튼 -->
                         <button type="button" class="btn btn-dark" style="height: 50px;" data-bs-toggle="modal"
                             data-bs-target="#myModal" id="myBtn">지원하기</button>
@@ -198,12 +199,14 @@
                 let today = new Date();
                 let currDay = 24 * 60 * 60 * 1000;
                 deadline = new Date($("#deadline").text());
-                let dDay = Math.ceil((deadline - today) / currDay);
-                if (dDay > 0) {
-                    $("#dDay").text(dDay + "-Day");
-                } else if (dDay < -1) {
+                let dDay = Math.ceil((deadline-today)/currDay);
+                if(dDay>0){
+                    $("#dDay").text("D-"+dDay);
+                }else if(dDay<0){
                     $("#dDay").text("마감되었습니다.");
-                } else {
+                    $("#apply_button").remove();
+                }else{
+
                     $("#dDay").text("D-Day");
                 }
             </script>

@@ -213,7 +213,7 @@ public class CompanyContoller {
 
     @GetMapping("/company/posts")
     public String companyPosts(Model model) {
-        // companyMocLogin();
+        companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {

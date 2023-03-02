@@ -1,5 +1,6 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -185,6 +186,8 @@ public class PersonContoller {
         if (postPS == null) {
             throw new CustomException("없는 공고 입니다.");
         }
+        System.out.println(postPS.getDeadline());
+        new Date();
 
         Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
         Skill skillPS = (Skill) skillRepository.findByPostId(id);
