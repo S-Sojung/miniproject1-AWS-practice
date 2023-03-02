@@ -24,25 +24,25 @@
                             <th class="col-2 text-center">마감일자</th>
                             <th class="col-2 text-center">합격 여부</th>
                         </tr>
-                        <tr>
-                            <td> &nbsp &nbsp <a href="#">백엔드 개발자</a></td>
-                            <td class="text-center">카카오</td>
-                            <td class="text-center">2023.12.31</td>
-                            <td class="text-center">합격</td>
-                        </tr>
-                        <tr>
-                            <td> &nbsp &nbsp <a href="#">프론트 개발자</a></td>
-                            <td class="text-center">겟인데어</td>
-                            <td class="text-center">2023.12.31</td>
-                            <td class="text-center">합격</td>
-                        </tr>
-                        <tr>
-                            <td> &nbsp &nbsp <a href="#">풀스택 개발자 구합니다</a></td>
-                            <td class="text-center">소정닷컴</td>
-                            <td class="text-center">2023.12.31</td>
-                            <td class="text-center">불합격</td>
-                        </tr>
-
+                        <c:forEach items="${personProposalList}" var="proposal">
+                            <tr>
+                                <td> &nbsp &nbsp <a href="/person/detail/${proposal.postId}">${proposal.title}</a></td>
+                                <td class="text-center">${proposal.name}</td>
+                                <td class="text-center">${proposal.deadline}</td>
+                                <td class="text-center">
+                                <c:choose>
+                                    <c:when test="${proposal.status==0}">
+                                        대기중
+                                    </c:when>
+                                    <c:when test="${proposal.status==1}">
+                                        합격
+                                    </c:when>
+                                    <c:otherwise>
+                                        불합격
+                                    </c:otherwise>
+                                </c:choose></td>
+                            </tr>
+                        </c:forEach>
                     </table>
                 </div>
             </div>

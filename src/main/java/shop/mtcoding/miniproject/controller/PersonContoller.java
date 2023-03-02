@@ -23,12 +23,14 @@ import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
+import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRespository;
@@ -70,6 +72,9 @@ public class PersonContoller {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private PersonProposalRepository personProposalRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -263,7 +268,12 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/history")
-    public String personHistory() {
+    public String personHistory(Model model) {
+        User principalPS = (User) session.getAttribute("principal");
+        List<PersonProposalListRespDto> personProposalList = personProposalRepository
+                .findAllWithPostAndCInfoByPInfoId(principalPS.getPInfoId());
+
+        model.addAttribute("personProposalList", personProposalList);
         return "person/history";
     }
 

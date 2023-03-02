@@ -9,6 +9,16 @@
         select * from person_proposal_tb
     </select>
 
+    <select id="findAllWithPostAndCInfoByPInfoId" resultType="shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp$PersonProposalListRespDto">
+        SELECT ppt.id, ppt.p_info_id, ppt.post_id, ppt.resume_id, ppt.status, ppt.created_at, jpt.title, jpt.deadline, ct.name
+        FROM PERSON_PROPOSAL_TB ppt
+        INNER JOIN JOB_POST_TB jpt
+        ON ppt.post_id = jpt.id
+        INNER JOIN COMPANY_INFO_TB ct
+        ON jpt.c_info_id = ct.id
+        where ppt.p_info_id = #{pInfoId}
+    </select>
+
     <select id="findById" resultType="shop.mtcoding.miniproject.model.PersonProposal">
         select * from person_proposal_tb where id = #{id}
     </select> 
