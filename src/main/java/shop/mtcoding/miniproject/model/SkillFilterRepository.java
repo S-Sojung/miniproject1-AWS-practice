@@ -18,6 +18,9 @@ public interface SkillFilterRepository {
 
         public List<SkillFilterCountResDto> findAllOrderByCount();
 
+        public List<SkillFilter> findByResumeId(int resumeId);
+
+
         public int insert(@Param("skill") String skill, @Param("postId") int postId,
                         @Param("resumeId") int resumeId);
 
@@ -27,4 +30,8 @@ public interface SkillFilterRepository {
                         @Param("resumeId") int resumeId);
 
         public int deleteById(int id);
+
+        public int deleteByResumeId(int resumeId);
+
+        public int deleteByPostId(int postId);
 }

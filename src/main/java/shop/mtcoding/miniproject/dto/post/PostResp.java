@@ -1,5 +1,6 @@
 package shop.mtcoding.miniproject.dto.post;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.Getter;
@@ -12,6 +13,7 @@ public class PostResp {
     public static class PostTitleRespDto {
         private Integer id;
         private String title;
+        private Date deadline;
     }
 
     @Getter
