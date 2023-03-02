@@ -27,4 +27,16 @@ public class PostResp {
         private String name;
         private String address;
     }
+
+    @Getter
+    @Setter
+    public static class PostRecommendRespDto {
+        private int postId;
+        private String title;
+        private Timestamp deadline;
+        private String logo;
+        private String name;
+        private String address;
+    }
+
 }

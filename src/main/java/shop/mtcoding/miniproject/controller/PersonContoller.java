@@ -1,8 +1,11 @@
 package shop.mtcoding.miniproject.controller;
 
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +28,8 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendRespDto;
+import shop.mtcoding.miniproject.dto.skill.SkillResDto.SkillFilterCountResDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
@@ -36,6 +41,8 @@ import shop.mtcoding.miniproject.model.PostRespository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
+import shop.mtcoding.miniproject.model.SkillFilter;
+import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
@@ -71,6 +78,9 @@ public class PersonContoller {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private SkillFilterRepository skillFilterRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -157,6 +167,7 @@ public class PersonContoller {
             }
             checkedSkills += skills[i];
             // System.out.println(checkedSkills); 테스트
+
         }
 
         return "redirect:/personLoginForm";
@@ -200,7 +211,39 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/recommend")
-    public String personRecommend() {
+    public String personRecommend(Model model) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        // 같은 스킬 찾기 - 회원 정보에서 skill 찾기
+        Skill skillPS = skillRepository.findByPInfoId(principal.getPInfoId());
+        String[] skillArr = skillPS.getSkills().split(",");
+        List<SkillFilter> skillList = new ArrayList<>();
+        for (String skill : skillArr) {
+            skillList = skillFilterRepository.findSkillName(skill);
+            // System.out.println("테스트 : " + skill);
+            // System.out.println("테스트 : " + skillList.get(0).getPostId());
+        }
+
+        // System.out.println("테스트 : " + skillList2.get(0).getPostId());
+        List<SkillFilterCountResDto> skillOrderList = skillFilterRepository.findAllOrderByCount();
+        // System.out.println("테스트 : " + skillOrderList.get(0).getPostId());
+
+        List<PostRecommendRespDto> postList = new ArrayList<>();
+        for (SkillFilterCountResDto skill2 : skillOrderList) {
+            // System.out.println("테스트 : " + skill.getPostId());
+            PostRecommendRespDto post = postRepository.findAllWithLogoById(skill2.getPostId());
+            postList.add(post);
+            // System.out.println("테스트: " + post.getName());
+        }
+        // System.out.println("테스트 : " + postList.size());
+
+        // List<PostRecommendRespDto> postList2 = new ArrayList<>();
+        // postList2 = postList.stream().distinct().collect(Collectors.toList());
+
+        model.addAttribute("postList", postList);
         return "person/recommend";
     }
 
