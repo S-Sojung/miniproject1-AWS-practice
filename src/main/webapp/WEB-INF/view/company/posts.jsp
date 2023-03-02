@@ -20,10 +20,10 @@
                     <div class="jh_resume_content mb-3" style="display: flex; justify-content: space-between">
                     <div style="">
                         <a href="/company/postDetail/${post.id}">${post.title}</a>
-                        <div id="post_parse">마감 기한 : ~${post.deadline}</div>
+                        <div id="post_deadline">마감 기한 : ~${post.deadline}</div>
                     </div>
                     <div style="display: flex;">
-                        <button type="button" class="btn btn-secondary" onclick="deleteById(${post.id})">삭제</button>
+                        <button type="button" id="delete_button" class="btn btn-secondary" onclick="deleteById(${post.id})">삭제</button>
                         </div>
                     </div>
                     </c:forEach>
@@ -33,7 +33,12 @@
     </div>
 
 <script>
-    
+    let now = new Date();
+    if ($("#post_deadline").val() <= now) {
+        $("#delete_button").css("background-color","red");
+    }
+
+
     function deleteById(id) {
         $.ajax({
             type: "delete",
