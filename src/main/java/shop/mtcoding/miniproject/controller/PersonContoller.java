@@ -1,7 +1,10 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +28,8 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendRespDto;
+import shop.mtcoding.miniproject.dto.skill.SkillResDto.SkillFilterCountResDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
@@ -39,6 +44,8 @@ import shop.mtcoding.miniproject.model.ProposalPassRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
+import shop.mtcoding.miniproject.model.SkillFilter;
+import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
@@ -79,6 +86,8 @@ public class PersonContoller {
     private PersonProposalRepository personProposalRepository;
     @Autowired
     private ProposalPassRepository proposalPassRepository;
+    @Autowired
+    private SkillFilterRepository skillFilterRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -140,6 +149,7 @@ public class PersonContoller {
             throw new CustomException("이메일을 작성해주세요");
         }
         int id = personService.join(joinPersonReqDto);
+
         redirectAttributes.addAttribute("pInfoId", id);
         // Person 인서트를 이름만!
         // Person 인서트한 id 값을 유저에게 인서트하기
@@ -164,6 +174,7 @@ public class PersonContoller {
             }
             checkedSkills += skills[i];
             // System.out.println(checkedSkills); 테스트
+
         }
 
         return "redirect:/personLoginForm";
@@ -193,6 +204,8 @@ public class PersonContoller {
         if (postPS == null) {
             throw new CustomException("없는 공고 입니다.");
         }
+        System.out.println(postPS.getDeadline());
+        new Date();
 
         Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
         Skill skillPS = (Skill) skillRepository.findByPostId(id);
@@ -205,7 +218,39 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/recommend")
-    public String personRecommend() {
+    public String personRecommend(Model model) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        // 같은 스킬 찾기 - 회원 정보에서 skill 찾기
+        Skill skillPS = skillRepository.findByPInfoId(principal.getPInfoId());
+        String[] skillArr = skillPS.getSkills().split(",");
+        List<SkillFilter> skillList = new ArrayList<>();
+        for (String skill : skillArr) {
+            skillList = skillFilterRepository.findSkillName(skill);
+            // System.out.println("테스트 : " + skill);
+            // System.out.println("테스트 : " + skillList.get(0).getPostId());
+        }
+
+        // System.out.println("테스트 : " + skillList2.get(0).getPostId());
+        List<SkillFilterCountResDto> skillOrderList = skillFilterRepository.findAllOrderByCount();
+        // System.out.println("테스트 : " + skillOrderList.get(0).getPostId());
+
+        List<PostRecommendRespDto> postList = new ArrayList<>();
+        for (SkillFilterCountResDto skill2 : skillOrderList) {
+            // System.out.println("테스트 : " + skill.getPostId());
+            PostRecommendRespDto post = postRepository.findAllWithLogoById(skill2.getPostId());
+            postList.add(post);
+            // System.out.println("테스트: " + post.getName());
+        }
+        // System.out.println("테스트 : " + postList.size());
+
+        // List<PostRecommendRespDto> postList2 = new ArrayList<>();
+        // postList2 = postList.stream().distinct().collect(Collectors.toList());
+
+        model.addAttribute("postList", postList);
         return "person/recommend";
     }
 
@@ -294,7 +339,7 @@ public class PersonContoller {
         }
         int pInfoId = principal.getPInfoId();
         List<Resume> resumeAll = resumeRepository.findAll();
-        model.addAttribute("resume", resumeAll);
+        model.addAttribute("resumes", resumeAll);
         Person personPS = personRepository.findById(pInfoId);
         model.addAttribute("personPS", personPS);
         return "person/resumes";
@@ -307,10 +352,7 @@ public class PersonContoller {
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
-        int result = resumeRepository.deleteById(id);
-        if (result != 1) {
-            throw new CustomApiException("이력서 삭제 실패하였습니다", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        resumeService.delete(id);
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 삭제 성공", null), HttpStatus.OK);
     }
 
@@ -324,11 +366,11 @@ public class PersonContoller {
         personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
-            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
         Resume resumePS = resumeRepository.findById(id);
         if (resumePS == null) {
-            throw new CustomApiException("없는 게시글을 수정할 수 없습니다");
+            throw new CustomException("없는 이력서를 수정할 수 없습니다");
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
@@ -376,7 +418,6 @@ public class PersonContoller {
             throw new CustomException("기술스택을 선택해주세요");
         }
         resumeService.insertNewResume(pInfoId, resumeUpdateReqDto);
-
         return "redirect:/person/resumes";
     }
 

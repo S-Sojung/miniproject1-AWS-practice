@@ -57,7 +57,6 @@ public class CompanyService {
         if (result2 != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // companyRepository.insert(company);
     }
 
     @Transactional

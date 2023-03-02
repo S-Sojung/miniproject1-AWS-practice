@@ -36,13 +36,14 @@
                                    where id = #{id} 
     </update>
 
-  
 
-
-    <select id="findByEmailAndPassword" resultType="shop.mtcoding.miniproject.model.Person">
+    <select id="findByPersonNameAndEmail" resultType="shop.mtcoding.miniproject.model.Person">
         SELECT user_tb.email, person_info_tb.name
         FROM user_tb
-        INNER JOIN person_info_tb ON user_tb.p_info_id = person_info_tb.id;
+        LEFT JOIN person_info_tb
+        ON user_tb.p_info_id = person_info_tb.id
+        WHERE person_info_tb.name = #{name}
+        AND user_tb.email = #{email};
     </select>
 
 </mapper>

@@ -11,6 +11,7 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRepository;
 import shop.mtcoding.miniproject.model.Skill;
+import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
 
 @Transactional // 여기 붙이면 모든 메서드에 다 붙음
@@ -20,6 +21,8 @@ public class PostService {
     private PostRepository postRepository;
     @Autowired
     private SkillRepository skillRepository;
+    @Autowired
+    private SkillFilterRepository skillFilterRepository;
 
     public int 공고등록(PostSaveReqDto postSaveReqDto, int cInfoId) {
         Post post = new Post(postSaveReqDto, cInfoId);
@@ -38,6 +41,14 @@ public class PostService {
         if (result1 != 1) {
             throw new CustomApiException("공고 등록 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        for (int i = 0; i < st.length; i++) {
+            int result2 = skillFilterRepository.insert(st[i], post.getId(), 0);
+            if (result2 != 1) {
+                throw new CustomApiException("공고 등록 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
         return post.getId();
     }
 
@@ -68,6 +79,23 @@ public class PostService {
         if (result2 != 1) {
             throw new CustomApiException("공고 수정할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        // skill filter
+        try {
+            skillFilterRepository.deleteByPostId(postPS.getId());
+        } catch (Exception e) {
+            throw new CustomApiException("공고 수정할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        try {
+            String[] skillArr = st.split(",");
+            for (int i = 0; i < skillArr.length; i++) {
+                skillFilterRepository.insert(skillArr[i], postId, 0);
+            }
+        } catch (Exception e) {
+            throw new CustomApiException("공고 수정할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     public void 공고삭제하기(int postId, int cInfoId) {
@@ -90,5 +118,10 @@ public class PostService {
             throw new CustomApiException("공고를 삭제실패.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        try {
+            skillFilterRepository.deleteByPostId(postPS.getId());
+        } catch (Exception e) {
+            throw new CustomApiException("공고 삭제실패.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
