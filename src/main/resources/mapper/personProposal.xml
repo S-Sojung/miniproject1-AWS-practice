@@ -17,6 +17,7 @@
         INNER JOIN COMPANY_INFO_TB ct
         ON jpt.c_info_id = ct.id
         where ppt.p_info_id = #{pInfoId}
+        order by ppt.status desc;
     </select>
 
     <select id="findAllWithPostAndResumeAndPInfoByCInfoId" resultType="shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp$CompanyProposalListRespDto">

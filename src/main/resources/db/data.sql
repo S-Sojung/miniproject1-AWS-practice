@@ -47,8 +47,10 @@ INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 3
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 3);
 
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 1, 1, -1 ,now());
-INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 2, 1, 0 ,now());
+INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 2, 1, 1 ,now());
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 3, 1, 1 ,now());
 
+INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,2,'그 기백이 마음에 듭니다. 회사로 와서 면접을 봅시다.',now());
+INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,3,'회사로 와서 면접을 봅시다.',now());
 
 commit;

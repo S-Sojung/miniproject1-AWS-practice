@@ -34,6 +34,8 @@ import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRepository;
+import shop.mtcoding.miniproject.model.ProposalPass;
+import shop.mtcoding.miniproject.model.ProposalPassRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
@@ -75,6 +77,8 @@ public class PersonContoller {
 
     @Autowired
     private PersonProposalRepository personProposalRepository;
+    @Autowired
+    private ProposalPassRepository proposalPassRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -273,6 +277,10 @@ public class PersonContoller {
         List<PersonProposalListRespDto> personProposalList = personProposalRepository
                 .findAllWithPostAndCInfoByPInfoId(principalPS.getPInfoId());
 
+        List<ProposalPass> proposalPassList = proposalPassRepository.findAllByPInfoId(principalPS.getPInfoId());
+        if (proposalPassList.size() > 0) {
+            model.addAttribute("proposalPassList", proposalPassList);
+        }
         model.addAttribute("personProposalList", personProposalList);
         return "person/history";
     }

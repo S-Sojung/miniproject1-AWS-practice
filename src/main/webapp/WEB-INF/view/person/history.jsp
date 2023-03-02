@@ -25,7 +25,8 @@
                             <th class="col-2 text-center">합격 여부</th>
                         </tr>
                         <c:forEach items="${personProposalList}" var="proposal">
-                            <tr>
+                            
+                            <tr class="${proposal.status==1? 'table-info':(proposal.status==-1?'table-secondary':'')}">
                                 <td> &nbsp &nbsp <a href="/person/detail/${proposal.postId}">${proposal.title}</a></td>
                                 <td class="text-center">${proposal.name}</td>
                                 <td class="text-center">${proposal.deadline}</td>
@@ -35,7 +36,30 @@
                                         대기중
                                     </c:when>
                                     <c:when test="${proposal.status==1}">
+                                        <a class="link-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-${proposal.id}">
                                         합격
+                                        </a>
+                                            <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal-${proposal.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">합격</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <c:forEach items="${proposalPassList}" var="propo">
+                                                <c:if test="${propo.PProposalId==proposal.id}" >
+                                                    ${propo.comment}
+                                                </c:if>
+                                                </c:forEach>
+                                            </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
                                     </c:when>
                                     <c:otherwise>
                                         불합격
@@ -48,5 +72,7 @@
             </div>
         </div>
     </div>
+
+
 
     <%@ include file="../layout/footer.jsp" %>
