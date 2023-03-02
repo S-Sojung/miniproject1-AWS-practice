@@ -37,19 +37,34 @@ public class PersonService {
 
     @Transactional
     public int join(JoinPersonReqDto joinPersonReqDto) {
+
+        Person samePerson = personRepository.findByPersonNameAndEmail(joinPersonReqDto.getName(),
+                joinPersonReqDto.getEmail());
+
+        if (samePerson != null) {
+            throw new CustomException("이미 가입되어 있는 회원입니다.");
+        }
+
+        System.out.println("중복여부");
+
         Person person = new Person();
         person.setName(joinPersonReqDto.getName());
+
         int result = personRepository.insert(person); // joinReqDto(인수)를 매핑
 
         if (result != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
         int result2 = userRepository.insert(joinPersonReqDto.getEmail(),
                 joinPersonReqDto.getPassword(), person.getId(),
                 0);
+
         if (result2 != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        System.out.println("서비스까지");
         return person.getId();
     }
 
