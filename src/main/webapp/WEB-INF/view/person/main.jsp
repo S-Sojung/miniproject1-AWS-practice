@@ -83,7 +83,7 @@
             dDay = Math.ceil((deadline-today)/currDay);
             if(dDay>0){
                 $("#dDay-"+i).text(dDay+"-Day");
-            }else if(dDay<-1){
+            }else if(dDay<0){
                 $("#dDay-"+i).text("마감되었습니다.");
             }else{
                 $("#dDay-"+i).text("D-Day");
