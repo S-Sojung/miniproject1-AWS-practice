@@ -5,7 +5,7 @@
     let deadline;
     let today = new Date();
     let dDay;
-    let currDay = 24 * 60 * 60 * 1000;
+    let currDay = 24 * 60 * 60 * 1000; 
 </script>
 <div class="jm_body">
     <div class="sj_full_container">
@@ -82,13 +82,12 @@
             deadline = new Date($("#deadline-"+i).val());
             dDay = Math.ceil((deadline-today)/currDay);
             if(dDay>0){
-                $("#dDay-"+i).text(dDay+"-Day");
-            }else if(dDay<-1){
+                $("#dDay-"+i).text("D-"+dDay);
+            }else if(dDay<0){
                 $("#dDay-"+i).text("마감되었습니다.");
             }else{
                 $("#dDay-"+i).text("D-Day");
             }
         }
-        
     </script>
     <%@ include file="../layout/footer.jsp" %>
