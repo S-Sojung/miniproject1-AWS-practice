@@ -1,6 +1,5 @@
 package shop.mtcoding.miniproject.model;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -13,6 +12,8 @@ public interface SkillFilterRepository {
 
         public SkillFilter findById(int id);
 
+        public List<SkillFilter> findByResumeId(int resumeId);
+
         public int insert(@Param("skill") String skill, @Param("postId") int postId,
                         @Param("resumeId") int resumeId);
 
@@ -22,4 +23,8 @@ public interface SkillFilterRepository {
                         @Param("resumeId") int resumeId);
 
         public int deleteById(int id);
+
+        public int deleteByResumeId(int resumeId);
+
+        public int deleteByPostId(int postId);
 }

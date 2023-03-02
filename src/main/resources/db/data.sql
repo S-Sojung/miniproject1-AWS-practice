@@ -34,7 +34,7 @@ INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Sql', 4, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 4, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 1);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 1);
-INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 1);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Html', 0, 1);
 
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 1, 1, 0 ,now());
 
