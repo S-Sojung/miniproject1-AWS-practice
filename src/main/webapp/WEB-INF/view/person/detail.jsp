@@ -117,7 +117,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-dark" style="height: 50px;">지원하기</button>
+                        <button type="button" id="apply_button" class="btn btn-dark" style="height: 50px;">지원하기</button>
                     </div>
                 </div>
             </div>
@@ -128,9 +128,10 @@
                 deadline = new Date($("#deadline").text());
                 let dDay = Math.ceil((deadline-today)/currDay);
                 if(dDay>0){
-                    $("#dDay").text(dDay+"-Day");
-                }else if(dDay<-1){
+                    $("#dDay").text("D-"+dDay);
+                }else if(dDay<0){
                     $("#dDay").text("마감되었습니다.");
+                    $("#apply_button").remove();
                 }else{
                     $("#dDay").text("D-Day");
                 }
