@@ -11,7 +11,7 @@ import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
 
 @Mapper
-public interface PostRespository {
+public interface PostRepository {
         public List<Post> findAll();
 
         public Post findById(int id);

@@ -9,7 +9,7 @@ import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.model.Post;
-import shop.mtcoding.miniproject.model.PostRespository;
+import shop.mtcoding.miniproject.model.PostRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
@@ -18,7 +18,7 @@ import shop.mtcoding.miniproject.model.SkillRepository;
 @Service
 public class PostService {
     @Autowired
-    private PostRespository postRespository;
+    private PostRepository postRepository;
     @Autowired
     private SkillRepository skillRepository;
     @Autowired
@@ -26,7 +26,7 @@ public class PostService {
 
     public int 공고등록(PostSaveReqDto postSaveReqDto, int cInfoId) {
         Post post = new Post(postSaveReqDto, cInfoId);
-        int result = postRespository.insert(post);
+        int result = postRepository.insert(post);
         if (result != 1) {
             throw new CustomApiException("공고 등록 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -53,14 +53,14 @@ public class PostService {
     }
 
     public void 공고수정하기(PostUpdateReqDto postUpdateReqDto, int postId, int cInfoId) {
-        Post postPS = postRespository.findById(postId);
+        Post postPS = postRepository.findById(postId);
         if (postPS == null) {
             throw new CustomApiException("없는 공고를 수정할 수 없습니다.");
         }
         postPS = Post.postSetting(postPS, postUpdateReqDto, cInfoId);
 
         try {
-            postRespository.updateById(postPS.getId(), postPS.getTitle(), postPS.getCInfoId(),
+            postRepository.updateById(postPS.getId(), postPS.getTitle(), postPS.getCInfoId(),
                     postPS.getCareer(), postPS.getPay(), postPS.getCondition(), postPS.getStartHour(),
                     postPS.getEndHour(),
                     postPS.getDeadline(), postPS.getCIntro(), postPS.getJobIntro(), postPS.getCreatedAt());
@@ -99,7 +99,7 @@ public class PostService {
     }
 
     public void 공고삭제하기(int postId, int cInfoId) {
-        Post postPS = postRespository.findById(postId);
+        Post postPS = postRepository.findById(postId);
         if (postPS == null) {
             throw new CustomApiException("없는 공고를 삭제 할 수 없습니다.");
         }
@@ -108,7 +108,7 @@ public class PostService {
         }
 
         try {
-            postRespository.deleteById(postId);
+            postRepository.deleteById(postId);
         } catch (Exception e) {
             throw new CustomApiException("공고를 삭제실패.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

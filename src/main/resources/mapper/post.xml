@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="shop.mtcoding.miniproject.model.PostRespository">
+<mapper namespace="shop.mtcoding.miniproject.model.PostRepository">
 
     <select id="findAll" resultType="shop.mtcoding.miniproject.model.Post">
         select * from job_post_tb

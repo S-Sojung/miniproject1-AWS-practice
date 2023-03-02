@@ -1,6 +1,5 @@
 package shop.mtcoding.miniproject.controller;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +26,7 @@ import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendRespDto;
 import shop.mtcoding.miniproject.dto.skill.SkillResDto.SkillFilterCountResDto;
@@ -35,9 +35,12 @@ import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
+import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
-import shop.mtcoding.miniproject.model.PostRespository;
+import shop.mtcoding.miniproject.model.PostRepository;
+import shop.mtcoding.miniproject.model.ProposalPass;
+import shop.mtcoding.miniproject.model.ProposalPassRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
@@ -71,7 +74,7 @@ public class PersonContoller {
     private UserRepository userRepository;
 
     @Autowired
-    private PostRespository postRepository;
+    private PostRepository postRepository;
 
     @Autowired
     private SkillRepository skillRepository;
@@ -79,6 +82,10 @@ public class PersonContoller {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private PersonProposalRepository personProposalRepository;
+    @Autowired
+    private ProposalPassRepository proposalPassRepository;
     @Autowired
     private SkillFilterRepository skillFilterRepository;
 
@@ -310,7 +317,16 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/history")
-    public String personHistory() {
+    public String personHistory(Model model) {
+        User principalPS = (User) session.getAttribute("principal");
+        List<PersonProposalListRespDto> personProposalList = personProposalRepository
+                .findAllWithPostAndCInfoByPInfoId(principalPS.getPInfoId());
+
+        List<ProposalPass> proposalPassList = proposalPassRepository.findAllByPInfoId(principalPS.getPInfoId());
+        if (proposalPassList.size() > 0) {
+            model.addAttribute("proposalPassList", proposalPassList);
+        }
+        model.addAttribute("personProposalList", personProposalList);
         return "person/history";
     }
 
