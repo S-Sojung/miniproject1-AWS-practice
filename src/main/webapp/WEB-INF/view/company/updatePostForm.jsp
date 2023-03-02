@@ -200,14 +200,7 @@
             function updateById(id){
                 Check();
 
-                let skills= "";
-                skillList.forEach(element => {
-                    console.log(element);
-                    if (skills!="") {
-                        skills+=",";
-                    }
-                    skills+=element;
-                });
+                let skills= skillList.join();
                 console.log(skills);
 
                 let data={ 

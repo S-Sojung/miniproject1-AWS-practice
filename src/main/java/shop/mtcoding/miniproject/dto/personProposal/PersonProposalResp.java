@@ -34,4 +34,17 @@ public class PersonProposalResp {
         private String rtitle;
         private String name;
     }
+
+    @Getter
+    @Setter
+    public static class PersonProposalDetailRespDto {
+        private int id;
+        private int pInfoId;
+        private int postId;
+        private int resumeId;
+        private int status;
+        private Timestamp createdAt;
+        private String title;
+        private int cInfoId;
+    }
 }

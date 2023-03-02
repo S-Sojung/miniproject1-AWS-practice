@@ -24,7 +24,9 @@ import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalReq.CompanyProposalStatusReqDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListRespDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalDetailRespDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
@@ -33,10 +35,11 @@ import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
+import shop.mtcoding.miniproject.model.PersonProposal;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
-import shop.mtcoding.miniproject.model.PostRespository;
+import shop.mtcoding.miniproject.model.PostRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
@@ -44,6 +47,7 @@ import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.CompanyService;
+import shop.mtcoding.miniproject.service.PersonProposalService;
 import shop.mtcoding.miniproject.service.PostService;
 
 @Controller
@@ -56,7 +60,7 @@ public class CompanyContoller {
     private UserRepository userRepository;
 
     @Autowired
-    private PostRespository postRepository;
+    private PostRepository postRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -77,17 +81,19 @@ public class CompanyContoller {
     private ResumeRepository resumeRepository;
     @Autowired
     private PersonRepository personRepository;
+    @Autowired
+    private PersonProposalService personProposalService;
 
-    public void companyMocLogin() {
-        User user = new User();
-        user.setId(2);
-        user.setPInfoId(0);
-        user.setCInfoId(1);
-        user.setEmail("init@nate.com");
-        user.setPassword("1234");
+    // public void companyMocLogin() {
+    // User user = new User();
+    // user.setId(2);
+    // user.setPInfoId(0);
+    // user.setCInfoId(1);
+    // user.setEmail("init@nate.com");
+    // user.setPassword("1234");
 
-        session.setAttribute("principal", user);
-    }
+    // session.setAttribute("principal", user);
+    // }
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
@@ -180,12 +186,22 @@ public class CompanyContoller {
     public String companyResumeDetail(@PathVariable int id, Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
-            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
 
         Resume resumePS = resumeRepository.findById(id);
         if (resumePS == null) {
-            throw new CustomApiException("없는 이력서엔 접근할 수 없습니다.");
+            throw new CustomException("없는 이력서엔 접근할 수 없습니다.");
+        }
+        // 기업의 공고에 지원이력이 있는 이력서인지 확인
+        // 기업의 공고에 없는 이력서라면 제안하기 버튼을 아니라면 합격 불합격 버튼을 두자
+        List<PersonProposalDetailRespDto> proposalList = personProposalRepository
+                .findAllWithPostByCInfoIdAndResumeId(principal.getCInfoId(), id);
+        if (proposalList.size() > 0) {
+            // 해당 이력서로 같은회사 다른 공고에 지원했을 수도 있음.
+            // proposalList.get(0).getPostId(); //postId를 이용해서 어케 해보자...
+
+            model.addAttribute("proposal", proposalList);
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
@@ -195,6 +211,15 @@ public class CompanyContoller {
         return "company/resumeDetail";
     }
 
+    @PutMapping("/company/proposal/{id}")
+    public @ResponseBody ResponseEntity<?> companyUpdateResume(@PathVariable int id,
+            @RequestBody CompanyProposalStatusReqDto statusCode) {
+        User userPS = (User) session.getAttribute("principal");
+
+        personProposalService.제안수정하기(id, userPS.getCInfoId(), statusCode.getStatusCode());
+        return new ResponseEntity<>(new ResponseDto<>(1, "이력서 확인 완료", null), HttpStatus.OK);
+    }
+
     @GetMapping("/company/recommend")
     public String companyRecommend() {
         return "company/recommend";
@@ -202,7 +227,6 @@ public class CompanyContoller {
 
     @GetMapping("/company/info")
     public String companyInfo(Model model) {
-        companyMocLogin();
         User principal = (User) session.getAttribute("principal");
         Company companyPS = companyRepository.findById(principal.getCInfoId());
         model.addAttribute("companyPS", companyPS);
@@ -211,7 +235,6 @@ public class CompanyContoller {
 
     @GetMapping("/company/updateInfoForm")
     public String companyUpdateInfoForm(Model model) {
-        companyMocLogin();
         User principal = (User) session.getAttribute("principal");
         Company companyPS = companyRepository.findById(principal.getCInfoId());
         model.addAttribute("companyPS", companyPS);
@@ -221,7 +244,6 @@ public class CompanyContoller {
     @PostMapping("/company/updateInfo")
     public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto)
             throws IOException {
-        companyMocLogin();
         if (companyUpdateInfoDto.getBossName() == null || companyUpdateInfoDto.getBossName().isEmpty()) {
             throw new CustomApiException("대표자명을 확인해주세요");
         }
@@ -265,7 +287,6 @@ public class CompanyContoller {
 
     @GetMapping("/company/postDetail/{id}")
     public String companyDetail(@PathVariable int id, Model model) {
-        companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -293,7 +314,6 @@ public class CompanyContoller {
 
     @GetMapping("/company/updatePostForm/{id}")
     public String companyUpdatePost(@PathVariable int id, Model model) {
-        companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -322,7 +342,6 @@ public class CompanyContoller {
     @PutMapping("/company/updatePost/{id}")
     public @ResponseBody ResponseEntity<?> companyUpdatePost(@PathVariable int id,
             @RequestBody PostUpdateReqDto postUpdateReqDto) {
-        companyMocLogin();
         User userPS = (User) session.getAttribute("principal");
 
         if (postUpdateReqDto.getTitle() == null ||
@@ -384,7 +403,6 @@ public class CompanyContoller {
 
     @GetMapping("/company/savePostForm")
     public String companySavePostForm(Model model) {
-        companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -408,7 +426,6 @@ public class CompanyContoller {
 
     @PostMapping("/company/savePost")
     public String companySavePost(Model model, PostSaveReqDto postSaveReqDto) {
-        companyMocLogin();
 
         User userPS = (User) session.getAttribute("principal");
 
@@ -466,7 +483,6 @@ public class CompanyContoller {
 
     @DeleteMapping("/company/deletePost/{id}")
     public @ResponseBody ResponseEntity<?> companyDeletePost(@PathVariable int id) {
-        companyMocLogin();
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);

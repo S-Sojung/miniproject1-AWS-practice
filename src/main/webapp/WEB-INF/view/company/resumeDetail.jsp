@@ -60,19 +60,75 @@
                             <h4>자기소개</h4>
                             <textarea name="resume_content" cols="109" rows="10" readOnly>${resumeDetail.selfIntro}
                                </textarea>
-                       </div>
-						    <div class="d-flex mt-4 justify-content-center">
-                            <div class="px-2">
-                                <button type="button" class="btn btn-light" onclick="updateProposal(${})">합격</button>
-                            </div>
-                            <div class="px-2">
-                                <button type="button" class="btn btn-light">불합격</button>
-                            </div>
+                        </div>
+                        <div class="d-flex mt-4 justify-content-center">
+                            <c:choose>
+                               <c:when test="${proposal!=null}">
+                                <table>
+                                    <c:forEach items="${proposal}" var="pro">
+                                    <tr>
+                                        <td><b>${pro.title}</b> 에 지원한 이력서입니다 </td>
+                                        <c:choose>
+                                           <c:when test="${pro.status==0}">
+                                           <td>
+                                                <div class="px-2">
+                                                    <button type="button" class="btn btn-light" onclick="updateById(${pro.id},this)">합격</button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="px-2">
+                                                    <button type="button" class="btn btn-light" onclick="updateById(${pro.id},this)">불합격</button>
+                                                </div>
+                                            </td>
+                                           </c:when>
+
+                                            <c:when test="${pro.status==1}">
+                                                <td><b> 합격 시켰습니다. </b></td>
+                                            </c:when>
+                                           <c:otherwise>   
+                                                <td><b> 불합격 시켰습니다.</b></td>
+                                           </c:otherwise>
+                                        </c:choose>
+                                    </tr>
+                                    </c:forEach>
+                                </table>
+                               </c:when>
+                            
+                               <c:otherwise>
+                               <div class="px-2">
+                                    <button type="button" class="btn btn-light">제안하기</button>
+                                </div>
+                               </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+     function updateById(id,obj) {
+        let status = $(obj).text()=='합격'?1:-1;
+        let data={"statusCode" : status}
+        console.log(data);
+        $.ajax({
+            type: "put",
+            url: "/company/proposal/"+id,
+            data: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+                },
+            dataType: "json" 
+            })
+            .done(res => { //20X 일때
+                alert(res.msg);
+                location.reload();
+            })
+            .fail(err => { 
+                alert(err.responseJSON.msg);
+            });
+        }
+    </script>
+
 
     <%@ include file="../layout/footer.jsp" %>

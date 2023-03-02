@@ -33,7 +33,7 @@ import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
-import shop.mtcoding.miniproject.model.PostRespository;
+import shop.mtcoding.miniproject.model.PostRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
@@ -65,7 +65,7 @@ public class PersonContoller {
     private UserRepository userRepository;
 
     @Autowired
-    private PostRespository postRepository;
+    private PostRepository postRepository;
 
     @Autowired
     private SkillRepository skillRepository;

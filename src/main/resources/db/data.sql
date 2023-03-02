@@ -11,7 +11,9 @@ INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('열심히하는 개발자 구합니다.',1,0,'3000만원','계약직', '09:00:00','18:00:00','2023-03-07 00:00:00','좋은직장','위대한직장',now());
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('백엔드 개발자 구합니다.',1,0,'3000만원','계약직', '09:00:00','18:00:00','2023-03-10 00:00:00','좋은직장','위대한직장',now());
 
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한지원자입니다','https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한 지원자입니다','https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','멋있는 지원자입니다','https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','열심인 지원자입니다','https://naver.com','저는성실해요',now());
 
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(1, 0, 0,'Java,Javascript,Html',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 1, 0,'Java,Javascript,Sql',now());
@@ -19,6 +21,8 @@ INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0,
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 3, 0,'Java,Sql,Html',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 4, 0,'Java,Sql,Android',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 1,'Java,Javascript,Android',now());
+INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 2,'Java,Javascript,Android',now());
+INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 3,'Java,Javascript,Android',now());
 
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 1, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 1, 0);
@@ -35,7 +39,16 @@ INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 4, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 1);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 1);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 1);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 2);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 2);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 2);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 3);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 3);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 3);
 
-INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 1, 1, 0 ,now());
+INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 1, 1, -1 ,now());
+INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 2, 1, 0 ,now());
+INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 3, 1, 1 ,now());
+
 
 commit;

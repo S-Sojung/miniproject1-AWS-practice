@@ -19,13 +19,25 @@
                 <div class="container mb-5 mt-5 w-100">
                     <table class="table table-hover">
                         <tr class="table-dark">
-                            <th class="col-3 px-2">&nbsp &nbsp 지원 공고</th>
-                            <th class="col-2">이름</th>
+                            <th class="col-4 px-2">&nbsp &nbsp 지원 공고</th>
+                            <th class="col-1">이름</th>
                             <th class="col-5">이력서</th>
                             <th class="col-3">지원날짜</th>
                         </tr>
                         <c:forEach items="${companyProposalList}" var="proposal">
-                        <tr>
+                        
+                            <c:choose>
+                                <c:when test="${proposal.status==0}">
+                                    <tr>
+                                </c:when>
+                                <c:when test="${proposal.status==1}">
+                                    <tr class="table-info">
+                                </c:when>
+                                <c:otherwise>
+                                    <tr class="table-secondary">
+                                </c:otherwise>
+                            </c:choose>
+                        
                             <td> &nbsp &nbsp ${proposal.ptitle}</td>
                             <td>${proposal.name}</td>
                             <td><a href="/company/resumeDetail/${proposal.resumeId}" class="text-decoration-none">${proposal.rtitle}</a></td>

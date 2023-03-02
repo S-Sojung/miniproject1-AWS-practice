@@ -31,6 +31,13 @@
         where jpt.c_info_id = #{cInfoId}
     </select>
 
+    <select id="findAllWithPostByCInfoIdAndResumeId" resultType="shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp$PersonProposalDetailRespDto">
+        SELECT ppt.id, ppt.p_info_id, ppt.post_id, ppt.resume_id, ppt.status, ppt.created_at, jpt.title, jpt.c_info_id
+        FROM PERSON_PROPOSAL_TB ppt
+        inner join job_post_tb  jpt
+        on ppt.post_id = jpt.id
+        where jpt.c_info_id= #{cInfoId} and resume_id= #{resumeId};
+    </select>
 
     <select id="findById" resultType="shop.mtcoding.miniproject.model.PersonProposal">
         select * from person_proposal_tb where id = #{id}
