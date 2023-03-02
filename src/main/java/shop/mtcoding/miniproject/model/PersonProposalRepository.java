@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListRespDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
 
 @Mapper
@@ -15,6 +16,8 @@ public interface PersonProposalRepository {
         public PersonProposal findById(int id);
 
         public List<PersonProposalListRespDto> findAllWithPostAndCInfoByPInfoId(int pInfoId);
+
+        public List<CompanyProposalListRespDto> findAllWithPostAndResumeAndPInfoByCInfoId(int cInfoId);
 
         public int insert(@Param("pInfoId") int pInfoId,
                         @Param("postId") int postId,

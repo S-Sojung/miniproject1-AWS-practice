@@ -24,6 +24,7 @@ import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListRespDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
@@ -31,8 +32,13 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
+import shop.mtcoding.miniproject.model.Person;
+import shop.mtcoding.miniproject.model.PersonProposalRepository;
+import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRespository;
+import shop.mtcoding.miniproject.model.Resume;
+import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
@@ -63,6 +69,14 @@ public class CompanyContoller {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private PersonProposalRepository personProposalRepository;
+
+    @Autowired
+    private ResumeRepository resumeRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
     public void companyMocLogin() {
         User user = new User();
@@ -153,8 +167,32 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/getResume")
-    public String companyGetResume() {
+    public String companyGetResume(Model model) {
+        User principalPS = (User) session.getAttribute("principal");
+        List<CompanyProposalListRespDto> companyProposalList = personProposalRepository
+                .findAllWithPostAndResumeAndPInfoByCInfoId(principalPS.getCInfoId());
+
+        model.addAttribute("companyProposalList", companyProposalList);
         return "company/getResume";
+    }
+
+    @GetMapping("/company/resumeDetail/{id}")
+    public String companyResumeDetail(@PathVariable int id, Model model) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+
+        Resume resumePS = resumeRepository.findById(id);
+        if (resumePS == null) {
+            throw new CustomApiException("없는 이력서엔 접근할 수 없습니다.");
+        }
+        Person personPS = personRepository.findById(resumePS.getPInfoId());
+        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        model.addAttribute("resumeDetail", resumePS);
+        model.addAttribute("personDetail", personPS);
+        model.addAttribute("skillDetail", skillPS.getSkills().split(","));
+        return "company/resumeDetail";
     }
 
     @GetMapping("/company/recommend")

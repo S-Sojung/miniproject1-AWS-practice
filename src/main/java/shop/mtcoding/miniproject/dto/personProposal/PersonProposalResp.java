@@ -19,4 +19,19 @@ public class PersonProposalResp {
         private Timestamp deadline;
         private String name;
     }
+
+    @Getter
+    @Setter
+    public static class CompanyProposalListRespDto {
+        private int id;
+        private int pInfoId;
+        private int postId;
+        private int resumeId;
+        private int status;
+        private Timestamp createdAt;
+        private String ptitle;
+        private int cInfoId;
+        private String rtitle;
+        private String name;
+    }
 }
