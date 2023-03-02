@@ -16,15 +16,17 @@
                                 <table class="table table-borderless pt-5 ms-5">
                                     <tr class="pb-5">
                                         <th>지원 자격</th>
-                                        <td><c:choose>
-                                               <c:when test="${post.career==0}">
-                                                신입
-                                               </c:when>
-                                            
-                                               <c:otherwise>
-                                               ${post.career}년차
-                                               </c:otherwise>
-                                            </c:choose></td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="${post.career==0}">
+                                                    신입
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    ${post.career}년차
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
                                         <th>연봉</th>
                                         <td>${post.pay}</td>
                                     </tr>
@@ -57,17 +59,17 @@
                             </div>
 
                             <div class="mt-4">
-                                    <h5><b>기술/자격 조건</b></h5>
-                                    <div class="jh_resume_skill">
-                                        <div>
-                                            <ul>
-                                                <c:forEach items="${skills}" var="skill">
-                                                    <li>${skill}</li>
-                                                </c:forEach>
-                                            </ul>
-                                        </div>
+                                <h5><b>기술/자격 조건</b></h5>
+                                <div class="jh_resume_skill">
+                                    <div>
+                                        <ul>
+                                            <c:forEach items="${skills}" var="skill">
+                                                <li>${skill}</li>
+                                            </c:forEach>
+                                        </ul>
                                     </div>
                                 </div>
+                            </div>
                             <div class="mt-4 mb-4">
                                 <h5><b>기업 정보</b></h5>
                                 <div class="border border-tertiary ps-5 pe-2 pt-3 d-inline-flex mb-3 w-100">
@@ -99,7 +101,7 @@
 
                 <div>
                     <div class="card mt-4 p-4 ms-2" style="width:350px;">
-                        <img src="${company.logo}" class="rounded mb-4 h-75 w-100">   
+                        <img src="${company.logo}" class="rounded mb-4 h-75 w-100">
                         <div class="d-flex justify-content-between m-1">
                             <h4><b>${post.title}</b></h4>
                         </div>
@@ -117,22 +119,92 @@
                                 </button>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-dark" style="height: 50px;">지원하기</button>
+                        <!-- 지원하기 버튼 -->
+                        <button type="button" class="btn btn-dark" style="height: 50px;" data-bs-toggle="modal"
+                            data-bs-target="#myModal" id="myBtn">지원하기</button>
+                        <!-- 지원하기 모달 -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="exampleModalLabel">나의 이력서</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/person/history">
+                                            <div class="border border-tertiary p-3 mb-1">
+                                                <label for="html">이력서1</label>
+                                                <input type="radio" id="html" name="fav_language" value="HTML">
+                                            </div>
+                                            <div class="border border-tertiary p-3 mb-1">
+                                                <label for="html">이력서2</label>
+                                                <input type="radio" id="html" name="fav_language" value="HTML">
+                                            </div>
+                                            <div class="border border-tertiary p-3">
+                                                <label for="html">이력서3</label>
+                                                <input type="radio" id="html" name="fav_language" value="HTML">
+                                            </div>
+
+                                            <hr>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-secondary"
+                                                    onclick="location.href='../saveResumeForm'">새로 작성</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    onclick="return confirmAndRedirect()">제출하기</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <script>
+            <script>
+                // <!-- modal창 띄우는 스크립트 -->
+                const emailInputEl = document.querySelector("#exampleInputEmail1");
+                const modelEl = document.querySelector("#myModal");
+
+                modelEl.addEventListener("shown.bs.modal", function () {
+                    emailInputEl.focus();
+                })
+                // <!-- modal창의 alert창에서 확인 누르면 이력서 제출되고 지원이력페이지로 이동 -->
+                function confirmAndRedirect() {
+                    if (confirm('이력서를 제출하시겠습니까?')) {
+                        alert('성공적으로 지원되었습니다!')
+                        window.location.href = '../history';
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                // 이력서 목록
+                function goToDetailPage(id) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/person/resumeDetail/" + id,
+                    }).done((res) => {
+                        location.href = "/person/resumeDetail/" + id;
+                    }).fail((err) => {
+                    });
+
+                }
+            </script>
+
+            <script>
                 let today = new Date();
                 let currDay = 24 * 60 * 60 * 1000;
                 deadline = new Date($("#deadline").text());
-                let dDay = Math.ceil((deadline-today)/currDay);
-                if(dDay>0){
-                    $("#dDay").text(dDay+"-Day");
-                }else if(dDay<-1){
+                let dDay = Math.ceil((deadline - today) / currDay);
+                if (dDay > 0) {
+                    $("#dDay").text(dDay + "-Day");
+                } else if (dDay < -1) {
                     $("#dDay").text("마감되었습니다.");
-                }else{
+                } else {
                     $("#dDay").text("D-Day");
                 }
-        </script>
-        <%@ include file="../layout/footer.jsp" %>
+            </script>
+            <%@ include file="../layout/footer.jsp" %>
