@@ -16,10 +16,15 @@
                     <button class="jh_resume_button mb-5 rounded bg-light" onclick="location.href=`/company/savePostForm`;">➕ 새로운 공고
                         등록</button>
                     
-                    <c:forEach items="${postTitleList}" var="post">
+                    <c:forEach items="${postTitleList}" var="post" varStatus="status">
                     <div class="jh_resume_content mb-3" style="display: flex; justify-content: space-between">
+                    <div style="">
                         <a href="/company/postDetail/${post.id}">${post.title}</a>
+                        <div id="post_parse">마감 기한 : ~${post.deadline}</div>
+                    </div>
+                    <div style="display: flex;">
                         <button type="button" class="btn btn-secondary" onclick="deleteById(${post.id})">삭제</button>
+                        </div>
                     </div>
                     </c:forEach>
                 </div>
@@ -28,6 +33,7 @@
     </div>
 
 <script>
+    
     function deleteById(id) {
         $.ajax({
             type: "delete",

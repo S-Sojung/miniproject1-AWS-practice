@@ -48,9 +48,9 @@
 
         <div class="container jm_container mt-5">
             <div class="row row-cols-3 g-4 d-flex flex-wrap">
-            <c:forEach items="${mainPosts}" var="post">
-            
-                <div class="col-xs-4">
+            <c:forEach items="${mainPosts}" var="post" varStatus="status">
+           
+                <div class="col-xs-4 post">
                     <a href="/person/detail/${post.postId}" style="color: inherit; text-decoration: none;">
                         <div class="card jm_card h-100">
                             <img src="${post.logo}" class="card-img-top jm_card_img_top">
@@ -61,24 +61,29 @@
                                 <div class="jm_D-day d-flex justify-content-between">
                                     <div id="dDay-${post.postId}"></div>
                                     <button type="button" class="btn btn-sm">
-                                        <!--<%--  구독? 스크랩 버튼  --%>-->
+                                        <!--<%--  스크랩 버튼  --%>-->
                                         <i class="fa-regular fa-thumbs-up fa-2xl"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </a>
+                <input type="hidden" value="${post.deadline}" name="post_deadline" id="deadline-${post.postId}"/>
                 </div>
-                <input type="hidden" value="${post.deadline}" id="deadline-${post.postId}"/>
             </c:forEach>
             <input type="hidden" value="${size}" id="postSize"/>
             </div>
         </div>
     </div>
 </div>
+ 
     <script>
+    
+   
+
         let size =  $("#postSize").val();
-        for (let i = 1; i <=size; i++) {
+        fo
+        for (let i = 1; i <=size; i++) { // for문 방식이 안되는 거네 
             deadline = new Date($("#deadline-"+i).val());
             dDay = Math.ceil((deadline-today)/currDay);
             if(dDay>0){

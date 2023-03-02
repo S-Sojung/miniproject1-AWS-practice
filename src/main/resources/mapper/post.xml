@@ -17,11 +17,13 @@
         SELECT jpt.id post_id, jpt.title, jpt.c_info_id, jpt.deadline, cit.logo, cit.name, cit.address
         FROM JOB_POST_TB jpt
         INNER JOIN COMPANY_INFO_TB cit
-        ON jpt.c_info_id = cit.id;
+        ON jpt.c_info_id = cit.id
+        WHERE jpt.deadline >= now()-2
+        ORDER BY jpt.deadline
     </select>
     
     <select id="findAllTitleByCInfoId" resultType="shop.mtcoding.miniproject.dto.post.PostResp$PostTitleRespDto">
-        select id, title from job_post_tb where c_info_id = #{cInfoId}
+        select id, title, date(deadline) "deadline" from job_post_tb where c_info_id = #{cInfoId}
     </select>   
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
