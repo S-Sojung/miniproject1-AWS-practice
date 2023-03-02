@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
+import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
+import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.util.CvTimestamp;
 import shop.mtcoding.miniproject.util.PathUtil;
@@ -22,11 +24,13 @@ import shop.mtcoding.miniproject.util.PathUtil;
 @Service
 public class ResumeService {
     @Autowired
-    ResumeRepository resumeRepository;
+    private ResumeRepository resumeRepository;
     @Autowired
-    PersonRepository personRepository;
+    private PersonRepository personRepository;
     @Autowired
-    SkillRepository skillRepository;
+    private SkillRepository skillRepository;
+    @Autowired
+    private SkillFilterRepository skillFilterRepository;
 
     public void insertNewResume(int pInfoId, ResumeUpdateReqDto resumeUpdateReqDto) {
 
@@ -52,13 +56,21 @@ public class ResumeService {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        Skill skillPS = skillRepository.findByPInfoId(resume.getPInfoId());
-
-        int result3 = skillRepository.updateById(skillPS.getId(), resume.getPInfoId(), 0, 0, skill.getSkills(),
-                skillPS.getCreatedAt());
+        int result3 = skillRepository.insert(pInfoId, 0, resume.getId(), skill.getSkills());
         if (result3 != 1) {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        try {
+            String skills = skill.getSkills();
+            String[] skillArr = skills.split(",");
+            for (int i = 0; i < skillArr.length; i++) {
+                skillFilterRepository.insert(skillArr[i], 0, resume.getId());
+            }
+        } catch (Exception e) {
+            throw new CustomException("이력서 등록 실패.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
     public void updateById(int id, int pInfoId, ResumeUpdateReqDto resumeUpdateReqDto) {
@@ -93,5 +105,43 @@ public class ResumeService {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        // skill filter 삭제 후 다시 저장
+
+        try {
+            skillFilterRepository.deleteByResumeId(resumePS.getId());
+        } catch (Exception e) {
+            throw new CustomException("이력서 수정 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        try {
+            String[] skillArr = skillPS.getSkills().split(",");
+            for (int i = 0; i < skillArr.length; i++) {
+                skillFilterRepository.insert(skillArr[i], 0, resumePS.getId());
+            }
+        } catch (Exception e) {
+            throw new CustomException("이력서 수정 실패", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
+
+    public void delete(int id) {
+        int result = resumeRepository.deleteById(id);
+        if (result != 1) {
+            throw new CustomApiException("이력서 삭제 실패하였습니다", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        try {
+            skillRepository.deleteByResumeId(id);
+        } catch (Exception e) {
+            throw new CustomApiException("이력서 삭제 실패하였습니다", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        try {
+            skillFilterRepository.deleteByResumeId(id);
+        } catch (Exception e) {
+            throw new CustomApiException("이력서 삭제 실패하였습니다", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 }

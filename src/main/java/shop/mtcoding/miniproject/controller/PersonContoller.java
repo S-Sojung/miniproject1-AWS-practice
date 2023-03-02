@@ -276,7 +276,7 @@ public class PersonContoller {
         }
         int pInfoId = principal.getPInfoId();
         List<Resume> resumeAll = resumeRepository.findAll();
-        model.addAttribute("resume", resumeAll);
+        model.addAttribute("resumes", resumeAll);
         Person personPS = personRepository.findById(pInfoId);
         model.addAttribute("personPS", personPS);
         return "person/resumes";
@@ -289,10 +289,7 @@ public class PersonContoller {
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
-        int result = resumeRepository.deleteById(id);
-        if (result != 1) {
-            throw new CustomApiException("이력서 삭제 실패하였습니다", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        resumeService.delete(id);
         return new ResponseEntity<>(new ResponseDto<>(1, "게시글 삭제 성공", null), HttpStatus.OK);
     }
 
@@ -306,11 +303,11 @@ public class PersonContoller {
         personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
-            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
         Resume resumePS = resumeRepository.findById(id);
         if (resumePS == null) {
-            throw new CustomApiException("없는 게시글을 수정할 수 없습니다");
+            throw new CustomException("없는 이력서를 수정할 수 없습니다");
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
@@ -358,7 +355,6 @@ public class PersonContoller {
             throw new CustomException("기술스택을 선택해주세요");
         }
         resumeService.insertNewResume(pInfoId, resumeUpdateReqDto);
-
         return "redirect:/person/resumes";
     }
 
