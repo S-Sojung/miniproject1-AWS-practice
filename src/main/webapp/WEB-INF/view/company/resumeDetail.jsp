@@ -72,8 +72,30 @@
                                            <c:when test="${pro.status==0}">
                                            <td>
                                                 <div class="px-2">
-                                                    <button type="button" class="btn btn-light" onclick="updateById(${pro.id},this)">합격</button>
+                                                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal" >합격</button>
                                                 </div>
+                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">합격 메시지를 보내주세요</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+        <button type="button" class="btn btn-primary" onclick="insertProposalPass(${pro.id})">메시지 보내기</button>
+      </div>
+    </div>
+  </div>
+</div>
                                             </td>
                                             <td>
                                                 <div class="px-2">
@@ -106,9 +128,39 @@
             </div>
         </div>
     </div>
+    
+
+
     <script>
+    function insertProposalPass(id){
+        let data = {"message" : $("#message").val()};
+
+        $.ajax({
+            type: "post",
+            url: "/company/proposalPass/"+id,
+            data: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+                },
+            dataType: "json" 
+            })
+            .done(res => { //20X 일때
+                alert(res.msg);
+                updateById(id,"합격");
+                location.reload();
+            })
+            .fail(err => { 
+                alert(err.responseJSON.msg);
+            });
+    }
+
      function updateById(id,obj) {
-        let status = $(obj).text()=='합격'?1:-1;
+        let status;
+        if(obj!="합격"){
+            status = $(obj).text()=='합격'?1:-1;   
+        }else{
+            status = 1;  
+        }
         let data={"statusCode" : status}
         console.log(data);
         $.ajax({

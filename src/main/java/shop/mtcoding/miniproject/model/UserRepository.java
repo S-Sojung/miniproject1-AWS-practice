@@ -12,7 +12,9 @@ public interface UserRepository {
 
         public User findById(int id);
 
-        public User findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+        public User findPersonByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+
+        public User findCompanyByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
         public User findByEmail(@Param("email") String email);
 

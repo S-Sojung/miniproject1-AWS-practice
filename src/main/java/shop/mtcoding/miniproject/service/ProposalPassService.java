@@ -10,17 +10,20 @@ import shop.mtcoding.miniproject.model.PersonProposal;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRepository;
+import shop.mtcoding.miniproject.model.ProposalPassRepository;
 
 @Service
 @Transactional
-public class PersonProposalService {
+public class ProposalPassService {
+
+    @Autowired
+    private ProposalPassRepository proposalPassRepository;
     @Autowired
     private PersonProposalRepository personProposalRepository;
     @Autowired
     private PostRepository postRepository;
 
-    public void 제안수정하기(int proposalId, int cInfoId, int status) {
-
+    public void 메시지전달하기(int proposalId, Integer cInfoId, String message) {
         PersonProposal proposal = personProposalRepository.findById(proposalId);
         if (proposal == null) {
             throw new CustomApiException("없는 제안을 확인 할 수 없습니다.");
@@ -32,12 +35,11 @@ public class PersonProposalService {
         if (post.getCInfoId() != cInfoId) {
             throw new CustomApiException("본인의 공고가 아니면 제안을 확인 할 수 없습니다.");
         }
-        proposal.setStatus(status);
         try {
-            personProposalRepository.updateById(proposal.getId(), proposal.getPInfoId(), proposal.getPostId(),
-                    proposal.getResumeId(), proposal.getStatus(), proposal.getCreatedAt());
+            proposalPassRepository.insert(proposal.getPInfoId(), proposalId, message);
         } catch (Exception e) {
-            throw new CustomApiException("공고 수정할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomApiException("메시지 보내기 실패.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }

@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
 public interface ResumeRepository {
         public List<Resume> findAll();
 
+        public List<Resume> findAllByPInfoId(int pInfoId);
+
         public Resume findById(int id);
 
         public int insert(Resume resume);
