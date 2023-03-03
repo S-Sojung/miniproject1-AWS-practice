@@ -49,6 +49,7 @@ import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
+import shop.mtcoding.miniproject.service.PersonProposalService;
 import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.ResumeService;
 import shop.mtcoding.miniproject.util.CvTimestamp;
@@ -87,6 +88,9 @@ public class PersonContoller {
     private PersonProposalRepository personProposalRepository;
     @Autowired
     private ProposalPassRepository proposalPassRepository;
+    @Autowired
+    private PersonProposalService personProposalService;
+
     @Autowired
     private SkillFilterRepository skillFilterRepository;
 
@@ -218,7 +222,7 @@ public class PersonContoller {
         // model.addAttribute("resume", resumeAll);
 
         // 이력서 리스트 불러오기
-        List<Resume> resumeList = (List<Resume>) resumeRepository.findAllByPInfoId(id);
+        List<Resume> resumeList = (List<Resume>) resumeRepository.findAllByPInfoId(userPS.getPInfoId());
         model.addAttribute("resume", resumeList);
 
         // 이력서 id를 가지고 person_proposal_tb 를 insert 해주기
@@ -227,17 +231,19 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/detail/{id}/resume")
-    public String submitResume(@PathVariable("id") int id) {
+    public String submitResume(@PathVariable("id") int id, int selectedResume) {
 
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
+
         int pInfoId = principal.getPInfoId();
 
-        // Resume resumePS = (Resume) resumeRepository.findByPInfoId(id);
-        // model.addAttribute("resume", resumePS);
-        return "";
+        // post아이디는 여기 id! + resumeid는 int selectedResume
+        personProposalService.지원하기(pInfoId, id, selectedResume, 0); // status 합불합격상태(0은 대기중)
+
+        return "redirect:/person/history";
     }
 
     @GetMapping("/person/recommend")
@@ -334,6 +340,9 @@ public class PersonContoller {
         //
         if (personUpdateDto.getName() == null || personUpdateDto.getName().isEmpty()) {
             throw new CustomApiException("이름을 확인해주세요");
+        }
+        if (personUpdateDto.getBirthday() == null) {
+            throw new CustomApiException("birthday 확인해주세요");
         }
         if (personUpdateDto.getPhone() == null || personUpdateDto.getPhone().isEmpty()) {
             throw new CustomApiException("전화 번호를 확인해주세요");

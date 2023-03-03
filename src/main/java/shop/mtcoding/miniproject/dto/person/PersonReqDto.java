@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.dto.person;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +11,7 @@ public class PersonReqDto {
     @Setter
     public static class PersonUpdateDto {
         private String name;
+        private String birthday;
         private String phone;
         private String email;
         private String address;

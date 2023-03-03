@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.service;
 
+import java.sql.Timestamp;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Skill;
 import shop.mtcoding.miniproject.model.SkillRepository;
-
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
 
@@ -99,9 +100,9 @@ public class PersonService {
         } else {
             password = personUpdateDto.getPassword();
         }
-
+        Timestamp birthday = Timestamp.valueOf(personUpdateDto.getBirthday());
         int result = personRepository.updateById(pInfoId, personUpdateDto.getName(), personUpdateDto.getPhone(),
-                personUpdateDto.getAddress(), null, personPS.getCreatedAt());
+                personUpdateDto.getAddress(), birthday, personPS.getCreatedAt());
 
         if (result != 1) {
             throw new CustomApiException("정보 수정 실패", HttpStatus.INTERNAL_SERVER_ERROR);
