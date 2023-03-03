@@ -28,18 +28,23 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
+                                        class="input-group-text bg-light justify-content-center hs_span_size">생년월일</span>
+                                    <input type="text" class="form-control" value="${person.birthday}" id="birthday" readonly>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
                                     <input type="text" class="form-control" value="${person.phone}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">이메일</span>
-                                    <input type="text" class="form-control" value="${principal.email}" readonly>
+                                        class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
+                                    <input type="text" class="form-control" value="${person.address}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
-                                    <input type="text" class="form-control" value="${person.address}" readonly>
+                                        class="input-group-text bg-light justify-content-center hs_span_size">이메일</span>
+                                    <input type="text" class="form-control" value="${principal.email}" readonly>
                                 </div>
 
                                 <hr class="my-4">
@@ -60,4 +65,7 @@
                 </div>
             </div>
         </div>
+        <script>
+            $("#birthday").val( $("#birthday").val().split(' ')[0]);
+        </script>
             <%@ include file="../layout/footer.jsp" %>

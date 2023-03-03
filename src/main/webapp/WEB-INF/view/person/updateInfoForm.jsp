@@ -28,8 +28,20 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
+                                        class="input-group-text bg-light justify-content-center hs_span_size">생년월일</span>
+                                    <input type="date" class="form-control" id="birthday">
+                                    <input type="hidden" class="form-control" value="${person.birthday}" id="pbirthday">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
                                     <input type="tel" class="form-control" value="${person.phone}" id="phone">
+                                </div>
+                                
+                                <div class="input-group mb-3">
+                                    <span
+                                        class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
+                                    <input type="text" class="form-control" value="${person.address}" id="address">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
@@ -38,17 +50,11 @@
                                         readonly>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
-                                    <input type="text" class="form-control" value="${person.address}" id="address">
-                                </div>
-                                <div class="input-group mb-3">
                                     <span class="input-group-text bg-light justify-content-center hs_span_size">현재
                                         비밀번호</span>
                                     <input type="password" class="form-control" value="${principal.password}" readonly>
                                 </div>
-                                <%-- <span style="font-size:10px; color: grey;">비밀번호(영문자, 숫자, 특수문자 포함 8-20자 이내)</span>
-                                    --%>
+                               
                                     <div class="input-group mb-3">
                                         <span
                                             class="input-group-text bg-light justify-content-center hs_span_size">비밀번호</span>
@@ -82,6 +88,7 @@
         </div>
 
         <script>
+            $("#birthday").val( $("#pbirthday").val().split(' ')[0]);
             let checkSkill = $("#check").val().split(",");
 
             checkSkill.forEach(element => {
@@ -134,9 +141,10 @@
                 }
 
                 let skills = skillList.join();
-
+                let birthday = $("#birthday").val()+" "+$("#pbirthday").val().split(' ')[1];
                 let data = {
                     "name": $("#name").val(),
+                    "birthday" : birthday,
                     "phone": $("#phone").val(),
                     "email": $("#email").val(),
                     "address": $("#address").val(),

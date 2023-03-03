@@ -335,6 +335,9 @@ public class PersonContoller {
         if (personUpdateDto.getName() == null || personUpdateDto.getName().isEmpty()) {
             throw new CustomApiException("이름을 확인해주세요");
         }
+        if (personUpdateDto.getBirthday() == null) {
+            throw new CustomApiException("birthday 확인해주세요");
+        }
         if (personUpdateDto.getPhone() == null || personUpdateDto.getPhone().isEmpty()) {
             throw new CustomApiException("전화 번호를 확인해주세요");
         }
