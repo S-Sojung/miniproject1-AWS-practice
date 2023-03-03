@@ -215,7 +215,31 @@ public class PersonContoller {
         model.addAttribute("post", postPS);
         model.addAttribute("company", companyPS);
         model.addAttribute("skills", skills);
+
+        // List<Resume> resumeAll = resumeRepository.findAll();
+        // model.addAttribute("resume", resumeAll);
+
+        // 이력서 리스트 불러오기
+        List<Resume> resumeList = (List<Resume>) resumeRepository.findAllByPInfoId(id);
+        model.addAttribute("resume", resumeList);
+
+        // 이력서 id를 가지고 person_proposal_tb 를 insert 해주기
+
         return "person/detail";
+    }
+
+    @PostMapping("/person/detail/{id}/resume")
+    public String submitResume(@PathVariable("id") int id) {
+
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        int pInfoId = principal.getPInfoId();
+
+        // Resume resumePS = (Resume) resumeRepository.findByPInfoId(id);
+        // model.addAttribute("resume", resumePS);
+        return "";
     }
 
     @GetMapping("/person/recommend")

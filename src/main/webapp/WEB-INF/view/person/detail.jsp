@@ -134,20 +134,14 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/person/history">
+                                        <form action="/person/detail/{id}/resume">
+                                            <c:forEach items="${resume}" var="res">
                                             <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">이력서1</label>
+                                                <label for="html">${res.title}</label>
                                                 <input type="radio" id="html" name="fav_language" value="HTML">
                                             </div>
-                                            <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">이력서2</label>
-                                                <input type="radio" id="html" name="fav_language" value="HTML">
-                                            </div>
-                                            <div class="border border-tertiary p-3">
-                                                <label for="html">이력서3</label>
-                                                <input type="radio" id="html" name="fav_language" value="HTML">
-                                            </div>
-
+                                            </c:forEach>
+                                            
                                             <hr>
                                             <div class="d-flex justify-content-center">
                                                 <button type="button" class="btn btn-secondary"
@@ -155,11 +149,17 @@
                                                 <button type="submit" class="btn btn-primary"
                                                     onclick="return confirmAndRedirect()">제출하기</button>
                                             </div>
-                                        </form>
                                     </div>
+                                        </form>
                                 </div>
-                            </div>
 
+                            </div>
+            <c:forEach items="${resume}" var="res">
+ <div class="border border-tertiary p-3 mb-1">
+<label for="html">${res.title}</label>
+<input type="radio" id="html" name="fav_language" value="HTML">
+</div>
+</c:forEach>
                         </div>
                     </div>
                 </div>
