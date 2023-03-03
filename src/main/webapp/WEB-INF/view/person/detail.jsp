@@ -133,17 +133,17 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/person/history">
+                                        <form action="/person/detail/{id}/resume">
                                             <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">이력서1</label>
+                                                <label for="html">${resume.title}</label>
                                                 <input type="radio" id="html" name="fav_language" value="HTML">
                                             </div>
                                             <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">이력서2</label>
+                                                <label for="html">${resume.title}</label>
                                                 <input type="radio" id="html" name="fav_language" value="HTML">
                                             </div>
                                             <div class="border border-tertiary p-3">
-                                                <label for="html">이력서3</label>
+                                                <label for="html">${resume.title}</label>
                                                 <input type="radio" id="html" name="fav_language" value="HTML">
                                             </div>
 

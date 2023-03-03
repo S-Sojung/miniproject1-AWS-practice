@@ -193,7 +193,19 @@ public class PersonContoller {
         model.addAttribute("post", postPS);
         model.addAttribute("company", companyPS);
         model.addAttribute("skills", skills);
+
+        List<Resume> resumeAll = resumeRepository.findAll();
+        model.addAttribute("resume", resumeAll);
+
+        // Resume resumePS = (Resume) resumeRepository.findByPInfoId(id);
+        // model.addAttribute("resume", resumePS);
+
         return "person/detail";
+    }
+
+    @PostMapping("/person/detail/{id}/resume")
+    public String submitResume() {
+        return "";
     }
 
     @GetMapping("/person/recommend")

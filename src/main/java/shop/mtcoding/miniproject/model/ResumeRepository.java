@@ -28,4 +28,6 @@ public interface ResumeRepository {
 
         public int deleteById(int id);
 
+        public List<Resume> findByPInfoId(int pInfoId);
+
 }
