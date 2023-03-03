@@ -90,15 +90,15 @@ public class PersonContoller {
     @Autowired
     private SkillFilterRepository skillFilterRepository;
 
-    public void personMocLogin() {
-        User user = new User();
-        user.setId(1);
-        user.setCInfoId(0);
-        user.setPInfoId(1);
-        user.setEmail("ssar@nate.com");
-        user.setPassword("1234");
-        session.setAttribute("principal", user);
-    }
+    // public void personMocLogin() {
+    // User user = new User();
+    // user.setId(1);
+    // user.setCInfoId(0);
+    // user.setPInfoId(1);
+    // user.setEmail("ssar@nate.com");
+    // user.setPassword("1234");
+    // session.setAttribute("principal", user);
+    // }
 
     @GetMapping("/personLoginForm")
     public String personLoginForm() {
@@ -183,7 +183,6 @@ public class PersonContoller {
 
     @GetMapping({ "/person/main", "/person" })
     public String personMain(Model model) {
-        personMocLogin();
         // 회사로고, 회사이름, 공고이름, 회사 주소, D-day
         // cInfo : 회사로고, 회사이름, 회사주소
         // 공고 정보 : 공고이름, 디데이
@@ -294,7 +293,6 @@ public class PersonContoller {
 
     @GetMapping("/person/info")
     public String personInfo(Model model) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
 
@@ -311,7 +309,6 @@ public class PersonContoller {
 
     @GetMapping("/person/updateInfoForm")
     public String personUpdateInfoForm(Model model) {
-        personMocLogin();
 
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
@@ -370,7 +367,6 @@ public class PersonContoller {
 
     @GetMapping("/person/resumes")
     public String personResumes(Model model) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -385,7 +381,6 @@ public class PersonContoller {
 
     @DeleteMapping("/person/resumes/{id}")
     public ResponseEntity<?> deleteResume(@PathVariable int id) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -401,7 +396,6 @@ public class PersonContoller {
 
     @GetMapping("/person/resumeDetail/{id}")
     public String personResumeDetail(@PathVariable int id, Model model) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -425,7 +419,6 @@ public class PersonContoller {
 
     @PostMapping("/person/resumes")
     public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -461,7 +454,6 @@ public class PersonContoller {
 
     @GetMapping("/person/updateResume/{id}")
     public String getUpdateResumeForm(@PathVariable int id, Model model) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -478,7 +470,6 @@ public class PersonContoller {
 
     @PostMapping("/person/updateResume/{id}")
     public String UpdateResumeForm(@PathVariable int id, ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
-        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);

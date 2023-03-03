@@ -102,6 +102,4 @@ public class CompanyService {
         }
     }
 
-    public void 공고삭제하기(int id, Integer cInfoId) {
-    }
 }

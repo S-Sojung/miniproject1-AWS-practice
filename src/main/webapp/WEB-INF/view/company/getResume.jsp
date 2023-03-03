@@ -12,7 +12,7 @@
         <div class="ms-2 p-4">
             <div class="border border-tertiary w-100 p-5 rounded ">
                 <div class="d-flex justify-content-between">
-                    <h1 class="hs_line">kAKAO에 도착한 이력서를 검토해보세요💌</h1>
+                    <h1 class="hs_line">${companyPS.name}에 도착한 이력서를 검토해보세요💌</h1>
                 </div>
                 <hr>
 
