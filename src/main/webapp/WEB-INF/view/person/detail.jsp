@@ -135,18 +135,12 @@
                                     <div class="modal-body">
                                         <form action="/person/detail/{id}/resume">
                                             <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">${resume.title}</label>
+                                            <c:forEach items="${resume}" var="res">
+                                                <label for="html">${res.title}</label>
                                                 <input type="radio" id="html" name="fav_language" value="HTML">
                                             </div>
-                                            <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">${resume.title}</label>
-                                                <input type="radio" id="html" name="fav_language" value="HTML">
-                                            </div>
-                                            <div class="border border-tertiary p-3">
-                                                <label for="html">${resume.title}</label>
-                                                <input type="radio" id="html" name="fav_language" value="HTML">
-                                            </div>
-
+                                            </c:forEach>
+                                            
                                             <hr>
                                             <div class="d-flex justify-content-center">
                                                 <button type="button" class="btn btn-secondary"

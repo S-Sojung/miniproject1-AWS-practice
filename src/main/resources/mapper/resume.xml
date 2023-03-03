@@ -32,8 +32,9 @@
                                 where id = #{id} 
     </update>
 
-    <select id="findByPInfoId" resultType="shop.mtcoding.miniproject.model.Resume">
-          select * from resume_tb where p_info_id = #{p_info_id}
+    <select id="findAllByPInfoId" resultType="shop.mtcoding.miniproject.model.Resume">
+          select * from resume_tb where p_info_id = #{pInfoId}
     </select>
+
 
 </mapper>
