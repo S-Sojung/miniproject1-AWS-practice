@@ -390,7 +390,15 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/saveResumeForm")
-    public String personSaveResumeForm() {
+    public String personSaveResumeForm(Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        int pInfoId = principal.getPInfoId();
+        Person personPS = personRepository.findById(pInfoId);
+        model.addAttribute("personPS", personPS);
         return "person/saveResumeForm";
     }
 

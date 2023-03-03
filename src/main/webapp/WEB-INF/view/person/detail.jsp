@@ -155,11 +155,11 @@
 
                             </div>
             <c:forEach items="${resume}" var="res">
- <div class="border border-tertiary p-3 mb-1">
-<label for="html">${res.title}</label>
-<input type="radio" id="html" name="fav_language" value="HTML">
-</div>
-</c:forEach>
+                    <div class="border border-tertiary p-3 mb-1">
+                    <label for="html">${res.title}</label>
+                    <input type="radio" id="html" name="fav_language" value="HTML">
+                    </div>
+            </c:forEach>
                         </div>
                     </div>
                 </div>

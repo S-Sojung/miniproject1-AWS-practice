@@ -15,7 +15,7 @@
                 <div class="border border-tertiary w-100 p-5 rounded ">
                     <div class="d-flex justify-content-between">
                         <h1 class="hs_line">개인회원 수정</h1>
-                        <button type="button" class="btn btn-dark hs_update_button" onclick="personUpdate()">저장</button>
+                        <button type="button" class="btn btn-dark" onclick="personUpdate()">저장</button>
                     </div>
                     <hr />
                     <div>

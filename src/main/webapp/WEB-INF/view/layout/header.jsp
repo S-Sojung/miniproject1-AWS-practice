@@ -42,18 +42,18 @@
                                     INITi
                                 </a>
                                     <ul class="nav link-dark" style="position: relative; bottom:-12px">
-                                        <li class="nav-item border-bottom border-warning pb-2 border-3">
+                                        <li class="nav-item pb-2 border-3" onclick="setBorder()">
                                             <a class="nav-link active link-dark" aria-current="page"
                                                 href="/person/main">채용공고</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item" onclick="setBorder()">
                                             <a class="nav-link link-dark" href="/person/recommend">추천공고</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item" onclick="setBorder()">
                                             <a class="nav-link link-dark" href="#">커뮤니티</a>
                                         </li>
                                        
-                                        <li class="nav-item">
+                                        <li class="nav-item" onclick="setBorder()">
                                             <a class="nav-link link-dark" href="/logout">로그아웃</a>
                                         </li>
                                     </ul>
@@ -95,3 +95,10 @@
             </c:choose>
             </header>
     <div class="sj_full_container mb-5">
+    <script>
+
+    $(".nav-item").addEventListener('click',()=>{
+        
+    })
+    
+    </script>
