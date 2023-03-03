@@ -134,8 +134,8 @@
                                     </div>
                                     <div class="modal-body">
                                         <form action="/person/detail/{id}/resume">
-                                            <div class="border border-tertiary p-3 mb-1">
                                             <c:forEach items="${resume}" var="res">
+                                            <div class="border border-tertiary p-3 mb-1">
                                                 <label for="html">${res.title}</label>
                                                 <input type="radio" id="html" name="fav_language" value="HTML">
                                             </div>
@@ -148,11 +148,17 @@
                                                 <button type="submit" class="btn btn-primary"
                                                     onclick="return confirmAndRedirect()">제출하기</button>
                                             </div>
-                                        </form>
                                     </div>
+                                        </form>
                                 </div>
-                            </div>
 
+                            </div>
+            <c:forEach items="${resume}" var="res">
+ <div class="border border-tertiary p-3 mb-1">
+<label for="html">${res.title}</label>
+<input type="radio" id="html" name="fav_language" value="HTML">
+</div>
+</c:forEach>
                         </div>
                     </div>
                 </div>
