@@ -96,6 +96,7 @@
                     </c:otherwise>
                 </c:choose>
             </header>
+
             <script>
             $('.border-warning').removeClass('border-bottom border-warning border-3');
             if(location.href.includes('person')){

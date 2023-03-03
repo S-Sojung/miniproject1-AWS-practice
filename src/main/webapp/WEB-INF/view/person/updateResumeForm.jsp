@@ -8,7 +8,7 @@
                 <a href="/person/scrap" class="list-group-item">스크랩</a>
                 <a href="/person/history" class="list-group-item ">지원 이력</a>
             </div>
-            <form action="/person/updateResume/${resumePS.id}" method="post" enctype="multipart/form-data" onvalid="chooseSkiil()">
+            <form action="/person/updateResume/${resumePS.id}" method="post" enctype="multipart/form-data" onvalid="chooseSkiil()" onsubmit="return onSubmit();">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
                         <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
@@ -99,6 +99,11 @@
         </form>
         </div>
         <script>
+            function onSubmit(){
+                return true;
+            }
+
+
             let checkSkill = $("#check").val().split(",");
             checkSkill.forEach(element => {
                 $("input:checkbox[id='" + element + "']").prop("checked", true);
@@ -122,8 +127,7 @@
             }
 
             function chooseImage(obj) {
-                console.log(obj);
-                console.log(obj.files);
+        
                 let f = obj.files[0];
                 if (!f.type.match("image")) {
                     alert("이미지 파일이 아닙니다!");

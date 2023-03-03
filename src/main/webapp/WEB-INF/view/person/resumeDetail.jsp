@@ -17,6 +17,7 @@
                     <div style="width: 85%;">
                         <div class="jh_resume_flexbox mt-3">
                             <img src="${resumeDetail.profile == null ? '/images/profile1.jpg' : resumeDetail.profile}" style="width: 188px; height: 226px;">
+                            <%-- <img src="/images/${resumeDetail.profile}"/> --%>
                             <table class="jh_resume_table">
                                 <tr>
                                     <td>이름</td>
