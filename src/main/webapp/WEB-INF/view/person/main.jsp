@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </a>
-                <input type="hidden" value="${post.deadline}" name="post_deadline" id="deadline-${post.postId}"/>
+                <input type="hidden" value="${post.deadline}" name="${status.index}" class="deadline" id="deadline-${post.postId}"/>
                 </div>
             </c:forEach>
             <input type="hidden" value="${size}" id="postSize"/>
@@ -78,13 +78,14 @@
 </div>
  
     <script>
-    
+        let statusIndex = document.querySelector(".deadline").getAttribute("name");
+        console.log(statusIndex);
    
 
-        let size =  $("#postSize").val();
-        fo
+        let size =  $("#postSize").val(); //4
+        
         for (let i = 1; i <=size; i++) { // for문 방식이 안되는 거네 
-            deadline = new Date($("#deadline-"+i).val());
+            deadline = new Date($("#deadline-"+i).val()); //게시물의 deadline 날짜(Timestamp)를 가져오면 date 형식으로 변환 
             dDay = Math.ceil((deadline-today)/currDay);
             if(dDay>0){
                 $("#dDay-"+i).text("D-"+dDay);

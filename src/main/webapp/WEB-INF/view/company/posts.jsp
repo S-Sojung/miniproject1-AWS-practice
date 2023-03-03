@@ -36,8 +36,8 @@
     let now = new Date();
     if ($("#post_deadline").val() <= now) {
         $("#delete_button").css("background-color","red");
+        $("#delete_button").css("border-color","red");
     }
-
 
     function deleteById(id) {
         $.ajax({
