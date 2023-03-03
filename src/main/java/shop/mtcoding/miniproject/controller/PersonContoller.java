@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,6 +28,7 @@ import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendRespDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendStringRespDto;
 import shop.mtcoding.miniproject.dto.skill.SkillResDto.SkillFilterCountResDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
@@ -51,6 +51,7 @@ import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.ResumeService;
+import shop.mtcoding.miniproject.util.CvTimestamp;
 
 @Controller
 public class PersonContoller {
@@ -239,10 +240,23 @@ public class PersonContoller {
         // System.out.println("테스트 : " + skillOrderList.get(0).getPostId());
 
         List<PostRecommendRespDto> postList = new ArrayList<>();
+        List<PostRecommendStringRespDto> postList2 = new ArrayList<>();
+
         for (SkillFilterCountResDto skill2 : skillOrderList) {
             // System.out.println("테스트 : " + skill.getPostId());
             PostRecommendRespDto post = postRepository.findAllWithLogoById(skill2.getPostId());
-            postList.add(post);
+            // System.out.println("테스트" + post.getName());
+            if (post != null) {
+                int deadline = CvTimestamp.ChangeDDay(post.getDeadline());
+                PostRecommendStringRespDto post2 = new PostRecommendStringRespDto();
+                post2.setAddress(post.getAddress());
+                post2.setDeadline(deadline);
+                post2.setLogo(post.getLogo());
+                post2.setName(post.getName());
+                post2.setPostId(post.getPostId());
+                post2.setTitle(post.getTitle());
+                postList2.add(post2);
+            }
             // System.out.println("테스트: " + post.getName());
         }
         // System.out.println("테스트 : " + postList.size());
@@ -250,7 +264,7 @@ public class PersonContoller {
         // List<PostRecommendRespDto> postList2 = new ArrayList<>();
         // postList2 = postList.stream().distinct().collect(Collectors.toList());
 
-        model.addAttribute("postList", postList);
+        model.addAttribute("postList", postList2);
         return "person/recommend";
     }
 

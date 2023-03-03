@@ -39,50 +39,48 @@
 
 
         <div class="container jm_container mt-5">
-            <div class="row row-cols-1 row-cols-md-3 g-4 d-flex flex-wrap">
+            <div class="row row-cols-3 g-4 d-flex flex-wrap">
                 <c:forEach items="${postList}" var="post">
-                    <a href="/company/postDetail/${post.postId}" style="color: inherit; text-decoration: none;">
-                        <div class="col">
+                    <div class="col-xs-4">
+                        <a href="/person/detail/${post.postId}" style="color: inherit; text-decoration: none;">
                             <div class="card jm_card h-100">
                                 <img src="${post.logo}" class="card-img-top jm_card_img_top">
                                 <div class="card-body jm_card_body">
                                     <div class="jm_company_name">${post.name}</div>
                                     <div class="jm_company_title">${post.title}</div>
                                     <div class="jm_company_address">${post.address}</div>
-                                    <div class="jm_D-day d-flex d-inline-block">${post.deadline}
+                                    <div class="jm_D-day d-flex justify-content-between">
+                                        <div id="deadlineBox">
+                                            <c:choose>
+                                               <c:when test="${post.deadline == 0}">
+                                                오늘 마감
+                                               </c:when>
+                                            
+                                               <c:otherwise>
+                                                D-${post.deadline}
+                                               </c:otherwise>
+                                            </c:choose>
+                                        </div>
                                         <button type="button" class="btn btn-sm">
-                                            <i class="fa-regular fa-thumbs-up fa-1x"></i>
+                                            <!--<%--  구독? 스크랩 버튼  --%>-->
+                                            <i class="fa-regular fa-thumbs-up fa-2xl"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                    <input type="hidden" value="${post.deadline}" id="deadline-${post.postId}" />
+
+                        </a>
+                        <input type="hidden" value="${post.deadline}" id="deadline-${post.postId}" />
+                    </div>
                 </c:forEach>
-                <input type="hidden" value="${size}" id="postSize" />
             </div>
 
         </div>
-        </div>
+
 
         <script>
-            let deadline;
-            let today = new Date();
-            let dDay;
-            let currDay = 24 * 60 * 60 * 1000;
-            let size = $("#postSize").val();
-            for (let i = 1; i <= size; i++) {
-                deadline = new Date($("#deadline-" + i).val());
-                dDay = Math.ceil((deadline - today) / currDay);
-                if (dDay > 0) {
-                    $("#dDay-" + i).text(dDay + "-Day");
-                } else if (dDay < 0) {
-                    $("#dDay-" + i).text("마감되었습니다.");
-                } else {
-                    $("#dDay-" + i).text("D-Day");
-                }
-            }
+
+
 
         </script>
         <%@ include file="../layout/footer.jsp" %>
