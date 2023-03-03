@@ -30,12 +30,12 @@ import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonPro
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
+import shop.mtcoding.miniproject.dto.proposalPass.ProposalPassReq.ProposalPassMessageReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
-import shop.mtcoding.miniproject.model.PersonProposal;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
 import shop.mtcoding.miniproject.model.Post;
@@ -49,6 +49,7 @@ import shop.mtcoding.miniproject.model.UserRepository;
 import shop.mtcoding.miniproject.service.CompanyService;
 import shop.mtcoding.miniproject.service.PersonProposalService;
 import shop.mtcoding.miniproject.service.PostService;
+import shop.mtcoding.miniproject.service.ProposalPassService;
 
 @Controller
 public class CompanyContoller {
@@ -83,6 +84,8 @@ public class CompanyContoller {
     private PersonRepository personRepository;
     @Autowired
     private PersonProposalService personProposalService;
+    @Autowired
+    private ProposalPassService proposalPassService;
 
     // public void companyMocLogin() {
     // User user = new User();
@@ -168,7 +171,6 @@ public class CompanyContoller {
 
     @GetMapping({ "/company/main", "/company" })
     public String companyMain() {
-        // companyMocLogin();
         return "company/main";
     }
 
@@ -492,4 +494,15 @@ public class CompanyContoller {
         return new ResponseEntity<>(new ResponseDto<>(1, "공고 삭제 성공", null), HttpStatus.CREATED);
     }
 
+    @PostMapping("/company/proposalPass/{id}")
+    public @ResponseBody ResponseEntity<?> insertProposalPass(@PathVariable int id,
+            @RequestBody ProposalPassMessageReqDto message) {
+        User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
+        }
+
+        proposalPassService.메시지전달하기(id, userPS.getCInfoId(), message.getMessage());
+        return new ResponseEntity<>(new ResponseDto<>(1, "메시지 전달 성공", null), HttpStatus.CREATED);
+    }
 }
