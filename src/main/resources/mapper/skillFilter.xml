@@ -13,6 +13,19 @@
         select * from skill_filter_tb where id = #{id}
     </select>
 
+    <select id="findSkillName" resultType="shop.mtcoding.miniproject.model.SkillFilter">
+        select * from skill_filter_tb where skill in ( #{skill} ) and resume_id = 0
+    </select>
+
+    <select id="findAllOrderByCount" resultType="shop.mtcoding.miniproject.dto.skill.SkillResDto$SkillFilterCountResDto">
+       select post_id, count(post_id)as count from skill_filter_tb where post_id >0  group by post_id order by count desc
+  </select>
+
+    <select id="findByResumeId" resultType="shop.mtcoding.miniproject.model.SkillFilter">
+        select * from skill_filter_tb where resume_id = #{resumeId}
+    </select>
+    
+
     <insert id="insert">
         insert into skill_filter_tb (skill, post_id, resume_id) 
             values(#{skill}, #{postId}, #{resumeId})
@@ -20,6 +33,14 @@
 
     <delete id="deleteById">
         delete from skill_filter_tb where id = #{id} 
+    </delete>
+
+    <delete id="deleteByResumeId">
+        delete from skill_filter_tb where resume_id = #{resumeId} 
+    </delete>
+
+    <delete id="deleteByPostId">
+        delete from skill_filter_tb where post_id = #{postId} 
     </delete>
 
     <update id="updateById">

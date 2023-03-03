@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="shop.mtcoding.miniproject.model.PostRespository">
+<mapper namespace="shop.mtcoding.miniproject.model.PostRepository">
 
     <select id="findAll" resultType="shop.mtcoding.miniproject.model.Post">
         select * from job_post_tb
@@ -21,10 +21,20 @@
         WHERE jpt.deadline >= now()-2
         ORDER BY jpt.deadline
     </select>
-    
+
+    <select id="findAllWithLogoById" resultType="shop.mtcoding.miniproject.dto.post.PostResp$PostRecommendRespDto">
+        SELECT jpt.id post_id, jpt.title, jpt.deadline, cit.logo, cit.name, cit.address
+        from job_post_tb jpt
+        inner join company_info_tb cit
+        on jpt.c_info_id = cit.id
+        where jpt.id = #{postId}
+    </select>
+
+
     <select id="findAllTitleByCInfoId" resultType="shop.mtcoding.miniproject.dto.post.PostResp$PostTitleRespDto">
         select id, title, date(deadline) "deadline" from job_post_tb where c_info_id = #{cInfoId}
     </select>   
+
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into job_post_tb (title, c_info_id, career, pay, condition, start_hour, end_hour, deadline, c_intro, job_intro, created_at) 

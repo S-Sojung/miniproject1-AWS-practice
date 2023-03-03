@@ -18,37 +18,32 @@
 
                 <div class="container mb-5 mt-5 w-100">
                     <table class="table table-hover">
-                        <tr class=" table-dark">
-                            <th class="col-3 px-2">&nbsp &nbsp 지원 공고</th>
-                            <th class="col-2">이름</th>
+                        <tr class="table-dark">
+                            <th class="col-4 px-2">&nbsp &nbsp 지원 공고</th>
+                            <th class="col-1">이름</th>
                             <th class="col-5">이력서</th>
                             <th class="col-3">지원날짜</th>
                         </tr>
-                        <tr>
-                            <td> &nbsp &nbsp 백엔드 개발자</td>
-                            <td>성소정</td>
-                            <td><a href="#" class="text-decoration-none">성실한 지원자입니다.</a></td>
-                            <td>2023.02.04 16:04</td>
+                        <c:forEach items="${companyProposalList}" var="proposal">
+                        
+                            <c:choose>
+                                <c:when test="${proposal.status==0}">
+                                    <tr>
+                                </c:when>
+                                <c:when test="${proposal.status==1}">
+                                    <tr class="table-info">
+                                </c:when>
+                                <c:otherwise>
+                                    <tr class="table-secondary">
+                                </c:otherwise>
+                            </c:choose>
+                        
+                            <td> &nbsp &nbsp ${proposal.ptitle}</td>
+                            <td>${proposal.name}</td>
+                            <td><a href="/company/resumeDetail/${proposal.resumeId}" class="text-decoration-none">${proposal.rtitle}</a></td>
+                            <td>${proposal.createdAt}</td>
                         </tr>
-                        <tr>
-                            <td> &nbsp &nbsp 백엔드 개발자</td>
-                            <td>장희선</td>
-                            <td><a href="#" class="text-decoration-none">완전 성실한 지원자입니다.</a></td>
-                            <td>2023.02.04 16:05</td>
-                        </tr>
-                        <tr>
-                            <td> &nbsp &nbsp 백엔드 개발자</td>
-                            <td>오주혜</td>
-                            <td><a href="#" class="text-decoration-none">진짜 성실한 지원자입니다.</a></td>
-                            <td>2023.02.04 16:06</td>
-                        </tr>
-                        <tr>
-                            <td> &nbsp &nbsp 백엔드 개발자</td>
-                            <td>김정민</td>
-                            <td><a href="#" class="text-decoration-none">진심으로 성실한 지원자입니다.</a></td>
-                            <td>2023.02.04 16:07</td>
-                        </tr>
-
+                        </c:forEach>
                     </table>
                 </div>
             </div>

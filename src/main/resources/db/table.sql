@@ -73,6 +73,14 @@ CREATE TABLE person_proposal_tb(
     created_at timestamp not null    
 );
 
+CREATE TABLE proposal_pass_tb(
+    id int auto_increment primary key, 
+    p_info_id int not null,
+    p_proposal_id int not null, 
+    comment varchar not null,
+    created_at timestamp not null    
+);
+
 CREATE TABLE skill_filter_tb(
     id int auto_increment primary key,  
     skill varchar not null,
