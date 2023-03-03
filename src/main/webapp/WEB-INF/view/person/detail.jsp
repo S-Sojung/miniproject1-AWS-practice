@@ -171,7 +171,6 @@
                     if (confirm('이력서를 제출하시겠습니까?')) {
                         var listVar = $('input[name=selectedResume]:checked').val();
                         console.log(listVar);
-                        alert('성공적으로 지원되었습니다!')
                         return true;
                     } else {
                         return false;

@@ -239,9 +239,9 @@ public class PersonContoller {
         }
 
         int pInfoId = principal.getPInfoId();
+
         // post아이디는 여기 id! + resumeid는 int selectedResume
-        System.out.println("test : " + selectedResume);
-        personProposalService.지원하기(pInfoId, id, selectedResume, 0); // 0은 합불합격
+        personProposalService.지원하기(pInfoId, id, selectedResume, 0); // status 합불합격상태(0은 대기중)
 
         return "redirect:/person/history";
     }
