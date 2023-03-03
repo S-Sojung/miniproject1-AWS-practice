@@ -83,12 +83,12 @@
         // 1. 마감 1일 후 숨기기, 디데이 설정
         let postSize = document.querySelector("#postSize").getAttribute("value");
         for (let i = 1; i <= postSize; i++) {
-            console.log($("#dDay-"+i));
+            // console.log($("#dDay-"+i));
             deadline = $("#deadline-"+i).get(0).getAttribute("value");
-            console.log(deadline);
+            // console.log(deadline);
             deadline = new Date(deadline);
             dDay = Math.ceil((deadline-today)/currDay);
-            console.log(dDay);
+            // console.log(dDay);
             if(dDay>0){
                 $("#dDay-"+i).text("D-"+dDay);
             }else if(dDay<0){
