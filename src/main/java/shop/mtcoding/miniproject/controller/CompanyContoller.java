@@ -176,10 +176,12 @@ public class CompanyContoller {
 
     @GetMapping("/company/getResume")
     public String companyGetResume(Model model) {
-        User principalPS = (User) session.getAttribute("principal");
+        User userPS = (User) session.getAttribute("principal");
         List<CompanyProposalListRespDto> companyProposalList = personProposalRepository
-                .findAllWithPostAndResumeAndPInfoByCInfoId(principalPS.getCInfoId());
+                .findAllWithPostAndResumeAndPInfoByCInfoId(userPS.getCInfoId());
 
+        Company company = companyRepository.findById(userPS.getCInfoId());
+        model.addAttribute("companyPS", company);
         model.addAttribute("companyProposalList", companyProposalList);
         return "company/getResume";
     }
@@ -282,7 +284,9 @@ public class CompanyContoller {
         }
 
         List<PostTitleRespDto> postTitleList = postRepository.findAllTitleByCInfoId(userPS.getCInfoId());
+
         model.addAttribute("postTitleList", postTitleList);
+
         return "company/posts";
     }
 
