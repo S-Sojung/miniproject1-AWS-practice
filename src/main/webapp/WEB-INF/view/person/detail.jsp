@@ -166,7 +166,7 @@
                 modelEl.addEventListener("shown.bs.modal", function () {
                     emailInputEl.focus();
                 })
-                // <!-- modal창의 alert창에서 확인 누르면 이력서 제출되고 지원이력페이지로 이동 -->
+                // <!-- modal창의 확인 누르면 이력서 제출되고 지원이력페이지로 이동 -->
                 function confirmAndRedirect() {
                     if (confirm('이력서를 제출하시겠습니까?')) {
                         var listVar = $('input[name=selectedResume]:checked').val();
