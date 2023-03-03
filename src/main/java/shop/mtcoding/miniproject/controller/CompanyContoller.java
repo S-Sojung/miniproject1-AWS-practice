@@ -87,16 +87,16 @@ public class CompanyContoller {
     @Autowired
     private ProposalPassService proposalPassService;
 
-    // public void companyMocLogin() {
-    // User user = new User();
-    // user.setId(2);
-    // user.setPInfoId(0);
-    // user.setCInfoId(1);
-    // user.setEmail("init@nate.com");
-    // user.setPassword("1234");
+    public void companyMocLogin() {
+        User user = new User();
+        user.setId(2);
+        user.setPInfoId(0);
+        user.setCInfoId(1);
+        user.setEmail("init@nate.com");
+        user.setPassword("1234");
 
-    // session.setAttribute("principal", user);
-    // }
+        session.setAttribute("principal", user);
+    }
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
     @GetMapping("/companyLoginForm")
@@ -277,7 +277,7 @@ public class CompanyContoller {
 
     @GetMapping("/company/posts")
     public String companyPosts(Model model) {
-
+        companyMocLogin();
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
@@ -286,6 +286,7 @@ public class CompanyContoller {
         List<PostTitleRespDto> postTitleList = postRepository.findAllTitleByCInfoId(userPS.getCInfoId());
 
         model.addAttribute("postTitleList", postTitleList);
+        model.addAttribute("size", postTitleList.size());
 
         return "company/posts";
     }

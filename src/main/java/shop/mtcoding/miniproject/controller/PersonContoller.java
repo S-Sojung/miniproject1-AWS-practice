@@ -204,7 +204,6 @@ public class PersonContoller {
         if (postPS == null) {
             throw new CustomException("없는 공고 입니다.");
         }
-        System.out.println(postPS.getDeadline());
         new Date();
 
         Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());

@@ -57,9 +57,11 @@
                             <div class="card-body jm_card_body">
                                 <div class="jm_company_name">${post.name}</div>
                                 <div class="jm_company_title"> ${post.title} </div>
+                               
                                 <div class="jm_company_address">${post.address}</div>
                                 <div class="jm_D-day d-flex justify-content-between">
-                                    <div id="dDay-${post.postId}"></div>
+                                    <div id="dDay-${status.count}"></div>
+                                   
                                     <button type="button" class="btn btn-sm">
                                         <!--<%--  스크랩 버튼  --%>-->
                                         <i class="fa-regular fa-thumbs-up fa-2xl"></i>
@@ -68,7 +70,7 @@
                             </div>
                         </div>
                     </a>
-                <input type="hidden" value="${post.deadline}" name="post_deadline" id="deadline-${post.postId}"/>
+                <input type="hidden" value="${post.deadline}" name="" class="deadline" id="deadline-${status.count}"/>
                 </div>
             </c:forEach>
             <input type="hidden" value="${size}" id="postSize"/>
@@ -78,14 +80,15 @@
 </div>
  
     <script>
-    
-   
-
-        let size =  $("#postSize").val();
-        fo
-        for (let i = 1; i <=size; i++) { // for문 방식이 안되는 거네 
-            deadline = new Date($("#deadline-"+i).val());
+        // 1. 마감 1일 후 숨기기, 디데이 설정
+        let postSize = document.querySelector("#postSize").getAttribute("value");
+        for (let i = 1; i <= postSize; i++) {
+            console.log($("#dDay-"+i));
+            deadline = $("#deadline-"+i).get(0).getAttribute("value");
+            console.log(deadline);
+            deadline = new Date(deadline);
             dDay = Math.ceil((deadline-today)/currDay);
+            console.log(dDay);
             if(dDay>0){
                 $("#dDay-"+i).text("D-"+dDay);
             }else if(dDay<0){
@@ -94,5 +97,6 @@
                 $("#dDay-"+i).text("D-Day");
             }
         }
+        
     </script>
     <%@ include file="../layout/footer.jsp" %>
