@@ -20,23 +20,30 @@
                     <div class="jh_resume_content mb-3" style="display: flex; justify-content: space-between">
                     <div style="">
                         <a href="/company/postDetail/${post.id}">${post.title}</a>
-                        <div id="post_deadline">마감 기한 : ~${post.deadline}</div>
+                        <div id="post_deadline_${status.count}" value="${post.deadline}">마감 기한 : ~${post.deadline}</div>
                     </div>
                     <div style="display: flex;">
-                        <button type="button" id="delete_button" class="btn btn-secondary" onclick="deleteById(${post.id})">삭제</button>
+                        <button type="button" id="delete_button_${status.count}" class="btn btn-secondary" onclick="deleteById(${post.id})">삭제</button>
                         </div>
                     </div>
                     </c:forEach>
+                     <input type="hidden" value="${size}" id="postSize"/>
                 </div>
             </div>
         </div>
     </div>
 
 <script>
-    let now = new Date();
-    if ($("#post_deadline").val() <= now) {
-        $("#delete_button").css("background-color","red");
-        $("#delete_button").css("border-color","red");
+    let postSize = document.querySelector("#postSize").getAttribute("value");
+    let now = new Date(); // Timestamp
+    
+    for (let i =1; i <= postSize; i++) {     
+        let postDate = $("#post_deadline_"+i).get(0).getAttribute("value");
+        let postDateNew = new Date(postDate); //String -> Timestamp
+        if (postDateNew <= now) {
+            $("#delete_button_"+i).css("background-color","red");
+            $("#delete_button_"+i).css("border-color","red");
+        }
     }
 
     function deleteById(id) {
