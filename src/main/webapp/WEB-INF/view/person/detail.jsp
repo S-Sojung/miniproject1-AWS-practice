@@ -134,11 +134,11 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/person/detail/{id}/resume">
+                                        <form action="/person/detail/${post.id}/resume" method= "post">
                                             <c:forEach items="${resume}" var="res">
                                             <div class="border border-tertiary p-3 mb-1">
-                                                <label for="html">${res.title}</label>
-                                                <input type="radio" id="html" name="fav_language" value="HTML">
+                                                <label for="resume_${res.id}">${res.title}</label>
+                                                <input type="radio" id="resume_${res.id}" name="selectedResume" value="${res.id}">
                                             </div>
                                             </c:forEach>
                                             
@@ -149,20 +149,14 @@
                                                 <button type="submit" class="btn btn-primary"
                                                     onclick="return confirmAndRedirect()">제출하기</button>
                                             </div>
-                                    </div>
                                         </form>
+                                    </div>
                                 </div>
-
                             </div>
-            <c:forEach items="${resume}" var="res">
- <div class="border border-tertiary p-3 mb-1">
-<label for="html">${res.title}</label>
-<input type="radio" id="html" name="fav_language" value="HTML">
-</div>
-</c:forEach>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             <script>
                 // <!-- modal창 띄우는 스크립트 -->
@@ -172,27 +166,17 @@
                 modelEl.addEventListener("shown.bs.modal", function () {
                     emailInputEl.focus();
                 })
-                // <!-- modal창의 alert창에서 확인 누르면 이력서 제출되고 지원이력페이지로 이동 -->
+                // <!-- modal창의 확인 누르면 이력서 제출되고 지원이력페이지로 이동 -->
                 function confirmAndRedirect() {
                     if (confirm('이력서를 제출하시겠습니까?')) {
-                        alert('성공적으로 지원되었습니다!')
-                        window.location.href = '../history';
+                        var listVar = $('input[name=selectedResume]:checked').val();
+                        console.log(listVar);
                         return true;
                     } else {
                         return false;
                     }
                 }
-                // 이력서 목록
-                function goToDetailPage(id) {
-                    $.ajax({
-                        type: "GET",
-                        url: "/person/resumeDetail/" + id,
-                    }).done((res) => {
-                        location.href = "/person/resumeDetail/" + id;
-                    }).fail((err) => {
-                    });
-
-                }
+                
             </script>
 
             <script>

@@ -62,4 +62,9 @@
                                    where id = #{id} 
     </update>
 
+
+    <select id="findByPInfoIdAndPostId" resultType="shop.mtcoding.miniproject.model.PersonProposal">
+          select * from person_proposal_tb where p_info_id = #{pInfoId} and post_id = #{postId}
+    </select>
+
 </mapper>
