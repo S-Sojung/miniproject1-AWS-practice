@@ -27,13 +27,13 @@
         from job_post_tb jpt
         inner join company_info_tb cit
         on jpt.c_info_id = cit.id
-        where jpt.id = #{postId}
+        where jpt.id = #{postId} and jpt.deadline > NOW()
     </select>
 
 
     <select id="findAllTitleByCInfoId" resultType="shop.mtcoding.miniproject.dto.post.PostResp$PostTitleRespDto">
         select id, title, date(deadline) "deadline" from job_post_tb where c_info_id = #{cInfoId}
-    </select>   
+    </select>
 
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

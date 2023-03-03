@@ -14,4 +14,20 @@ public class CvTimestamp {
             return null;
         }
     }
+
+    public static int ChangeDDay(Timestamp time) {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+        String data = sd.format(time);
+        String today = sd.format(new Date(System.currentTimeMillis()));
+        try {
+            Date date2 = new Date(sd.parse(data).getTime());
+            Date today2 = new Date(sd.parse(today).getTime());
+            long gap = date2.getTime() - today2.getTime();
+            int dDay = (int) (gap / (24 * 60 * 60 * 1000));
+            return dDay;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
 }
