@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
+import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.PersonProposal;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.Post;
@@ -39,5 +40,17 @@ public class PersonProposalService {
         } catch (Exception e) {
             throw new CustomApiException("공고 수정할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public void 지원하기(int pInfoId, int postId, int resumeId, int status) {
+
+        // PersonProposal proposal = ;
+        // Post post = postRepository.findById(postId);
+        // if (post == null) {
+        // throw new CustomException("없는 공고에 대한 제안을 확인 할 수 없습니다.");
+        // }
+
+        // personProposalRepository.insert(pInfoId, postId, resumeId, status);
+
     }
 }
