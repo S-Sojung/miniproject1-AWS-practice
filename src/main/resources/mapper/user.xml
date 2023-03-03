@@ -16,8 +16,13 @@
     <select id="findByEmail" resultType="shop.mtcoding.miniproject.model.User">
         select * from user_tb where email = #{email}
     </select>
-    <select id="findByEmailAndPassword" resultType="shop.mtcoding.miniproject.model.User">
-        select * from user_tb where email = #{email} and password = #{password}
+
+    <select id="findPersonByEmailAndPassword" resultType="shop.mtcoding.miniproject.model.User">
+        select * from user_tb where email = #{email} and password = #{password} and c_info_id = 0
+    </select>
+
+    <select id="findCompanyByEmailAndPassword" resultType="shop.mtcoding.miniproject.model.User">
+        select * from user_tb where email = #{email} and password = #{password} and p_info_id = 0
     </select>
 
     <insert id="insert">
@@ -33,4 +38,5 @@
             , p_info_id= #{pInfoId} ,c_info_id= #{cInfoId} ,created_at=#{createdAt} 
             where id = #{id} 
     </update>
+
 </mapper>

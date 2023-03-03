@@ -118,7 +118,7 @@ public class PersonContoller {
             throw new CustomException("패스워드를 작성해주세요");
         }
 
-        User principal = userRepository.findByEmailAndPassword(loginPersonReqDto.getEmail(),
+        User principal = userRepository.findPersonByEmailAndPassword(loginPersonReqDto.getEmail(),
                 loginPersonReqDto.getPassword());
         if (principal == null) {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
