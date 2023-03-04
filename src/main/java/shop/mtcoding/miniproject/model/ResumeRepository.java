@@ -6,11 +6,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import shop.mtcoding.miniproject.dto.Resume.ResumeRes.ResumeRecommendDto;
+
 @Mapper
 public interface ResumeRepository {
         public List<Resume> findAll();
 
         public List<Resume> findAllByPInfoId(int pInfoId);
+
+        public ResumeRecommendDto findNameAndTitleAndSkills(int resumeId);
 
         public Resume findById(int id);
 

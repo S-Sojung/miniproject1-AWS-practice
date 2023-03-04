@@ -15,7 +15,7 @@ public class CvTimestamp {
         }
     }
 
-    public static int ChangeDDay(Timestamp time) {
+    public static Integer ChangeDDay(Timestamp time) {
         SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
         String data = sd.format(time);
         String today = sd.format(new Date(System.currentTimeMillis()));

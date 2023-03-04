@@ -1,9 +1,14 @@
 package shop.mtcoding.miniproject.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,9 +32,8 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
-import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendRespDto;
-import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendStringRespDto;
-import shop.mtcoding.miniproject.dto.skill.SkillResDto.SkillFilterCountResDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendIntegerRespDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendTimeStampResDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
@@ -248,51 +252,57 @@ public class PersonContoller {
 
     @GetMapping("/person/recommend")
     public String personRecommend(Model model) {
+
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
         }
-
-        // 같은 스킬 찾기 - 회원 정보에서 skill 찾기
-        Skill skillPS = skillRepository.findByPInfoId(principal.getPInfoId());
-        String[] skillArr = skillPS.getSkills().split(",");
-        List<SkillFilter> skillList = new ArrayList<>();
-        for (String skill : skillArr) {
-            skillList = skillFilterRepository.findSkillName(skill);
-            // System.out.println("테스트 : " + skill);
-            // System.out.println("테스트 : " + skillList.get(0).getPostId());
+        // person skill 찾기
+        Skill principalSkills = skillRepository.findByPInfoId(principal.getPInfoId());
+        String[] principalSKillArr = principalSkills.getSkills().split(",");
+        List<SkillFilter> principalSkilFilters = new ArrayList<>();
+        for (String principalSkill : principalSKillArr) {
+            principalSkilFilters = skillFilterRepository.findSkillNameForPerson(principalSkill);
         }
+        // key : count 중복 포함하지 않고 map 저장
+        HashMap<Integer, Integer> postAndCount = new HashMap<>();
+        for (SkillFilter sf : principalSkilFilters) {
+            int postId = sf.getPostId();
+            List<SkillFilter> sfCount = principalSkilFilters.stream()
+                    .filter(id -> sf.getResumeId().equals(postId))
+                    .collect(Collectors.toList());
+            int count = sfCount.size();
 
-        // System.out.println("테스트 : " + skillList2.get(0).getPostId());
-        List<SkillFilterCountResDto> skillOrderList = skillFilterRepository.findAllOrderByCount();
-        // System.out.println("테스트 : " + skillOrderList.get(0).getPostId());
-
-        List<PostRecommendRespDto> postList = new ArrayList<>();
-        List<PostRecommendStringRespDto> postList2 = new ArrayList<>();
-
-        for (SkillFilterCountResDto skill2 : skillOrderList) {
-            // System.out.println("테스트 : " + skill.getPostId());
-            PostRecommendRespDto post = postRepository.findAllWithLogoById(skill2.getPostId());
-            // System.out.println("테스트" + post.getName());
-            if (post != null) {
-                int deadline = CvTimestamp.ChangeDDay(post.getDeadline());
-                PostRecommendStringRespDto post2 = new PostRecommendStringRespDto();
-                post2.setAddress(post.getAddress());
-                post2.setDeadline(deadline);
-                post2.setLogo(post.getLogo());
-                post2.setName(post.getName());
-                post2.setPostId(post.getPostId());
-                post2.setTitle(post.getTitle());
-                postList2.add(post2);
+            if (count < 2) {
+                postAndCount.put(postId, count);
+                postAndCount.remove(postId, count);
             }
-            // System.out.println("테스트: " + post.getName());
+            postAndCount.put(postId, count);
+
         }
-        // System.out.println("테스트 : " + postList.size());
+        // System.out.println("테스트: " + postAndCount.size());
 
-        // List<PostRecommendRespDto> postList2 = new ArrayList<>();
-        // postList2 = postList.stream().distinct().collect(Collectors.toList());
+        // 내림차순 정렬
+        List<Entry<Integer, Integer>> postIdList = new ArrayList<>(postAndCount.entrySet());
+        Collections.sort(postIdList, new Comparator<Entry<Integer, Integer>>() {
+            public int compare(Entry<Integer, Integer> c1, Entry<Integer, Integer> c2) {
+                return c2.getValue().compareTo(c1.getValue());
+            }
+        });
 
-        model.addAttribute("postList", postList2);
+        List<PostRecommendIntegerRespDto> postList = new ArrayList<>();
+        for (Entry<Integer, Integer> entry : postIdList) {
+            PostRecommendTimeStampResDto p = postRepository.findByPostIdToRecmmend(entry.getKey());
+            PostRecommendIntegerRespDto p2 = new PostRecommendIntegerRespDto();
+            p2.setAddress(p.getAddress());
+            p2.setLogo(p.getLogo());
+            p2.setName(p.getName());
+            p2.setPostId(p.getPostId());
+            p2.setTitle(p.getTitle());
+            p2.setDeadline(CvTimestamp.ChangeDDay(p.getDeadline()));
+            postList.add(p2);
+        }
+        model.addAttribute("postList", postList);
         return "person/recommend";
     }
 

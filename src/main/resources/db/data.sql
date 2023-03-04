@@ -38,9 +38,9 @@ INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0,
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 4, 0,'Java,Sql,Android',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 5, 0,'Java,Sql,Android',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 6, 0,'Java,Sql,Android',now());
-INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 1,'Java,Javascript,Android',now());
-INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 2,'Java,Javascript,Android',now());
-INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 3,'Java,Javascript,Android',now());
+INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 1,'Java,Sql,Html,Android',now());
+INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 2,'Java,Javascript,Html',now());
+INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 3,'React,Javascript,Sql',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(0, 0, 4,'Java,Javascript,Android',now());
 
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 1, 0);
@@ -61,15 +61,20 @@ INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 5, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 6, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Sql', 6, 0);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 6, 0);
+
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 1);
-INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 1);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Sql', 0, 1);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Html', 0, 1);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 1);
+
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 2);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 2);
-INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 2);
-INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 3);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Html', 0, 2);
+
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('React', 0, 3);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 3);
-INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 3);
+INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Sql', 0, 3);
+
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 4);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 4);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 4);

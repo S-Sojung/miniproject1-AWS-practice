@@ -13,6 +13,16 @@
         select * from resume_tb where id = #{id}
     </select>
 
+    <select id="findNameAndTitleAndSkills" resultType="shop.mtcoding.miniproject.dto.Resume.ResumeRes$ResumeRecommendDto">
+        select rt.id,  rt.title,  ft.name, st.skills
+        from resume_tb rt
+        join skill_tb st
+        on rt.id = st.resume_id
+        join person_info_tb ft 
+        on rt.p_info_id = ft.id
+        where rt.id = #{resumeId}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into resume_tb (p_info_id, profile, title, portfolio,self_intro, created_at) 
             values(#{pInfoId}, #{profile}, #{title},  #{portfolio}, #{selfIntro}, now())

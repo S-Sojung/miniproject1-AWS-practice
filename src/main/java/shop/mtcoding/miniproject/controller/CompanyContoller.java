@@ -1,7 +1,13 @@
 package shop.mtcoding.miniproject.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.mtcoding.miniproject.dto.ResponseDto;
+import shop.mtcoding.miniproject.dto.Resume.ResumeRes.ResumeRecommendArrDto;
+import shop.mtcoding.miniproject.dto.Resume.ResumeRes.ResumeRecommendDto;
+import shop.mtcoding.miniproject.dto.Resume.ResumeRes.ResumeWithPostInfoRecommendDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
@@ -30,6 +39,7 @@ import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonPro
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostUpdateReqDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostTitleRespDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.postIdAndSkillsDto;
 import shop.mtcoding.miniproject.dto.proposalPass.ProposalPassReq.ProposalPassMessageReqDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
@@ -43,6 +53,8 @@ import shop.mtcoding.miniproject.model.PostRepository;
 import shop.mtcoding.miniproject.model.Resume;
 import shop.mtcoding.miniproject.model.ResumeRepository;
 import shop.mtcoding.miniproject.model.Skill;
+import shop.mtcoding.miniproject.model.SkillFilter;
+import shop.mtcoding.miniproject.model.SkillFilterRepository;
 import shop.mtcoding.miniproject.model.SkillRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
@@ -86,6 +98,9 @@ public class CompanyContoller {
     private PersonProposalService personProposalService;
     @Autowired
     private ProposalPassService proposalPassService;
+
+    @Autowired
+    private SkillFilterRepository skillFilterRepository;
 
     public void companyMocLogin() {
         User user = new User();
@@ -225,7 +240,99 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/recommend")
-    public String companyRecommend() {
+    public String companyRecommend(Model model) {
+        companyMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        // 공고 + 스킬 찾기
+        List<postIdAndSkillsDto> postAndSkillsList = postRepository.findPostIdAndSkills(principal.getCInfoId());
+
+        List<ResumeWithPostInfoRecommendDto> resumeAndPostInfo = new ArrayList<>();
+
+        for (postIdAndSkillsDto p : postAndSkillsList) {
+            String[] skills = p.getSkills().split(",");
+            List<SkillFilter> sFilters = new ArrayList<>();
+            for (String skill : skills) {
+                List<SkillFilter> s = skillFilterRepository.findSkillNameForCompany(skill);
+                sFilters.addAll(s);
+            }
+
+            // resume id로 count
+            HashMap<Integer, Integer> resumeIdAndCount = new HashMap<>();
+            for (SkillFilter sf : sFilters) {
+
+                resumeIdAndCount.put(sf.getResumeId(), resumeIdAndCount.getOrDefault(sf.getResumeId(), 0) + 1);
+
+                // int resumeId = sf.getResumeId();
+                // List<SkillFilter> sfCount = sFilters.stream()
+                // .filter(id -> sf.getResumeId().equals(resumeId))
+                // .collect(Collectors.toList());
+
+                // int count = Collections.frequency(sfCount, resumeId);
+
+                // System.out.println("테스트:" + count);
+                // if (count < 2) {
+                // resumeIdAndCount.put(resumeId, count);
+                // resumeIdAndCount.remove(resumeId, count);
+                // }
+
+                // resumeIdAndCount.put(resumeId, count);
+
+            }
+
+            Set<Integer> key = resumeIdAndCount.keySet();
+            HashMap<Integer, Integer> resumeIdAndCount2 = new HashMap<>();
+            for (Integer k : key) {
+                Integer count = resumeIdAndCount.getOrDefault(k, 0);
+                // System.out.println(k + ":" + count);
+                if (count >= 2) {
+                    resumeIdAndCount2.put(k, count);
+                }
+
+            }
+
+            // System.out.println("테스트: " + resumeIdAndCount.);
+            // 내림차순 정렬
+            List<Entry<Integer, Integer>> resumeIdList = new ArrayList<>(resumeIdAndCount2.entrySet());
+            Collections.sort(resumeIdList, new Comparator<Entry<Integer, Integer>>() {
+                public int compare(Entry<Integer, Integer> c1, Entry<Integer, Integer> c2) {
+                    return c2.getValue().compareTo(c1.getValue());
+                }
+            });
+            // System.out.println("테스트: " + resumeIdList.size());
+
+            // RESUME LIST
+            List<ResumeRecommendArrDto> resumeList = new ArrayList<>();
+            for (Entry<Integer, Integer> entry : resumeIdList) {
+                ResumeRecommendDto resumePS = resumeRepository.findNameAndTitleAndSkills(entry.getKey());
+                // System.out.println(entry.getKey());
+                // System.out.println("테스트: " + resumePS.getName());
+                String[] skill = resumePS.getSkills().split(",");
+                ResumeRecommendArrDto dto = new ResumeRecommendArrDto();
+                dto.setId(resumePS.getId());
+                dto.setName(resumePS.getName());
+                dto.setSkills(skill);
+                dto.setTitle(resumePS.getTitle());
+                resumeList.add(dto);
+            }
+
+            // System.out.println("테스트: " + resumeList.size());
+            // System.out.println("테스트: " + resumeList.get(3).getName());
+            // String title = postRepository.findById(p.getPostId()).getTitle();
+            String title = postRepository.findById(p.getPostId()).getTitle();
+            // System.out.println("테스트: " + title);
+            ResumeWithPostInfoRecommendDto resumeAndPost = new ResumeWithPostInfoRecommendDto();
+            resumeAndPost.setPostId(p.getPostId());
+            resumeAndPost.setTitle(title);
+            resumeAndPost.setResumes(resumeList);
+            resumeAndPostInfo.add(resumeAndPost);
+            // postTitle.add(title);
+        }
+        // 스킬 이력서 매칭
+        model.addAttribute("postInfoAndResumes", resumeAndPostInfo);
+        // model.addAttribute("postTitle", postTitle);
         return "company/recommend";
     }
 
