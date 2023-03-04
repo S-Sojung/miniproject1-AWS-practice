@@ -70,7 +70,6 @@
                             </div>
 
                         </a>
-                        <input type="hidden" value="${post.deadline}" id="deadline-${post.postId}" />
                     </div>
                 </c:forEach>
             </div>

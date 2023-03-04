@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import shop.mtcoding.miniproject.dto.skill.SkillResDto.SkillFilterCountResDto;
-
 @Mapper
 public interface SkillFilterRepository {
 
@@ -14,12 +12,11 @@ public interface SkillFilterRepository {
 
         public SkillFilter findById(int id);
 
-        public List<SkillFilter> findSkillName(String skill);
+        public List<SkillFilter> findSkillNameForPerson(String skill);
 
-        public List<SkillFilterCountResDto> findAllOrderByCount();
+        public List<SkillFilter> findSkillNameForCompany(String skill);
 
         public List<SkillFilter> findByResumeId(int resumeId);
-
 
         public int insert(@Param("skill") String skill, @Param("postId") int postId,
                         @Param("resumeId") int resumeId);

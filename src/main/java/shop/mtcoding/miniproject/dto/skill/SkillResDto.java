@@ -10,4 +10,5 @@ public class SkillResDto {
         private int postId;
         private int count;
     }
+
 }
