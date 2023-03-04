@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -252,7 +252,7 @@ public class PersonContoller {
 
     @GetMapping("/person/recommend")
     public String personRecommend(Model model) {
-
+        personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
@@ -262,45 +262,68 @@ public class PersonContoller {
         String[] principalSKillArr = principalSkills.getSkills().split(",");
         List<SkillFilter> principalSkilFilters = new ArrayList<>();
         for (String principalSkill : principalSKillArr) {
-            principalSkilFilters = skillFilterRepository.findSkillNameForPerson(principalSkill);
+            List<SkillFilter> s = skillFilterRepository.findSkillNameForPerson(principalSkill);
+            principalSkilFilters.addAll(s);
+
         }
+        // System.out.println("테스트 3: " + principalSkilFilters.size());
         // key : count 중복 포함하지 않고 map 저장
         HashMap<Integer, Integer> postAndCount = new HashMap<>();
-        for (SkillFilter sf : principalSkilFilters) {
-            int postId = sf.getPostId();
-            List<SkillFilter> sfCount = principalSkilFilters.stream()
-                    .filter(id -> sf.getResumeId().equals(postId))
-                    .collect(Collectors.toList());
-            int count = sfCount.size();
+        for (SkillFilter psf : principalSkilFilters) {
 
-            if (count < 2) {
-                postAndCount.put(postId, count);
-                postAndCount.remove(postId, count);
-            }
-            postAndCount.put(postId, count);
+            postAndCount.put(psf.getPostId(), postAndCount.getOrDefault(psf.getPostId(), 0) + 1);
+            // int postId = sf.getPostId();
+            // List<SkillFilter> sfCount = principalSkilFilters.stream()
+            // .filter(id -> sf.getResumeId().equals(postId))
+            // .collect(Collectors.toList());
+            // int count = sfCount.size();
+
+            // if (count < 2) {
+            // postAndCount.put(postId, count);
+            // postAndCount.remove(postId, count);
+            // }
+            // postAndCount.put(postId, count);
 
         }
-        // System.out.println("테스트: " + postAndCount.size());
+
+        Set<Integer> key = postAndCount.keySet();
+        // System.out.println("테스트 k: " + key.size()); - 공고 6개
+        HashMap<Integer, Integer> postAndCount2 = new HashMap<>();
+        for (Integer k : key) {
+            Integer count = postAndCount.getOrDefault(k, 0);
+            // System.out.println("테스트: " + k + "-" + count);
+            if (count >= 2) {
+                postAndCount2.put(k, count);
+            }
+        }
+        // System.out.println("테스트: " + postAndCount2.size()); - 3개 확인
 
         // 내림차순 정렬
-        List<Entry<Integer, Integer>> postIdList = new ArrayList<>(postAndCount.entrySet());
+        List<Entry<Integer, Integer>> postIdList = new ArrayList<>(postAndCount2.entrySet());
         Collections.sort(postIdList, new Comparator<Entry<Integer, Integer>>() {
             public int compare(Entry<Integer, Integer> c1, Entry<Integer, Integer> c2) {
                 return c2.getValue().compareTo(c1.getValue());
             }
         });
 
+        // System.out.println("테스트: " + postIdList.size()); - 3개 확인
+
         List<PostRecommendIntegerRespDto> postList = new ArrayList<>();
         for (Entry<Integer, Integer> entry : postIdList) {
-            PostRecommendTimeStampResDto p = postRepository.findByPostIdToRecmmend(entry.getKey());
-            PostRecommendIntegerRespDto p2 = new PostRecommendIntegerRespDto();
-            p2.setAddress(p.getAddress());
-            p2.setLogo(p.getLogo());
-            p2.setName(p.getName());
-            p2.setPostId(p.getPostId());
-            p2.setTitle(p.getTitle());
-            p2.setDeadline(CvTimestamp.ChangeDDay(p.getDeadline()));
-            postList.add(p2);
+            try {
+                PostRecommendTimeStampResDto p = postRepository.findByPostIdToRecmmend(entry.getKey());
+                PostRecommendIntegerRespDto p2 = new PostRecommendIntegerRespDto();
+                p2.setAddress(p.getAddress());
+                p2.setLogo(p.getLogo());
+                p2.setName(p.getName());
+                p2.setPostId(p.getPostId());
+                p2.setTitle(p.getTitle());
+                p2.setDeadline(CvTimestamp.ChangeDDay(p.getDeadline()));
+                postList.add(p2);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         model.addAttribute("postList", postList);
         return "person/recommend";
