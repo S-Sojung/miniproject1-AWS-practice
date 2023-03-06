@@ -79,7 +79,6 @@ INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Java', 0, 4);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Javascript', 0, 4);
 INSERT INTO skill_filter_tb(skill, post_id, resume_id) values('Android', 0, 4);
 
-
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 1, 1, -1 ,now());
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 2, 1, 1 ,now());
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 3, 1, 1 ,now());
@@ -92,6 +91,18 @@ INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at
 INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,2,'그 기백이 마음에 듭니다. 회사로 와서 면접을 봅시다.',now());
 INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,3,'회사로 와서 면접을 봅시다.',now());
 
+
+INSERT INTO person_scrap_tb(p_info_id, post_id, created_at) values(1,1,now());
+INSERT INTO person_scrap_tb(p_info_id, post_id, created_at) values(1,3,now());
+INSERT INTO person_scrap_tb(p_info_id, post_id, created_at) values(1,5,now());
+INSERT INTO person_scrap_tb(p_info_id, post_id, created_at) values(2,2,now());
+INSERT INTO person_scrap_tb(p_info_id, post_id, created_at) values(2,4,now());
+
+INSERT INTO company_scrap_tb(c_info_id, resume_id, created_at) values(1,1,now());
+INSERT INTO company_scrap_tb(c_info_id, resume_id, created_at) values(1,4,now());
+INSERT INTO company_scrap_tb(c_info_id, resume_id, created_at) values(2,2,now());
+INSERT INTO company_scrap_tb(c_info_id, resume_id, created_at) values(2,4,now());
+
 INSERT INTO person_customer_service_tb(question, answer, created_at) values ('회원가입은 어떻게 하나요?', '홈페이지 첫 화면에서 해당하는 회원 유형(개인 또는 기업)을 선택하시고, 로그인 창 밑의 "아직 회원이 아니신가요?" 문구를 클릭하시면 회원가입 페이지로 이동합니다.', now());
 INSERT INTO person_customer_service_tb(question, answer, created_at) values ('이 사이트는 무엇인가요?', '저희 이닛(INITi)은 개발자 전용 구인구직 서비스 입니다. 기술스택에 따른 추천 채용 공고, 쉽고 빠른 지원 시스템, 관심 공고 스크랩 시스템, 실시간 채용결과 조회 등이 가능합니다.', now());
 INSERT INTO person_customer_service_tb(question, answer, created_at) values ('회원 정보 수정은 어떻게 하나요?', '회원 로그인 후 우측 상단 프로필을 클릭해 주세요. 회원 정보 탭에 들어가 개인 정보를 수정하신 후, "수정하기" 버튼을 클릭해 주시면, 정보 수정이 완료됩니다.', now());
@@ -101,6 +112,7 @@ INSERT INTO company_customer_service_tb(question, answer, created_at) values ('�
 INSERT INTO company_customer_service_tb(question, answer, created_at) values ('사이트를 이용하는 데에 비용이 드나요?', '저희 이닛(INITi)은 무료 플랫폼으로, 누구나 이용할 수 있습니다.', now());
 INSERT INTO company_customer_service_tb(question, answer, created_at) values ('지원자의 이력서는 어떻게 확인하나요?', '회원 로그인 후 우측 상단 프로필을 클릭해 주세요. "받은 이력서" 메뉴를 클릭하시면, 지원자의 이력서를 확인하실 수 있습니다!', now());
 INSERT INTO company_customer_service_tb(question, answer, created_at) values ('등록한 공고를 수정하고 싶어요.', '회원 로그인 후 우측 상단 프로필을 클릭해 주세요. "공고 관리" 메뉴에 들어가시면 기존 공고 수정 뿐만아니라, 새로운 공고 등록, 공고 삭제도 가능합니다.', now());
+
 
 
 commit;

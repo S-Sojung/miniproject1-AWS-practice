@@ -617,4 +617,22 @@ public class CompanyContoller {
         proposalPassService.메시지전달하기(id, userPS.getCInfoId(), message.getMessage());
         return new ResponseEntity<>(new ResponseDto<>(1, "메시지 전달 성공", null), HttpStatus.CREATED);
     }
+
+    @GetMapping("/resume/{id}")
+    public String personResumeDetail(@PathVariable int id, Model model) {
+        companyMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+
+        Resume resumePS = resumeRepository.findById(id);
+
+        Person personPS = personRepository.findById(resumePS.getPInfoId());
+        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        model.addAttribute("resumeDetail", resumePS);
+        model.addAttribute("personDetail", personPS);
+        model.addAttribute("skillDetail", skillPS.getSkills().split(","));
+        return "person/resumeDetailForm";
+    }
 }
