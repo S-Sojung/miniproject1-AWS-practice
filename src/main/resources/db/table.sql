@@ -102,10 +102,16 @@ CREATE TABLE company_scrap_tb(
     created_at timestamp not null  
 );
 
-CREATE TABLE customer_service_tb(
+CREATE TABLE person_customer_service_tb(
     id int auto_increment primary key,  
     question varchar not null,
     answer varchar not null,
     created_at timestamp not null  
 );
 
+CREATE TABLE company_customer_service_tb(
+    id int auto_increment primary key,  
+    question varchar not null,
+    answer varchar not null,
+    created_at timestamp not null  
+);
