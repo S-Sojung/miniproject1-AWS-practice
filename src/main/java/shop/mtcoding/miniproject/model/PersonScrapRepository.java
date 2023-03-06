@@ -16,6 +16,9 @@ public interface PersonScrapRepository {
 
     public List<PersonScrapTimeStampResDto> findByPInfoId(int pInfoId);
 
+    public PersonScrap findByPInfoIdAndPostId(@Param("pInfoId") int pInfoId,
+            @Param("postId") int postId);
+
     public int insert(@Param("pInfoId") int pInfoId,
             @Param("postId") int postId,
             @Param("createdAt") Timestamp createdAt);

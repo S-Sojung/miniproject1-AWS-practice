@@ -61,8 +61,15 @@
                                 <div class="jm_company_address">${post.address}</div>
                                 <div class="jm_D-day d-flex justify-content-between">
                                     <div id="dDay-${status.count}"></div>
-                                    
+                            <c:choose>
+                               <c:when test="${post.scrap == 0}">
                                     <div><i class="fa-regular fa-thumbs-up fa-lg" onclick="scrapOrCancle()" value="${post.postId}"></i></div>
+                               </c:when>
+                            
+                               <c:otherwise>
+                                    <div><i class="fa-solid fa-thumbs-up fa-lg" onclick="scrapOrCancle()" value="${post.postId}"></i></div>
+                               </c:otherwise>
+                            </c:choose>
                                  
                                 </div>
                             </div>

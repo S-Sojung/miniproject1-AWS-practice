@@ -34,6 +34,7 @@ import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonPro
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapIntegerResDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapTimeStampResDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostMainWithScrapRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendIntegerRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendTimeStampResDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
@@ -43,6 +44,7 @@ import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.PersonScrap;
 import shop.mtcoding.miniproject.model.PersonScrapRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRepository;
@@ -197,13 +199,34 @@ public class PersonContoller {
 
     @GetMapping({ "/person/main", "/person" })
     public String personMain(Model model) {
+        User principal = (User) session.getAttribute("principal");
         // 회사로고, 회사이름, 공고이름, 회사 주소, D-day
         // cInfo : 회사로고, 회사이름, 회사주소
         // 공고 정보 : 공고이름, 디데이
         List<PostMainRespDto> postList = (List<PostMainRespDto>) postRepository.findAllWithCInfo();
+        List<PostMainWithScrapRespDto> postList2 = new ArrayList<>();
+        for (PostMainRespDto p : postList) {
+            PostMainWithScrapRespDto psDto = new PostMainWithScrapRespDto();
 
-        model.addAttribute("mainPosts", postList);
-        model.addAttribute("size", postList.size());
+            PersonScrap ps = personScrapRepository.findByPInfoIdAndPostId(principal.getPInfoId(), p.getPostId());
+            if (ps == null) {
+                psDto.setScrap(0);
+            } else {
+                psDto.setScrap(1);
+            }
+            psDto.setAddress(p.getAddress());
+            psDto.setCInfoId(p.getCInfoId());
+            psDto.setDeadline(p.getDeadline());
+            psDto.setLogo(p.getLogo());
+            psDto.setName(p.getName());
+            psDto.setPostId(p.getPostId());
+            psDto.setTitle(p.getTitle());
+            postList2.add(psDto);
+        }
+
+        model.addAttribute("mainPosts", postList2);
+        model.addAttribute("size", postList2.size());
+
         return "person/main";
     }
 
@@ -272,28 +295,14 @@ public class PersonContoller {
             principalSkilFilters.addAll(s);
 
         }
-        // System.out.println("테스트 3: " + principalSkilFilters.size());
+
         // key : count 중복 포함하지 않고 map 저장
         HashMap<Integer, Integer> postAndCount = new HashMap<>();
         for (SkillFilter psf : principalSkilFilters) {
-
             postAndCount.put(psf.getPostId(), postAndCount.getOrDefault(psf.getPostId(), 0) + 1);
-            // int postId = sf.getPostId();
-            // List<SkillFilter> sfCount = principalSkilFilters.stream()
-            // .filter(id -> sf.getResumeId().equals(postId))
-            // .collect(Collectors.toList());
-            // int count = sfCount.size();
-
-            // if (count < 2) {
-            // postAndCount.put(postId, count);
-            // postAndCount.remove(postId, count);
-            // }
-            // postAndCount.put(postId, count);
-
         }
-
         Set<Integer> key = postAndCount.keySet();
-        // System.out.println("테스트 k: " + key.size()); - 공고 6개
+
         HashMap<Integer, Integer> postAndCount2 = new HashMap<>();
         for (Integer k : key) {
             Integer count = postAndCount.getOrDefault(k, 0);
@@ -302,7 +311,6 @@ public class PersonContoller {
                 postAndCount2.put(k, count);
             }
         }
-        // System.out.println("테스트: " + postAndCount2.size()); - 3개 확인
 
         // 내림차순 정렬
         List<Entry<Integer, Integer>> postIdList = new ArrayList<>(postAndCount2.entrySet());
@@ -312,12 +320,14 @@ public class PersonContoller {
             }
         });
 
-        // System.out.println("테스트: " + postIdList.size()); - 3개 확인
-
         List<PostRecommendIntegerRespDto> postList = new ArrayList<>();
         for (Entry<Integer, Integer> entry : postIdList) {
             try {
+                System.out.println("테스트: 1");
                 PostRecommendTimeStampResDto p = postRepository.findByPostIdToRecmmend(entry.getKey());
+                if (p == null) {
+                    continue;
+                }
                 PostRecommendIntegerRespDto p2 = new PostRecommendIntegerRespDto();
                 p2.setAddress(p.getAddress());
                 p2.setLogo(p.getLogo());
@@ -325,11 +335,20 @@ public class PersonContoller {
                 p2.setPostId(p.getPostId());
                 p2.setTitle(p.getTitle());
                 p2.setDeadline(CvTimestamp.ChangeDDay(p.getDeadline()));
+                // System.out.println("테스트: 2");
+
+                PersonScrap ps = personScrapRepository.findByPInfoIdAndPostId(principal.getPInfoId(), p2.getPostId());
+                // System.out.println("테스트: 3");
+
+                if (ps == null) {
+                    p2.setScrap(0);
+                } else {
+                    p2.setScrap(1);
+                }
                 postList.add(p2);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new CustomException("실패");
             }
-
         }
         model.addAttribute("postList", postList);
         return "person/recommend";
@@ -475,7 +494,7 @@ public class PersonContoller {
         // System.out.println("테스트: " + principal.getPInfoId());
         List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
 
-        System.out.println("테스트: " + pScrapList.size());
+        // System.out.println("테스트: " + pScrapList.size());
 
         List<PersonScrapIntegerResDto> pScrapList2 = new ArrayList<>();
         for (PersonScrapTimeStampResDto p : pScrapList) {

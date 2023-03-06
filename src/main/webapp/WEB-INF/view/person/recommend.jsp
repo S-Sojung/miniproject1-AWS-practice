@@ -63,7 +63,15 @@
                                         </div>
                                         <button type="button" class="btn btn-sm">
                                             <!--<%--  구독? 스크랩 버튼  --%>-->
+                                            <c:choose>
+                                               <c:when test="${post.scrap == 0}">
                                             <i class="fa-regular fa-thumbs-up fa-2xl"></i>
+                                               </c:when>
+                                            
+                                               <c:otherwise>
+                                            <i class="fa-solid fa-thumbs-up fa-2xl"></i>
+                                               </c:otherwise>
+                                            </c:choose>
                                         </button>
                                     </div>
                                 </div>
