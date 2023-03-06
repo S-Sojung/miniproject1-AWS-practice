@@ -61,9 +61,10 @@
                                 <div class="jm_company_address">${post.address}</div>
                                 <div class="jm_D-day d-flex justify-content-between">
                                     <div id="dDay-${status.count}"></div>
+                    </a>
                             <c:choose>
                                <c:when test="${post.scrap == 0}">
-                                    <div><i class="fa-regular fa-thumbs-up fa-lg" onclick="scrapOrCancle()" value="${post.postId}"></i></div>
+                                    <div><i class="fa-regular fa-thumbs-up fa-lg" onclick="scrapOrCancle()" value="${post.postId}" ></i></div>
                                </c:when>
                             
                                <c:otherwise>
@@ -74,7 +75,6 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
                 <input type="hidden" value="${post.deadline}" name="" class="deadline" id="deadline-${status.count}"/>
                 </div>
             </c:forEach>

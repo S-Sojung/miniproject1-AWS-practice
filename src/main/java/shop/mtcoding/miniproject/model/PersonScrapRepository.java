@@ -20,13 +20,11 @@ public interface PersonScrapRepository {
             @Param("postId") int postId);
 
     public int insert(@Param("pInfoId") int pInfoId,
-            @Param("postId") int postId,
-            @Param("createdAt") Timestamp createdAt);
+            @Param("postId") int postId);
 
     public int updateById(@Param("id") int id,
             @Param("pInfoId") int pInfoId,
-            @Param("postId") int postId,
-            @Param("createdAt") Timestamp createdAt);
+            @Param("postId") int postId);
 
     public int deleteById(int id);
 }

@@ -323,7 +323,7 @@ public class PersonContoller {
         List<PostRecommendIntegerRespDto> postList = new ArrayList<>();
         for (Entry<Integer, Integer> entry : postIdList) {
             try {
-                System.out.println("테스트: 1");
+                // System.out.println("테스트: 1");
                 PostRecommendTimeStampResDto p = postRepository.findByPostIdToRecmmend(entry.getKey());
                 if (p == null) {
                     continue;
