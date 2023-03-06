@@ -31,6 +31,8 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
+import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapIntegerResDto;
+import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapTimeStampResDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendIntegerRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendTimeStampResDto;
@@ -41,6 +43,7 @@ import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
+import shop.mtcoding.miniproject.model.PersonScrapRepository;
 import shop.mtcoding.miniproject.model.Post;
 import shop.mtcoding.miniproject.model.PostRepository;
 import shop.mtcoding.miniproject.model.ProposalPass;
@@ -97,6 +100,9 @@ public class PersonContoller {
 
     @Autowired
     private SkillFilterRepository skillFilterRepository;
+
+    @Autowired
+    private PersonScrapRepository personScrapRepository;
 
     public void personMocLogin() {
         User user = new User();
@@ -463,7 +469,29 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/scrap")
-    public String personScrap() {
+    public String personScrap(Model model) {
+        personMocLogin();
+        User principal = (User) session.getAttribute("principal");
+        // System.out.println("테스트: " + principal.getPInfoId());
+        List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
+
+        System.out.println("테스트: " + pScrapList.size());
+
+        List<PersonScrapIntegerResDto> pScrapList2 = new ArrayList<>();
+        for (PersonScrapTimeStampResDto p : pScrapList) {
+            Integer deadline = CvTimestamp.ChangeDDay(p.getDeadline());
+            PersonScrapIntegerResDto ps = new PersonScrapIntegerResDto();
+            ps.setId(p.getId());
+            ps.setPInfoId(p.getPInfoId());
+            ps.setPostId(p.getPostId());
+            ps.setAddress(p.getAddress());
+            ps.setDeadline(deadline);
+            ps.setLogo(p.getLogo());
+            ps.setName(p.getName());
+            ps.setTitle(p.getTitle());
+            pScrapList2.add(ps);
+        }
+        model.addAttribute("pScrapList", pScrapList2);
         return "person/scrap";
     }
 

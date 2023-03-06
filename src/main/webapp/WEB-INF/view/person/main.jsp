@@ -61,11 +61,9 @@
                                 <div class="jm_company_address">${post.address}</div>
                                 <div class="jm_D-day d-flex justify-content-between">
                                     <div id="dDay-${status.count}"></div>
-                                   
-                                    <button type="button" class="btn btn-sm">
-                                        <!--<%--  스크랩 버튼  --%>-->
-                                        <i class="fa-regular fa-thumbs-up fa-2xl"></i>
-                                    </button>
+                                    
+                                    <div><i class="fa-regular fa-thumbs-up fa-lg" onclick="scrapOrCancle()" value="${post.postId}"></i></div>
+                                 
                                 </div>
                             </div>
                         </div>
