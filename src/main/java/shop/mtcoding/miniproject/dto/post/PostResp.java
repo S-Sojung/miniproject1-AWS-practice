@@ -30,6 +30,19 @@ public class PostResp {
 
     @Getter
     @Setter
+    public static class PostMainWithScrapRespDto {
+        private Integer postId;
+        private String title;
+        private Integer cInfoId;
+        private Timestamp deadline;
+        private String logo;
+        private String name;
+        private String address;
+        private Integer scrap;
+    }
+
+    @Getter
+    @Setter
     public static class PostRecommendTimeStampResDto {
         private int postId;
         private String title;
@@ -48,6 +61,7 @@ public class PostResp {
         private String logo;
         private String name;
         private String address;
+        private Integer scrap;
     }
 
     @Getter
