@@ -62,6 +62,7 @@ import shop.mtcoding.miniproject.service.PersonProposalService;
 import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.ResumeService;
 import shop.mtcoding.miniproject.util.CvTimestamp;
+import shop.mtcoding.miniproject.util.EncryptionUtils;
 
 @Controller
 public class PersonContoller {
@@ -122,16 +123,22 @@ public class PersonContoller {
 
     @PostMapping("/personLogin")
     public String personLogin(LoginPersonReqDto loginPersonReqDto, HttpSession session) {
-
         if (loginPersonReqDto.getEmail() == null ||
                 loginPersonReqDto.getEmail().isEmpty()) {
             throw new CustomException("이메일을 작성해주세요");
         }
-
         if (loginPersonReqDto.getPassword() == null ||
                 loginPersonReqDto.getPassword().isEmpty()) {
             throw new CustomException("패스워드를 작성해주세요");
         }
+        // DB Salt 값
+        User userCheck = userRepository.findByEmail(loginPersonReqDto.getEmail());
+        if (userCheck == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+        String salt = userCheck.getSalt();
+        // DB Salt + 입력된 password 해싱
+        loginPersonReqDto.setPassword(EncryptionUtils.encrypt(loginPersonReqDto.getPassword(), salt));
 
         User principal = userRepository.findPersonByEmailAndPassword(loginPersonReqDto.getEmail(),
                 loginPersonReqDto.getPassword());
@@ -355,14 +362,19 @@ public class PersonContoller {
     @GetMapping("/person/info")
     public String personInfo(Model model, HttpSession session) {
         User principal = (User) session.getAttribute("principal");
+        System.out.println("test1");
+        System.out.println(principal.getPInfoId());
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-
+        System.out.println(PersonPS);
         model.addAttribute("person", PersonPS);
-
+        System.out.println("test3");
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
+        System.out.println("test4");
+        // null point exception
         String pSkills = pSkill.getSkills();
-
+        System.out.println("test5");
         String[] pSkillArr = pSkills.split(",");
+        System.out.println("test6");
         model.addAttribute("pSkillArr", pSkillArr);
 
         return "person/info";

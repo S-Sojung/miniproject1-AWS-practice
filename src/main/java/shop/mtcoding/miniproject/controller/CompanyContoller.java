@@ -62,6 +62,7 @@ import shop.mtcoding.miniproject.service.CompanyService;
 import shop.mtcoding.miniproject.service.PersonProposalService;
 import shop.mtcoding.miniproject.service.PostService;
 import shop.mtcoding.miniproject.service.ProposalPassService;
+import shop.mtcoding.miniproject.util.EncryptionUtils;
 
 @Controller
 public class CompanyContoller {
@@ -117,13 +118,19 @@ public class CompanyContoller {
                 loginCompanyReqDto.getPassword().isEmpty()) {
             throw new CustomException("패스워드를 작성해주세요");
         }
-
+        User userCheck = userRepository.findByEmail(loginCompanyReqDto.getEmail());
+        if (userCheck == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+        // DB Salt 값
+        String salt = userCheck.getSalt();
+        // DB Salt + 입력된 password 해싱
+        loginCompanyReqDto.setPassword(EncryptionUtils.encrypt(loginCompanyReqDto.getPassword(), salt));
         User principal = userRepository.findCompanyByEmailAndPassword(loginCompanyReqDto.getEmail(),
                 loginCompanyReqDto.getPassword());
         if (principal == null) {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
         }
-
         session.setAttribute("principal", principal);
 
         return "redirect:/company/main";
@@ -131,6 +138,7 @@ public class CompanyContoller {
 
     @GetMapping("/companyJoinForm")
     public String companyJoinForm1(Model model) {
+        EncryptionUtils.getSalt();
         model.addAttribute("companyReq", new JoinCompanyReqDto()); // UserForm: 사용자 정보를 담는 모델 클래스
         return "company/joinForm";
     }

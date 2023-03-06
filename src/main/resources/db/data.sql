@@ -1,9 +1,9 @@
-INSERT INTO user_tb(email, password, p_info_id, created_at) values('ssar@nate.com', '1234',1, now());
-INSERT INTO user_tb(email, password, p_info_id, created_at) values('cos@nate.com', '1234',2, now());
+INSERT INTO user_tb(email, password, salt, p_info_id, created_at) values('ssar@nate.com', '9d85d697da8136003c67ea366b8c6a0225cb0f3ff95aca3e4634f0e09a8e6723', 'bear', 1, now());
+INSERT INTO user_tb(email, password, salt, p_info_id, created_at) values('cos@nate.com', '0ecd7f501542ad5ddbcba61e05267f2e245e8e778a5a65924d8cbe23e6732e41', 'dog', 2, now());
 
-INSERT INTO user_tb(email, password, c_info_id, created_at) values('init@nate.com', '1234',1, now());
-INSERT INTO user_tb(email, password, c_info_id, created_at) values('kakao@nate.com', '1234',2, now());
-INSERT INTO user_tb(email, password, c_info_id, created_at) values('google@nate.com', '1234',3, now());
+INSERT INTO user_tb(email, password, salt, c_info_id, created_at) values('init@nate.com', 'ad38f305434fb803fbadb9cf57df1e822bff382352c19dc67b5b13055a049cd6', 'cat', 1, now());
+INSERT INTO user_tb(email, password, salt, c_info_id, created_at) values('kakao@nate.com', 'b003f1be5b250ed6ffc42278519325f8023bcec0bc446dd2fbf30c3049695fa4', 'giraffe', 2, now());
+INSERT INTO user_tb(email, password, salt, c_info_id, created_at) values('google@nate.com', 'eadf48251d9b55b87bfb6e19edc9c367a79822170544e17e4bfab32f04125ae7', 'hippo', 3, now());
 
 
 INSERT INTO person_info_tb(name,phone,address,birthday,created_at) 

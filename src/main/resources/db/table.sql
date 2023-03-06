@@ -2,6 +2,7 @@ CREATE TABLE user_tb(
     id int auto_increment primary key,
     email varchar not null UNIQUE,
     password varchar not null,
+    salt varchar not null,
     p_info_id int default 0,
     c_info_id int default 0,
     created_at timestamp not null

@@ -12,6 +12,7 @@ public class User implements Serializable {
     private Integer id;
     private String email;
     private String password;
+    private String salt;
     private Integer pInfoId; // jsp 에서 el로 접근할 시 .PInfoId 로접근해야함 (이유 모르겟음..)
     private Integer cInfoId; // 마찬가지로 CInfoId
     private Timestamp createdAt;
