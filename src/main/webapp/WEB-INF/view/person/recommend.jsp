@@ -61,22 +61,25 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
-                                        <input type="hidden" id="postId" value="${post.postId}">
+                                        
                                         <!--<%--  구독? 스크랩 버튼  --%>-->
-                                        <button type="button" class="btn btn-sm" onclick="scrapOrCancle(event)">
+                                        <button type="button" class="btn btn-sm" onclick="scrapOrCancle(event, ${post.postId})">
                                             <c:choose>
                                                 <c:when test="${post.scrap == 0}">
-                                                    <i class="fa-regular fa-thumbs-up fa-2xl" id="scrap"
-                                                        value="${post.scrap}"></i>
+                                                    <i class="fa-regular fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
+                                                        value="${post.scrap}" ></i>
                                                 </c:when>
 
                                                 <c:otherwise>
-                                                    <i class="fa-solid fa-thumbs-up fa-2xl" id="scrap"
-                                                        value="${post.scrap}"></i>
+                                                    <i class="fa-solid fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
+                                                        value="${post.scrap}" ></i>
 
                                                 </c:otherwise>
                                             </c:choose>
                                         </button>
+
+                                        <script>
+                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -88,46 +91,47 @@
 
         </div>
         <script>
-            let postId = $("#postId").val();
-            
-            function scrapOrCancle() {
+
+            function scrapOrCancle(event, postId) {
                 event.preventDefault();
-                let scrapValue = $("#scrap").attr("value");
-                
+  
+    //console.log(postId);
+                let scrapValue = $("#scrap-"+postId).attr("value");
+    //console.log(scrapValue);
                 let data = {
-                    "postId" : postId
+                    "postId": postId
                 };
 
-            if (scrapValue == 0) {
-                // insert
-                $.ajax({
-                    type : "put",
-                    url : "/person/scrap/" + postId,
-                    data : JSON.stringify(data),
-                    dateType : "JSON",
-                     headers: {
-                         "Content-Type": "application/json; charset=UTF-8"
-                         }
-                }).done((res) => {
-                     $("#scrap").attr("value", 1);
-                     $("#scrap").addClass("fa-solid");
-                        $("#scrap").removeClass("fa-regular");
-                }).fail((err)=>{
-                    alert(err.responseJSON.msg);
-                });                
-            } else {
-                $.ajax({
-                    type : "delete",
-                    url : "/person/scrap/" + postId,
-                     dateType : "JSON"
-                }).done((res) => {
-                     $("#scrap").attr("value", 0);
-                     $("#scrap").addClass("fa-regular");
-                        $("#scrap").removeClass("fa-solid");
-                }).fail((err)=>{
-                    alert(err.responseJSON.msg);
-                });                
-            }
+                if (scrapValue == 0) {
+                    // insert
+                    $.ajax({
+                        type: "put",
+                        url: "/person/scrap/" + postId,
+                        data: JSON.stringify(data),
+                        dateType: "JSON",
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
+                        }
+                    }).done((res) => {
+                        $("#scrap-"+postId).attr("value", 1);
+                        $("#scrap-"+postId).addClass("fa-solid");
+                        $("#scrap-"+postId).removeClass("fa-regular");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                } else {
+                    $.ajax({
+                        type: "delete",
+                        url: "/person/scrap/" + postId,
+                        dateType: "JSON"
+                    }).done((res) => {
+                        $("#scrap-"+postId).attr("value", 0);
+                        $("#scrap-"+postId).addClass("fa-regular");
+                        $("#scrap-"+postId).removeClass("fa-solid");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                }
             }
 
 

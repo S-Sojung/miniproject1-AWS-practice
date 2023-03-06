@@ -20,7 +20,7 @@
                         <div class="row row-cols-3 g-4 d-flex flex-wrap">
                             <c:forEach items="${pScrapList}" var="pScrap">
                             
-                            <div class="col-xs-4">
+                            <div class="col-xs-4" id="card-${pScrap.postId}">
                                 <a href="/person/detail/${pScrap.postId}" style="color: inherit; text-decoration: none;">
                                     <div class="card jm_card h-100">
                                         <img src="${pScrap.logo}" class="card-img-top jm_card_img_top">
@@ -38,8 +38,8 @@
                                                    D-${pScrap.deadline}
                                                    </c:otherwise>
                                                 </c:choose>
-                                                <button type="button" class="btn btn-sm">
-                                                    <i class="fa-solid fa-thumbs-up fa-2xl"></i>
+                                                  <button type="button" class="btn btn-sm" onclick="cancle(event, ${pScrap.postId})">
+                                                     <i class="fa-solid fa-thumbs-up fa-2xl"></i>
                                                 </button>
                                             </div>
 
@@ -53,7 +53,25 @@
                 </div>
             </div>
         </div>
-     
+     <script>
+     function cancle(event, postId) {
+         event.preventDefault();
+  
+                let data = {
+                    "postId": postId
+                };
+                    $.ajax({
+                        type: "delete",
+                        url: "/person/scrap/" + postId,
+                        dateType: "JSON"
+                    }).done((res) => {
+                      $("#card-"+ postId).remove();
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                }
+      
+     </script>
 
 
         <%@ include file="../layout/footer.jsp" %>
