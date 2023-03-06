@@ -188,7 +188,7 @@ public class PersonContoller {
     }
 
     @PostMapping("/personJoin2")
-    public String join(String[] skills, int pInfoId) {
+    public String join(String[] skills, Integer pInfoId) {
 
         String checkedSkills = "";
         for (int i = 0; i < skills.length; i++) {
@@ -199,6 +199,7 @@ public class PersonContoller {
             // System.out.println(checkedSkills); 테스트
 
         }
+        personService.join2(checkedSkills, pInfoId);
 
         return "redirect:/personLoginForm";
     }
