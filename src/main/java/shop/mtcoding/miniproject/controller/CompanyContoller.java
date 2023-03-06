@@ -119,7 +119,7 @@ public class CompanyContoller {
         return "company/loginForm";
     }
 
-    @PostMapping("companyLogin")
+    @PostMapping("/companyLogin")
     public String companyLogin(LoginCompanyReqDto loginCompanyReqDto) {
 
         if (loginCompanyReqDto.getEmail() == null ||
