@@ -33,6 +33,8 @@ import shop.mtcoding.miniproject.dto.Resume.ResumeRes.ResumeWithPostInfoRecommen
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
+import shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto.CompanyScrapWithResumeInfoResArrDto;
+import shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto.CompanyScrapWithResumeInfoResDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalReq.CompanyProposalStatusReqDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListRespDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalDetailRespDto;
@@ -45,6 +47,7 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
+import shop.mtcoding.miniproject.model.CompanyScrapRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
@@ -98,6 +101,9 @@ public class CompanyContoller {
     private ProposalPassService proposalPassService;
 
     @Autowired
+    private CompanyScrapRepository companyScrapRepository;
+
+    @Autowired
     private SkillFilterRepository skillFilterRepository;
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
@@ -105,7 +111,6 @@ public class CompanyContoller {
     public String companyLoginForm() {
         return "company/loginForm";
     }
-
 
     @PostMapping("companyLogin")
     public String companyLogin(LoginCompanyReqDto loginCompanyReqDto, HttpSession session) {
@@ -372,7 +377,27 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/scrap")
-    public String companyScrap() {
+    public String companyScrap(Model model, HttpSession session) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        List<CompanyScrapWithResumeInfoResDto> cScrapList = companyScrapRepository
+                .findresumeTitleAndNameByCInfoId(principal.getCInfoId());
+        List<CompanyScrapWithResumeInfoResArrDto> cScrapArrList = new ArrayList<>();
+
+        for (CompanyScrapWithResumeInfoResDto scrap : cScrapList) {
+            String[] skillArr = scrap.getSkills().split(",");
+            CompanyScrapWithResumeInfoResArrDto cs = new CompanyScrapWithResumeInfoResArrDto();
+            cs.setId(scrap.getId());
+            cs.setResumeId(scrap.getResumeId());
+            cs.setName(scrap.getName());
+            cs.setTitle(scrap.getTitle());
+            cs.setSkills(skillArr);
+            cScrapArrList.add(cs);
+        }
+
+        model.addAttribute("scrapList", cScrapArrList);
         return "company/scrap";
     }
 
@@ -612,8 +637,8 @@ public class CompanyContoller {
     }
 
     @GetMapping("/resume/{id}")
-    public String personResumeDetail(@PathVariable int id, Model model) {
-        companyMocLogin();
+    public String personResumeDetail(@PathVariable int id, Model model, HttpSession session) {
+
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
