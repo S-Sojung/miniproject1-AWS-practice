@@ -507,14 +507,14 @@ public class CompanyContoller {
         }
 
         Company companyPS = (Company) companyRepository.findById(userPS.getCInfoId());
-        // if (companyPS.getBossName() == null || companyPS.getBossName().isEmpty()
-        // || companyPS.getCyear() == null || companyPS.getLogo() == null ||
-        // companyPS.getLogo().isEmpty()
-        // || companyPS.getManagerPhone() == null ||
-        // companyPS.getManagerPhone().isEmpty()
-        // || companyPS.getSize() == null || companyPS.getCyear() == null) {
-        // return "redirect:/company/info";
-        // }
+        if (companyPS.getBossName() == null || companyPS.getBossName().isEmpty()
+                || companyPS.getCyear() == null || companyPS.getLogo() == null ||
+                companyPS.getLogo().isEmpty()
+                || companyPS.getManagerPhone() == null ||
+                companyPS.getManagerPhone().isEmpty()
+                || companyPS.getSize() == null || companyPS.getCyear() == null) {
+            return "redirect:/company/info";
+        }
 
         model.addAttribute("company", companyPS);
         model.addAttribute("skills", Skill.madeSkills());
