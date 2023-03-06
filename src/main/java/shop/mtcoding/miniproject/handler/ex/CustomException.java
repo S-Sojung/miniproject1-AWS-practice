@@ -20,4 +20,8 @@ public class CustomException extends RuntimeException {
         super(msg);
         this.status = status;
     }
+
+    public CustomException(HttpStatus status) {
+        this.status = status;
+    }
 }

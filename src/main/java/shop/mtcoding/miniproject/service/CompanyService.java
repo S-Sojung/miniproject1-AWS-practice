@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
-import shop.mtcoding.miniproject.handler.ex.CustomException;
-
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
+import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
 import shop.mtcoding.miniproject.model.User;
 import shop.mtcoding.miniproject.model.UserRepository;
+import shop.mtcoding.miniproject.util.EncryptionUtils;
 import shop.mtcoding.miniproject.util.PathUtil;
 
 @Service
@@ -50,10 +50,11 @@ public class CompanyService {
         if (result != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        int result2 = userRepository.insert(joinCompanyReqDto.getEmail(), joinCompanyReqDto.getPassword(), 0,
+        String salt = EncryptionUtils.getSalt();
+        joinCompanyReqDto
+                .setPassword(EncryptionUtils.encrypt(joinCompanyReqDto.getPassword(), salt));
+        int result2 = userRepository.insert(joinCompanyReqDto.getEmail(), joinCompanyReqDto.getPassword(), salt, 0,
                 company.getId());
-
         if (result2 != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -70,10 +71,12 @@ public class CompanyService {
         if (companyUpdateInfoDto.getPassword() == null || companyUpdateInfoDto.getPassword().isEmpty()) {
             password = userPS.getPassword();
         } else {
-            password = companyUpdateInfoDto.getPassword();
+            password = EncryptionUtils.encrypt(companyUpdateInfoDto.getPassword(), principal.getSalt());
         }
 
-        if (companyUpdateInfoDto.getLogo() == null || companyUpdateInfoDto.getLogo().isEmpty()) {
+        if (companyUpdateInfoDto.getLogo() == null || companyUpdateInfoDto.getLogo().isEmpty())
+
+        {
             companyPS.setLogo(companyPS.getLogo());
         } else {
 

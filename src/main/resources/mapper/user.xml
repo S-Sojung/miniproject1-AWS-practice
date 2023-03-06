@@ -26,7 +26,7 @@
     </select>
 
     <insert id="insert">
-        insert into user_tb (email, password, p_info_id, c_info_id, created_at) values(#{email}, #{password}, #{pInfoId},  #{cInfoId}, now())
+        insert into user_tb (email, password, salt, p_info_id, c_info_id, created_at) values(#{email}, #{password}, #{salt}, #{pInfoId},  #{cInfoId}, now())
     </insert>
 
     <delete id="deleteById">

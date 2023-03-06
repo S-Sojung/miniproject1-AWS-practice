@@ -57,6 +57,7 @@ import shop.mtcoding.miniproject.service.PersonProposalService;
 import shop.mtcoding.miniproject.service.PersonService;
 import shop.mtcoding.miniproject.service.ResumeService;
 import shop.mtcoding.miniproject.util.CvTimestamp;
+import shop.mtcoding.miniproject.util.EncryptionUtils;
 
 @Controller
 public class PersonContoller {
@@ -98,15 +99,15 @@ public class PersonContoller {
     @Autowired
     private SkillFilterRepository skillFilterRepository;
 
-    public void personMocLogin() {
-        User user = new User();
-        user.setId(1);
-        user.setCInfoId(0);
-        user.setPInfoId(1);
-        user.setEmail("ssar@nate.com");
-        user.setPassword("1234");
-        session.setAttribute("principal", user);
-    }
+    // public void personMocLogin() {
+    // User user = new User();
+    // user.setId(1);
+    // user.setCInfoId(0);
+    // user.setPInfoId(1);
+    // user.setEmail("ssar@nate.com");
+    // user.setPassword("1234");
+    // session.setAttribute("principal", user);
+    // }
 
     @GetMapping("/personLoginForm")
     public String personLoginForm() {
@@ -115,16 +116,22 @@ public class PersonContoller {
 
     @PostMapping("/personLogin")
     public String personLogin(LoginPersonReqDto loginPersonReqDto) {
-
         if (loginPersonReqDto.getEmail() == null ||
                 loginPersonReqDto.getEmail().isEmpty()) {
             throw new CustomException("이메일을 작성해주세요");
         }
-
         if (loginPersonReqDto.getPassword() == null ||
                 loginPersonReqDto.getPassword().isEmpty()) {
             throw new CustomException("패스워드를 작성해주세요");
         }
+        // DB Salt 값
+        User userCheck = userRepository.findByEmail(loginPersonReqDto.getEmail());
+        if (userCheck == null) {
+            throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
+        }
+        String salt = userCheck.getSalt();
+        // DB Salt + 입력된 password 해싱
+        loginPersonReqDto.setPassword(EncryptionUtils.encrypt(loginPersonReqDto.getPassword(), salt));
 
         User principal = userRepository.findPersonByEmailAndPassword(loginPersonReqDto.getEmail(),
                 loginPersonReqDto.getPassword());
@@ -252,7 +259,7 @@ public class PersonContoller {
 
     @GetMapping("/person/recommend")
     public String personRecommend(Model model) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
@@ -332,14 +339,19 @@ public class PersonContoller {
     @GetMapping("/person/info")
     public String personInfo(Model model) {
         User principal = (User) session.getAttribute("principal");
+        System.out.println("test1");
+        System.out.println(principal.getPInfoId());
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-
+        System.out.println(PersonPS);
         model.addAttribute("person", PersonPS);
-
+        System.out.println("test3");
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
+        System.out.println("test4");
+        // null point exception
         String pSkills = pSkill.getSkills();
-
+        System.out.println("test5");
         String[] pSkillArr = pSkills.split(",");
+        System.out.println("test6");
         model.addAttribute("pSkillArr", pSkillArr);
 
         return "person/info";
@@ -408,7 +420,7 @@ public class PersonContoller {
 
     @GetMapping("/person/resumes")
     public String personResumes(Model model) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -433,7 +445,7 @@ public class PersonContoller {
 
     @GetMapping("/person/saveResumeForm")
     public String personSaveResumeForm(Model model) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -504,7 +516,7 @@ public class PersonContoller {
 
     @GetMapping("/person/updateResume/{id}")
     public String getUpdateResumeForm(@PathVariable int id, Model model) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
