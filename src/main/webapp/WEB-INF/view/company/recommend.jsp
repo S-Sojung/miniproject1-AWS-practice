@@ -23,38 +23,55 @@
 
                             </button>
                         </h2>
+
                         <div id="collapse-${postInfoAndResumes.postId}" class="accordion-collapse collapse"
                             aria-labelledby="heading-${postInfoAndResumes.postId}" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
 
                                 <div class="container mb-5 mt-3 w-100">
-                                    <table class="table table-hover">
-                                        <tr class=" table-dark">
-                                            <th class="col-xs-2 px-5">이름</th>
-                                            <th class="col-xs-5">이력서</th>
-                                            <th class="col-xs-3">기술 스택</th>
-                                            <th class="col-xs-1"></th>
-                                        </tr>
-                                        <c:forEach items="${postInfoAndResumes.resumes}" var="resume">
-                                            <tr>
-                                                <td class="px-5">${resume.name}</td>
-                                                <td><a href="/resume/${resume.id}" class="text-decoration-none">${resume.title}</a></td>
-                                                <td>
+                                    <div class="d-flex justify-content-around w-100 align-center align-items-center bg-dark"
+                                        style="height: 40px;">
+                                        <div class="text-light"><b>이름</b></div>
+                                        <div class="text-light"><b>이력서</b></div>
+                                        <div class="text-light"><b>기술스택 </b></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                    <c:forEach items="${postInfoAndResumes.resumes}" var="resume">
+
+                                        <div class="card rounded-0" id="card-${resume.id}">
+                                            <div
+                                                class="card-body d-flex justify-content-around align-center align-items-center w-100">
+
+                                                <div>${resume.name}</div>
+                                                <div>${resume.title}</div>
+                                                <div>
                                                     <c:forEach items="${resume.skills}" var="skill">
-
                                                         <span class="badge text-bg-info">${skill}</span>
-
                                                     </c:forEach>
-                                                </td>
-                                                <td class="text-end px-5">
-                                                    <i class="fa-regular fa-thumbs-up fa-1x"></i>
-                                                </td>
-                                            </tr>
+                                                </div>
+                                                <div>
+                                                    <button type="button" class="btn btn-sm"
+                                                        onclick="scrapOrCancle(event, ${resume.id})">
+                                                        <c:choose>
+                                                           <c:when test="${scrap.scrap == 0}">
+                                                        <i class="fa-regular fa-thumbs-up fa-2x"  id="scrap-${resume.id}"
+                                                        value="${post.scrap}"></i>
+                                                           </c:when>
+                                                        
+                                                           <c:otherwise>
+                                                        <i class="fa-solid fa-thumbs-up fa-2x"  id="scrap-${resume.id}"
+                                                        value="${post.scrap}"></i>
+                                                           </c:otherwise>
+                                                        </c:choose>
 
-                                        </c:forEach>
+                                                    </button>
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </c:forEach>
 
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -62,6 +79,52 @@
                 </c:forEach>
             </div>
         </div>
+    <script>
+    
+    function scrapOrCancle(event, id) {
+         event.preventDefault();
+  
+    //console.log(postId);
+                let scrapValue = $("#scrap-"+id).attr("value");
+    //console.log(scrapValue);
+                let data = {
+                    "resumeId": resumeId
+                };
+
+                if (scrapValue == 0) {
+                    // insert
+                    $.ajax({
+                        type: "put",
+                        url: "/person/scrap/" + id,
+                        data: JSON.stringify(data),
+                        dateType: "JSON",
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
+                        }
+                    }).done((res) => {
+                        $("#scrap-"+postId).attr("value", 1);
+                        $("#scrap-"+postId).addClass("fa-solid");
+                        $("#scrap-"+postId).removeClass("fa-regular");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                } else {
+                    $.ajax({
+                        type: "delete",
+                        url: "/person/scrap/" + d
+                       
+                    }).done((res) => {
+                        $("#scrap-"+postId).attr("value", 0);
+                        $("#scrap-"+postId).addClass("fa-regular");
+                        $("#scrap-"+postId).removeClass("fa-solid");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                }
+            }
+
+    
+    </script>
 
 
 

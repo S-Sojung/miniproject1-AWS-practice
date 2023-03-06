@@ -47,6 +47,7 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
+import shop.mtcoding.miniproject.model.CompanyScrap;
 import shop.mtcoding.miniproject.model.CompanyScrapRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
@@ -264,35 +265,19 @@ public class CompanyContoller {
 
                 resumeIdAndCount.put(sf.getResumeId(), resumeIdAndCount.getOrDefault(sf.getResumeId(), 0) + 1);
 
-                // int resumeId = sf.getResumeId();
-                // List<SkillFilter> sfCount = sFilters.stream()
-                // .filter(id -> sf.getResumeId().equals(resumeId))
-                // .collect(Collectors.toList());
-
-                // int count = Collections.frequency(sfCount, resumeId);
-
-                // System.out.println("테스트:" + count);
-                // if (count < 2) {
-                // resumeIdAndCount.put(resumeId, count);
-                // resumeIdAndCount.remove(resumeId, count);
-                // }
-
-                // resumeIdAndCount.put(resumeId, count);
-
             }
 
             Set<Integer> key = resumeIdAndCount.keySet();
             HashMap<Integer, Integer> resumeIdAndCount2 = new HashMap<>();
             for (Integer k : key) {
                 Integer count = resumeIdAndCount.getOrDefault(k, 0);
-                // System.out.println(k + ":" + count);
+
                 if (count >= 2) {
                     resumeIdAndCount2.put(k, count);
                 }
 
             }
 
-            // System.out.println("테스트: " + resumeIdAndCount.);
             // 내림차순 정렬
             List<Entry<Integer, Integer>> resumeIdList = new ArrayList<>(resumeIdAndCount2.entrySet());
             Collections.sort(resumeIdList, new Comparator<Entry<Integer, Integer>>() {
@@ -300,7 +285,6 @@ public class CompanyContoller {
                     return c2.getValue().compareTo(c1.getValue());
                 }
             });
-            // System.out.println("테스트: " + resumeIdList.size());
 
             // RESUME LIST
             List<ResumeRecommendArrDto> resumeList = new ArrayList<>();
@@ -314,18 +298,24 @@ public class CompanyContoller {
                 dto.setName(resumePS.getName());
                 dto.setSkills(skill);
                 dto.setTitle(resumePS.getTitle());
+
+                CompanyScrap cs = companyScrapRepository.findByCInfoIdAndResumeId(principal.getCInfoId(),
+                        resumePS.getId());
+                if (cs == null) {
+                    dto.setScrap(0);
+                } else {
+                    dto.setScrap(1);
+                }
+
                 resumeList.add(dto);
             }
-
-            // System.out.println("테스트: " + resumeList.size());
-            // System.out.println("테스트: " + resumeList.get(3).getName());
-            // String title = postRepository.findById(p.getPostId()).getTitle();
             String title = postRepository.findById(p.getPostId()).getTitle();
-            // System.out.println("테스트: " + title);
+
             ResumeWithPostInfoRecommendDto resumeAndPost = new ResumeWithPostInfoRecommendDto();
             resumeAndPost.setPostId(p.getPostId());
             resumeAndPost.setTitle(title);
             resumeAndPost.setResumes(resumeList);
+
             resumeAndPostInfo.add(resumeAndPost);
             // postTitle.add(title);
         }

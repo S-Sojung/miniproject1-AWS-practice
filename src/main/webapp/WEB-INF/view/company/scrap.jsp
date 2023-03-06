@@ -19,18 +19,20 @@
                     <div class="container mb-5 mt-2 w-100">
                         <div class="d-flex justify-content-around w-100 align-center align-items-center bg-dark"
                             style="height: 40px;">
-                            <div class="text-light text-bord">이름</div>
-                            <div class="text-light">이력서</div>
-                            <div class="text-light">기술스택 </div>
+                            <div class="text-light"><b>이름</b></div>
+                            <div class="text-light"><b>이력서</b></div>
+                            <div class="text-light"><b>기술스택 </b></div>
                             <div></div>
                             <div></div>
                         </div>
                         </table>
 
                         <c:forEach items="${scrapList}" var="scrap">
+                        <a href="/company/resumeDetail/${scrap.resumeId}">
                             <div class="card rounded-0" id="card-${scrap.id}">
                                 <div
-                                    class="card-body d-flex justify-content-around w-100 align-center align-items-center">
+                                    class="card-body d-flex justify-content-around align-center align-items-center w-100">
+
                                     <div>${scrap.name}</div>
                                     <div>${scrap.title}</div>
                                     <div>
@@ -39,12 +41,14 @@
                                         </c:forEach>
                                     </div>
                                     <div>
-                                        <button type="button" class="btn btn-sm" onclick="cancle(${scrap.id})">
+                                        <button type="button" class="btn btn-sm" onclick="cancle(event, ${scrap.id})">
                                             <i class="fa-solid fa-thumbs-up fa-2x"></i>
                                         </button>
                                     </div>
+
                                 </div>
                             </div>
+                            </a>
                         </c:forEach>
                     </div>
 
@@ -55,8 +59,8 @@
 
 
         <script>
-            function cancle(id) {
-
+            function cancle(event, id) {
+                   event.preventDefault();
                 $.ajax({
                     type: "delete",
                     url: "/company/scrap/" + id

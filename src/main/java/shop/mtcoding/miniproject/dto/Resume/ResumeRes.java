@@ -23,6 +23,7 @@ public class ResumeRes {
         private String name;
         private String title;
         private String[] skills;
+        private Integer scrap;
     }
 
     @Getter
