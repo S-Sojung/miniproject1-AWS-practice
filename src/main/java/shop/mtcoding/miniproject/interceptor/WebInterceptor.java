@@ -22,9 +22,9 @@ public class WebInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("principal");
         if (user == null) {
-            throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
+            response.sendRedirect("/");
         }
-        request.setAttribute("user", user);
+
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 

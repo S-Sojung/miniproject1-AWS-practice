@@ -38,7 +38,7 @@
                                         <c:forEach items="${postInfoAndResumes.resumes}" var="resume">
                                             <tr>
                                                 <td class="px-5">${resume.name}</td>
-                                                <td><a href="#" class="text-decoration-none">${resume.title}</a></td>
+                                                <td><a href="/resume/${resume.id}" class="text-decoration-none">${resume.title}</a></td>
                                                 <td>
                                                     <c:forEach items="${resume.skills}" var="skill">
 

@@ -52,19 +52,34 @@
                                     <div class="jm_D-day d-flex justify-content-between">
                                         <div id="deadlineBox">
                                             <c:choose>
-                                               <c:when test="${post.deadline == 0}">
-                                                오늘 마감
-                                               </c:when>
-                                            
-                                               <c:otherwise>
-                                                D-${post.deadline}
-                                               </c:otherwise>
+                                                <c:when test="${post.deadline == 0}">
+                                                    오늘 마감
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    D-${post.deadline}
+                                                </c:otherwise>
                                             </c:choose>
                                         </div>
-                                        <button type="button" class="btn btn-sm">
-                                            <!--<%--  구독? 스크랩 버튼  --%>-->
-                                            <i class="fa-regular fa-thumbs-up fa-2xl"></i>
+                                        
+                                        <!--<%--  구독? 스크랩 버튼  --%>-->
+                                        <button type="button" class="btn btn-sm" onclick="scrapOrCancle(event, ${post.postId})">
+                                            <c:choose>
+                                                <c:when test="${post.scrap == 0}">
+                                                    <i class="fa-regular fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
+                                                        value="${post.scrap}" ></i>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                    <i class="fa-solid fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
+                                                        value="${post.scrap}" ></i>
+
+                                                </c:otherwise>
+                                            </c:choose>
                                         </button>
+
+                                        <script>
+                                        </script>
                                     </div>
                                 </div>
                             </div>
@@ -75,10 +90,49 @@
             </div>
 
         </div>
-
-
         <script>
 
+            function scrapOrCancle(event, postId) {
+                event.preventDefault();
+  
+    //console.log(postId);
+                let scrapValue = $("#scrap-"+postId).attr("value");
+    //console.log(scrapValue);
+                let data = {
+                    "postId": postId
+                };
+
+                if (scrapValue == 0) {
+                    // insert
+                    $.ajax({
+                        type: "put",
+                        url: "/person/scrap/" + postId,
+                        data: JSON.stringify(data),
+                        dateType: "JSON",
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
+                        }
+                    }).done((res) => {
+                        $("#scrap-"+postId).attr("value", 1);
+                        $("#scrap-"+postId).addClass("fa-solid");
+                        $("#scrap-"+postId).removeClass("fa-regular");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                } else {
+                    $.ajax({
+                        type: "delete",
+                        url: "/person/scrap/" + postId,
+                        dateType: "JSON"
+                    }).done((res) => {
+                        $("#scrap-"+postId).attr("value", 0);
+                        $("#scrap-"+postId).addClass("fa-regular");
+                        $("#scrap-"+postId).removeClass("fa-solid");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                }
+            }
 
 
         </script>

@@ -92,21 +92,27 @@ CREATE TABLE skill_filter_tb(
 CREATE TABLE person_scrap_tb(
     id int auto_increment primary key,  
     p_info_id int not null,
-    post_id int not null UNIQUE,
+    post_id int not null,
     created_at timestamp not null  
 );
 
 CREATE TABLE company_scrap_tb(
     id int auto_increment primary key,  
     c_info_id int not null,
-    resume_id int not null UNIQUE,
+    resume_id int not null,
     created_at timestamp not null  
 );
 
-CREATE TABLE customer_service_tb(
+CREATE TABLE person_customer_service_tb(
     id int auto_increment primary key,  
     question varchar not null,
     answer varchar not null,
     created_at timestamp not null  
 );
 
+CREATE TABLE company_customer_service_tb(
+    id int auto_increment primary key,  
+    question varchar not null,
+    answer varchar not null,
+    created_at timestamp not null  
+);

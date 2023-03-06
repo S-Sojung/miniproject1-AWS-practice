@@ -1,5 +1,6 @@
 package shop.mtcoding.miniproject.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class User {
+public class User implements Serializable {
     private Integer id;
     private String email;
     private String password;
