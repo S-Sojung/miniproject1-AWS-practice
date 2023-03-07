@@ -104,6 +104,7 @@ public class PersonContoller {
     @Autowired
     private PersonScrapRepository personScrapRepository;
 
+
     // public void personMocLogin() {
     // User user = new User();
     // user.setId(1);
@@ -113,6 +114,7 @@ public class PersonContoller {
     // user.setPassword("1234");
     // session.setAttribute("principal", user);
     // }
+
 
     @GetMapping("/personLoginForm")
     public String personLoginForm() {
