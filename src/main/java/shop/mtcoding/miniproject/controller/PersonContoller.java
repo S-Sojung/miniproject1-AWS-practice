@@ -107,15 +107,16 @@ public class PersonContoller {
     @Autowired
     private PersonScrapRepository personScrapRepository;
 
-    public void personMocLogin() {
-        User user = new User();
-        user.setId(1);
-        user.setCInfoId(0);
-        user.setPInfoId(1);
-        user.setEmail("ssar@nate.com");
-        user.setPassword("1234");
-        session.setAttribute("principal", user);
-    }
+
+    // public void personMocLogin() {
+    // User user = new User();
+    // user.setId(1);
+    // user.setCInfoId(0);
+    // user.setPInfoId(1);
+    // user.setEmail("ssar@nate.com");
+    // user.setPassword("1234");
+    // session.setAttribute("principal", user);
+    // }
 
     @GetMapping("/personLoginForm")
     public String personLoginForm() {
@@ -205,7 +206,7 @@ public class PersonContoller {
     }
 
     @GetMapping({ "/person/main", "/person" })
-    public String personMain(Model model) {
+    public String personMain(Model model, HttpSession session) {
         User principal = (User) session.getAttribute("principal");
 
         // 회사로고, 회사이름, 공고이름, 회사 주소, D-day
@@ -368,14 +369,14 @@ public class PersonContoller {
     @GetMapping("/person/info")
     public String personInfo(Model model) {
         User principal = (User) session.getAttribute("principal");
-        System.out.println(principal.getPInfoId());
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-        System.out.println(PersonPS);
+
         model.addAttribute("person", PersonPS);
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
         // null point exception
         String pSkills = pSkill.getSkills();
         String[] pSkillArr = pSkills.split(",");
+
         model.addAttribute("pSkillArr", pSkillArr);
 
         return "person/info";
@@ -423,6 +424,12 @@ public class PersonContoller {
             throw new CustomApiException("주소를 확인해주세요");
         }
 
+        String pw = EncryptionUtils.encrypt(personUpdateDto.getOriginPassword(), principal.getSalt());
+
+        if (!pw.equals(principal.getPassword())) {
+            throw new CustomApiException("비밀번호가 일치하지 않습니다!");
+        }
+
         personService.update(personUpdateDto, principal.getPInfoId());
 
         return new ResponseEntity<>(new ResponseDto<>(1, "회원 정보 수정 완료", null), HttpStatus.OK);
@@ -451,6 +458,7 @@ public class PersonContoller {
         int pInfoId = principal.getPInfoId();
         List<Resume> resumeAll = resumeRepository.findAll();
         model.addAttribute("resumes", resumeAll);
+        model.addAttribute("count", resumeAll.size());
         Person personPS = personRepository.findById(pInfoId);
         model.addAttribute("personPS", personPS);
         return "person/resumes";
@@ -498,6 +506,7 @@ public class PersonContoller {
 
     @GetMapping("/person/scrap")
     public String personScrap(Model model) {
+
         User principal = (User) session.getAttribute("principal");
         // System.out.println("테스트: " + principal.getPInfoId());
         List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
@@ -518,7 +527,9 @@ public class PersonContoller {
             ps.setTitle(p.getTitle());
             pScrapList2.add(ps);
         }
+
         model.addAttribute("pScrapList", pScrapList2);
+        model.addAttribute("count", pScrapList.size());
         return "person/scrap";
     }
 

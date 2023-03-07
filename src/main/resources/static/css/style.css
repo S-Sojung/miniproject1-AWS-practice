@@ -150,6 +150,9 @@ footer {
     float: right;
 }
 
+.data-bs-toggle {
+    background-color: darkorange;
+}
 
 .jh_flex_container {
     display: flex;

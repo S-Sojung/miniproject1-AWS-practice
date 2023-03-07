@@ -13,17 +13,33 @@
         select * from company_scrap_tb where id = #{id}
     </select>
 
+    <select id="findByCInfoIdAndResumeId" resultType="shop.mtcoding.miniproject.model.CompanyScrap">
+        select * from company_scrap_tb where c_info_id = #{cInfoId} and resume_id =#{resumeId}
+    </select>
+
+    <select id="findresumeTitleAndNameByCInfoId" resultType="shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto$CompanyScrapWithResumeInfoResDto">
+        select cst.id, cst.resume_id, rt.title, pit.name , st.skills
+        from company_scrap_tb cst
+        join resume_tb rt
+        on cst.resume_id = rt.id
+        join person_info_tb pit
+        on rt.p_info_id = pit.id
+        join skill_tb st
+        on st.resume_id = rt.id
+        where cst.c_info_id = #{cInfoId}
+    </select>
+
     <insert id="insert">
         insert into company_scrap_tb (c_info_id, resume_id,  created_at) 
             values(#{cInfoId}, #{resumeId}, now())
     </insert>
 
     <delete id="deleteById">
-        delete from company_info_tb where id = #{id} 
+        delete from company_scrap_tb where id = #{id} 
     </delete>
 
     <update id="updateById">
-        update company_info_tb set c_info_id = #{cInfoId},
+        update company_scrap_tb set c_info_id = #{cInfoId},
                                    resume_id = #{resumeId},
                                    created_at = #{createdAt}
                                    where id = #{id} 
