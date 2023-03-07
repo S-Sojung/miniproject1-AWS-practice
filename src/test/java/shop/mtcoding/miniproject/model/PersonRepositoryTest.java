@@ -34,7 +34,7 @@ public class PersonRepositoryTest {
         System.out.println("테스트 : " + responseBody);
 
         // then
-        assertThat(proposal.getPostId()).isEqualTo("1");
+        assertThat(proposal.getPostId()).isEqualTo(1);
     }
 
 }
