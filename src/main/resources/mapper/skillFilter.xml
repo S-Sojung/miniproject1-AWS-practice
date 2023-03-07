@@ -19,7 +19,13 @@
     </select>
 
     <select id="findSkillNameForCompany" resultType="shop.mtcoding.miniproject.model.SkillFilter">
-        select * from skill_filter_tb where skill in ( #{skill} ) and post_id = 0
+        select st.id, st.resume_id, st.skill
+        from skill_filter_tb st
+        join resume_tb rt 
+        on st.resume_id = rt.id
+        where skill in ( #{skill} )
+        and st.post_id = 0
+        and rt.publish = true
     </select>
 
     <select id="findByResumeId" resultType="shop.mtcoding.miniproject.model.SkillFilter">
