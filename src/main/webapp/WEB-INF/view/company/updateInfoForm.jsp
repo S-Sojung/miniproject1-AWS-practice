@@ -97,11 +97,7 @@
                                     <input type="text" class="form-control" value="${principal.email}" name="email"
                                         readonly>
                                 </div>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text bg-light justify-content-center hs_span_size">현재
-                                        비밀번호</span>
-                                    <input type="password" class="form-control" value="${principal.password}" readonly>
-                                </div>
+                               
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">비밀번호</span>
@@ -118,14 +114,42 @@
 
                                 <div class="d-inline-flex align-self-center justify-content-center mt-5 w-100">
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-dark mx-2" style="width: 100px;"
-                                            onclick="companyUpdate()">수정완료</button>
+                                        <button type="button" class="btn btn-dark mx-2" style="width: 100px;"   
+                                        data-bs-toggle="modal" data-bs-target="#passwordCheck" data-bs-whatever="@mdo"
+                                           >수정완료</button>
                                     </div>
                                     <div class="text-center">
                                         <button type="button" class="btn btn-danger mx-2" style="width: 100px;"
                                             onclick="back()">취소</button>
                                     </div>
                                 </div>
+
+                                <div class="modal fade" id="passwordCheck" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 확인</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="recipient-Password" class="col-form-label">Password</label>
+                                                <input type="password" class="form-control" id="recipient-Password" name="originPassword">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">닫기</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="companyUpdate()">저장</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -179,8 +203,9 @@
             }
 
 
-            function companyUpdate(params) {
+            function companyUpdate() {
                 let formData = new FormData($("#companyUpdate")[0]);
+                let password = $("#recipient-Password").val();
 
                 $.ajax({
                     type: "post",

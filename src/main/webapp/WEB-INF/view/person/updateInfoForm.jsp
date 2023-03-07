@@ -11,11 +11,12 @@
 
 
 
-            <div class="ms-2 p-4">
+            <div class="container ms-2 p-4" style="width:1150px;">
                 <div class="border border-tertiary w-100 p-5 rounded ">
                     <div class="d-flex justify-content-between">
                         <h1 class="hs_line">개인회원 수정</h1>
-                        <button type="button" class="btn btn-dark" onclick="personUpdate()">저장</button>
+                        <button type="button" class="btn btn-dark" style="width:100px; height: 40px;"
+                            data-bs-toggle="modal" data-bs-target="#passwordCheck" data-bs-whatever="@mdo">저장</button>
                     </div>
                     <hr />
                     <div>
@@ -37,7 +38,7 @@
                                         class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
                                     <input type="tel" class="form-control" value="${person.phone}" id="phone">
                                 </div>
-                                
+
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
@@ -49,46 +50,73 @@
                                     <input type="email" class="form-control" value="${principal.email}" id="email"
                                         readonly>
                                 </div>
-                                <div class="input-group mb-3">
+
+                                <%-- <div class="input-group mb-3">
                                     <span class="input-group-text bg-light justify-content-center hs_span_size">현재
                                         비밀번호</span>
                                     <input type="password" class="form-control" value="${principal.password}" readonly>
-                                </div>
-                               
-                                    <div class="input-group mb-3">
-                                        <span
-                                            class="input-group-text bg-light justify-content-center hs_span_size">비밀번호</span>
-                                        <input type="password" class="form-control" id="changePassword">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text bg-light justify-content-center hs_span_size">비밀번호
-                                            확인</span>
-                                        <input type="password" class="form-control" id="checkChangePassword"
-                                            onchange="checkingPassword()">
-                                    </div>
-
-                                    <div id="checkAlertBox"></div>
-
-                                    <div class="my-5">
-                                        <h4>기술스택</h4>
-                                        <input type="hidden" value="${pSkills}" id="check">
-                                        <div class="row row-cols-auto gap-3 justify-content-center my-3">
-                                            <c:forEach items="${skills}" var="skill">
-                                                <input type="checkbox" name="skills" class="btn-check" id="${skill}"
-                                                    value="${skill}" autocomplete="off">
-                                                <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                            </form>
                         </div>
+                        --%>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light justify-content-center hs_span_size">비밀번호</span>
+                            <input type="password" class="form-control" id="changePassword">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-light justify-content-center hs_span_size">비밀번호
+                                확인</span>
+                            <input type="password" class="form-control" id="checkChangePassword"
+                                onchange="checkingPassword()">
+                        </div>
+
+                        <div id="checkAlertBox"></div>
+
+                        <div class="my-5">
+                            <h4>기술스택</h4>
+                            <input type="hidden" value="${pSkills}" id="check">
+                            <div class="row row-cols-auto gap-3 justify-content-center my-3">
+                                <c:forEach items="${skills}" var="skill">
+                                    <input type="checkbox" name="skills" class="btn-check" id="${skill}"
+                                        value="${skill}" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
+                                </c:forEach>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="passwordCheck" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 확인</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="recipient-Password" class="col-form-label">Password</label>
+                                                <input type="password" class="form-control" id="recipient-Password">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">닫기</button>
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="personUpdate()">저장</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
 
         <script>
-            $("#birthday").val( $("#pbirthday").val().split(' ')[0]);
+            $("#birthday").val($("#pbirthday").val().split(' ')[0]);
             let checkSkill = $("#check").val().split(",");
 
             checkSkill.forEach(element => {
@@ -140,16 +168,20 @@
                     return false;
                 }
 
+                let password = $("#recipient-Password").val();
+
+                // console.log(password);
                 let skills = skillList.join();
-                let birthday = $("#birthday").val()+" "+$("#pbirthday").val().split(' ')[1];
+                let birthday = $("#birthday").val() + " " + $("#pbirthday").val().split(' ')[1];
                 let data = {
                     "name": $("#name").val(),
-                    "birthday" : birthday,
+                    "birthday": birthday,
                     "phone": $("#phone").val(),
                     "email": $("#email").val(),
                     "address": $("#address").val(),
                     "password": $("#changePassword").val(),
-                    "skills": skills
+                    "skills": skills,
+                    "originPassword": password
                 };
 
                 $.ajax({

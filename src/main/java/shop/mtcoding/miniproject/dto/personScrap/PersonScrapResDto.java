@@ -31,6 +31,7 @@ public class PersonScrapResDto {
         private String logo;
         private String name;
         private String address;
+
     }
 
 }
