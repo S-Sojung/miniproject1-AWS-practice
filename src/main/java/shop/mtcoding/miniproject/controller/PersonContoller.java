@@ -1,5 +1,7 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +33,7 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalStringListRespDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapIntegerResDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapTimeStampResDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
@@ -106,6 +109,7 @@ public class PersonContoller {
 
     @Autowired
     private PersonScrapRepository personScrapRepository;
+
 
 
     // public void personMocLogin() {
@@ -259,9 +263,12 @@ public class PersonContoller {
         Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
         Skill skillPS = (Skill) skillRepository.findByPostId(id);
         StringTokenizer skills = new StringTokenizer(skillPS.getSkills(), ",");
-
+        Date date = new Date(postPS.getDeadline().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDeadline = sdf.format(date);
         model.addAttribute("post", postPS);
         model.addAttribute("company", companyPS);
+        model.addAttribute("deadline", formattedDeadline);
         model.addAttribute("skills", skills);
 
         // List<Resume> resumeAll = resumeRepository.findAll();
@@ -369,6 +376,7 @@ public class PersonContoller {
     @GetMapping("/person/info")
     public String personInfo(Model model) {
         User principal = (User) session.getAttribute("principal");
+
         Person PersonPS = personRepository.findById(principal.getPInfoId());
 
         model.addAttribute("person", PersonPS);
@@ -445,7 +453,27 @@ public class PersonContoller {
         if (proposalPassList.size() > 0) {
             model.addAttribute("proposalPassList", proposalPassList);
         }
-        model.addAttribute("personProposalList", personProposalList);
+        List<PersonProposalStringListRespDto> personProposalList2 = new ArrayList<>();
+
+        for (PersonProposalListRespDto pp : personProposalList) {
+            Timestamp deadline = pp.getDeadline();
+            Date date = new Date(deadline.getTime());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDeadline = sdf.format(date);
+            PersonProposalStringListRespDto dto = new PersonProposalStringListRespDto();
+
+            dto.setId(pp.getId());
+            dto.setCreatedAt(pp.getCreatedAt());
+            dto.setDeadline(formattedDeadline);
+            dto.setName(pp.getName());
+            dto.setPInfoId(pp.getPInfoId());
+            dto.setPostId(pp.getPInfoId());
+            dto.setResumeId(pp.getResumeId());
+            dto.setStatus(pp.getStatus());
+            dto.setTitle(pp.getTitle());
+            personProposalList2.add(dto);
+        }
+        model.addAttribute("personProposalList", personProposalList2);
         return "person/history";
     }
 
@@ -456,7 +484,7 @@ public class PersonContoller {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
         int pInfoId = principal.getPInfoId();
-        List<Resume> resumeAll = resumeRepository.findAll();
+        List<Resume> resumeAll = resumeRepository.findAllByPInfoId(pInfoId);
         model.addAttribute("resumes", resumeAll);
         model.addAttribute("count", resumeAll.size());
         Person personPS = personRepository.findById(pInfoId);
@@ -488,6 +516,7 @@ public class PersonContoller {
 
     @GetMapping("/person/resumeDetail/{id}")
     public String personResumeDetail(@PathVariable int id, Model model) {
+
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -498,20 +527,20 @@ public class PersonContoller {
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        Date date = new Date(personPS.getBirthday().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedBirthday = sdf.format(date);
         model.addAttribute("resumeDetail", resumePS);
         model.addAttribute("personDetail", personPS);
+        model.addAttribute("birthday", formattedBirthday);
         model.addAttribute("skillDetail", skillPS.getSkills().split(","));
         return "person/resumeDetail";
     }
 
     @GetMapping("/person/scrap")
     public String personScrap(Model model) {
-
         User principal = (User) session.getAttribute("principal");
-        // System.out.println("테스트: " + principal.getPInfoId());
         List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
-
-        // System.out.println("테스트: " + pScrapList.size());
 
         List<PersonScrapIntegerResDto> pScrapList2 = new ArrayList<>();
         for (PersonScrapTimeStampResDto p : pScrapList) {

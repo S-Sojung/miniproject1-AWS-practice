@@ -12,9 +12,23 @@
                 onvalid="chooseSkiil()" onsubmit="return onSubmit();">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
-                        <h1 class="hs_line"><input type="text" class="border border-borderless"
-                                placeholder="이력서 제목을 입력하세요" style="width: 700px" name="title" value=${resumePS.title}>
-                        </h1>
+                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
+                                name="title" value=${resumePS.title}></h1>
+                          <span>공개 여부 설정 |</span>
+                        <select name="publish">
+                        <c:choose>
+                           <c:when test="${resumPS.publish == true}">
+                           <option value="true" selected>공개중</option>
+                            <option value="false">비공개중</option>
+                           </c:when>
+                           <c:otherwise>
+                              <option value="true">공개중</option>
+                            <option value="false" selected>비공개중</option>
+                           </c:otherwise>
+                        </c:choose>
+                         
+                        </select>
+
                         <hr>
 
                         <div class="container" style="width: 85%;">
@@ -43,7 +57,6 @@
                                         </div>
 
                                         <div class="input-group mb-3">
-
                                             <span class="input-group-text justify-content-center ">연락처</span>
 
                                             <input type="tel" class="form-control" value="${personPS.phone}"
@@ -108,7 +121,6 @@
                         </div>
                     </div>
                 </div>
-
 
             </form>
         </div>

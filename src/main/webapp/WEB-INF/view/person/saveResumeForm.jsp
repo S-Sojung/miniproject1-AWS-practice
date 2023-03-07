@@ -11,8 +11,15 @@
             <form action="/person/resumes" method="post" enctype="multipart/form-data">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
-                        <h1 class="hs_line"><input type="text" class="border border-borderless"
-                                placeholder="이력서 제목을 입력하세요" style="width: 700px" name="title"></h1>
+
+                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
+                                name="title"></h1>
+                        <span>공개 여부 설정 |</span>
+                        <select name="publish">
+                            <option value="true">공개중</option>
+                            <option value="false">비공개중</option>
+                        </select>
+
                         <hr>
                         <div class="container" style="width: 85%;">
                             <div class="d-flex row justify-content-center">
@@ -22,9 +29,7 @@
                                         class="mb-2 border border-tertiary">
                                     <div class="jh_resume_personal_info">
                                         <div class="input-group mb-3">
-
                                             <span class="input-group-text w-25 justify-content-center ">이름</span>
-
                                             <input type="text" class="form-control" style="width: 120px;"
                                                 value="${personPS.name}" name="name">
                                         </div>
@@ -39,6 +44,7 @@
 
                                         <div class="input-group mb-3">
 
+
                                             <span class="input-group-text w-25 justify-content-center">연락처</span>
 
                                             <input type="tel" class="form-control" value="${personPS.phone}"
@@ -47,8 +53,8 @@
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text w-25 justify-content-center">주소</span>
 
+                                            <span class="input-group-text w-25 justify-content-center">주소</span>
                                             <input type="text" class="form-control" value="${personPS.address}"
                                                 name="address">
                                         </div>
@@ -56,7 +62,6 @@
                                         <div class="input-group mb-3">
 
                                             <span class="input-group-text w-25 justify-content-center">이메일</span>
-
                                             <input type="email" class="form-control" value="${principal.email}"
                                                 readonly>
                                         </div>

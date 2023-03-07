@@ -36,7 +36,7 @@
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
-                                    <input type="tel" class="form-control" value="${person.phone}" id="phone">
+                                    <input type="tel" class="form-control" maxlength="11" value="${person.phone}" id="phone">
                                 </div>
 
                                 <div class="input-group mb-3">

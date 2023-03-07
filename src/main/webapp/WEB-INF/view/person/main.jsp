@@ -7,8 +7,6 @@
             let dDay;
             let currDay = 24 * 60 * 60 * 1000; 
         </script>
-        <div class="jm_body overflow-auto">
-            <div class="sj_full_container">
                 <div class="select_box jm_select_box mt-5">
                     <select id="skill" class="jm_select selectpicker" data-style="btn-info" name="">
                         <option value="none" selected>분야</option>
@@ -45,7 +43,15 @@
                     </select>
                 </div>
 
-
+                <%-- <div class="event__search__floater">
+            <div class="search__anchor">
+                <form>
+                    <input type="text" class="search__bar" placeholder="원하는 공고를 검색해보세요">
+                <input class="search__submit" name="search" onkeyup="search(this);">
+                <div class="search__toggler"></div>
+                </form>
+            </div>
+            </div> --%>
                 <div class="container jm_container mt-5">
                     <div class="row row-cols-3 g-4 d-flex flex-wrap">
                         <c:forEach items="${mainPosts}" var="post" varStatus="status">
@@ -90,8 +96,6 @@
                         <input type="hidden" value="${size}" id="postSize" />
                     </div>
                 </div>
-            </div>
-        </div>
 
         <script>
             // 1. 마감 1일 후 숨기기, 디데이 설정
@@ -155,6 +159,20 @@
                 }
             }
 
+        //     function search(target){
+        //     let searchContent = $('input[name="search"]').val(); 
 
+        //     $.ajax({
+        //         type: 'GET',
+        //         dataType: 'JSON',
+        //         url: "/person/main"+searchContent,
+        //         error: function(err){
+        //             console.log(err);
+        //         },
+        //         success: function(data){
+        //           console.log(searchContent);
+        //         }
+        //     })
+        // } 
         </script>
         <%@ include file="../layout/footer.jsp" %>

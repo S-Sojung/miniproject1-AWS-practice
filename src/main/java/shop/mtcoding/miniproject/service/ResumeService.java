@@ -78,6 +78,7 @@ public class ResumeService {
         Timestamp birthday = CvTimestamp.convertStringToTimestamp(resumeUpdateReqDto.getBirthday());
 
         Resume resume = new Resume(resumeUpdateReqDto);
+
         resume.setProfile(uuidImageName);
         resume.setPInfoId(pInfoId);
         Person person = new Person(resumeUpdateReqDto);
@@ -86,7 +87,7 @@ public class ResumeService {
 
         Resume resumePS = resumeRepository.findById(id);
         int result1 = resumeRepository.updateById(id, pInfoId, resume.getProfile(), resume.getTitle(),
-                resume.getPortfolio(), resume.getSelfIntro(), resumePS.getCreatedAt());
+                resume.isPublish(), resume.getPortfolio(), resume.getSelfIntro(), resumePS.getCreatedAt());
         if (result1 != 1) {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }

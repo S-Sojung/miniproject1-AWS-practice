@@ -6,6 +6,12 @@ import lombok.Setter;
 public class PostReq {
     @Getter
     @Setter
+    public static class PostSearchReqDto {
+        private String search;
+    }
+
+    @Getter
+    @Setter
     public static class PostSaveReqDto {
         private String title;
         private Integer career;

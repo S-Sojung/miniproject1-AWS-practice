@@ -22,6 +22,20 @@ public class PersonProposalResp {
 
     @Getter
     @Setter
+    public static class PersonProposalStringListRespDto {
+        private int id;
+        private int pInfoId;
+        private int postId;
+        private int resumeId;
+        private int status;
+        private Timestamp createdAt;
+        private String title;
+        private String deadline;
+        private String name;
+    }
+
+    @Getter
+    @Setter
     public static class CompanyProposalListRespDto {
         private int id;
         private int pInfoId;

@@ -13,6 +13,7 @@ public class Resume {
     private Integer pInfoId;
     private String profile;
     private String title;
+    private boolean publish;
     private String portfolio;
     private String selfIntro;
     private Timestamp createdAt;
@@ -22,6 +23,7 @@ public class Resume {
 
     public Resume(ResumeUpdateReqDto resumeUpdateReqDto) {
         this.title = resumeUpdateReqDto.getTitle();
+        this.publish = resumeUpdateReqDto.isPublish();
         this.portfolio = resumeUpdateReqDto.getPortfolio();
         this.selfIntro = resumeUpdateReqDto.getSelfIntro();
     }

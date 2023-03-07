@@ -7,16 +7,16 @@ INSERT INTO user_tb(email, password, salt, c_info_id, created_at) values('google
 
 
 INSERT INTO person_info_tb(name,phone,address,birthday,created_at) 
-                values('쌀', '01000000000','부산 부산진구 부전동 000-00', '2000-04-10 00:00:00', now());
+                values('쌀', '01078335659','부산 진구 부전동 168-129', '2000-04-10 00:00:00', now());
 INSERT INTO person_info_tb(name,phone,address,birthday,created_at) 
-                values('코스', '01000000000','부산 부산진구 부전동 000-00', '1998-07-22 00:00:00', now());
+                values('코스', '01045129866','부산 해운대구 중동 149-01', '1998-07-22 00:00:00', now());
 
 INSERT INTO company_info_tb(logo, name, number, boss_name, address, manager_name, manager_phone,size,cyear, created_at) 
-                values('/images/logo.png','이닛', '00000000000', '보스' ,'부산 부산진구 부전동 000-00', '이니티', '01000000000',50,2022, now());
+                values('/images/logo.png','이닛', '5758801632', '보스' ,'클라우드시 레인구 레인보우동', '이니티', '01054896789',50,2022, now());
 INSERT INTO company_info_tb(logo, name, number, boss_name, address, manager_name, manager_phone, size,cyear,created_at)
-                values('/images/kakao.jpg','카카오', '00000000000', '카카오사장', '부산 부산진구 부전동 000-00', '카카오', '01000000000',100,2010, now());
+                values('/images/kakao.jpg','카카오', '5641295342', '카카오사장', '경기도 성남시 분당구 삼평동', '카카오', '01043651222',100,2010, now());
 INSERT INTO company_info_tb(logo, name, number,  boss_name, address, manager_name, manager_phone, size,cyear,created_at) 
-                values('/images/google.png','구글', '00000000000', '구글사장', '부산 부산진구 부전동 000-00', '구글', '01000000000',200,1998, now());
+                values('/images/google.png','구글', '7482165982', '구글사장', 'Amphitheatre Parkway in Mountain View, California', '구글', '01081659232',200,1998, now());
 
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('성실한 개발자 구합니다.',1,0,'3000만원','계약직', '09:00:00','18:00:00','2023-03-04 00:00:00','좋은직장','위대한직장',now());
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('멋진 개발자 구합니다.',1,0,'3000만원','계약직', '09:00:00','18:00:00','2023-03-15 00:00:00','좋은직장','위대한직장',now());
@@ -25,10 +25,10 @@ INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('프론트 개발자 구합니다.',2,3,'4000만원','정규직', '09:00:00','18:00:00','2023-03-20 00:00:00','좋은직장','위대한직장',now());
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('프론트 개발자 구합니다.',3,3,'4000만원','정규직', '09:00:00','18:00:00','2023-03-20 00:00:00','좋은직장','위대한직장',now());
 
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한 지원자입니다','https://naver.com','저는성실해요',now());
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','멋있는 지원자입니다','https://naver.com','저는성실해요',now());
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','열심인 지원자입니다','https://naver.com','저는성실해요',now());
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(2,'/images/profile1.jpg','코스입니다','https://naver.com','코스는 성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한 지원자입니다',true,'https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','멋있는 지원자입니다',false,'https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','열심인 지원자입니다',true,'https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(2,'/images/profile1.jpg','코스입니다',false,'https://naver.com','코스는 성실해요',now());
 
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(1, 0, 0,'Java,Javascript,Html',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(2, 0, 0,'Java,Javascript,Html',now());

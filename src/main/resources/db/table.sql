@@ -60,6 +60,7 @@ CREATE TABLE resume_tb(
     p_info_id int not null,
     profile longtext not null,
     title varchar(20) not null,
+    publish boolean not null, 
     portfolio varchar not null,
     self_intro varchar(200) not null,
     created_at timestamp not null
