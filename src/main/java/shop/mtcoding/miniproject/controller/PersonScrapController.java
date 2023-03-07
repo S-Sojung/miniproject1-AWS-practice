@@ -19,8 +19,8 @@ import shop.mtcoding.miniproject.service.PersonScrapService;
 @Controller
 public class PersonScrapController {
 
-    @Autowired
-    private HttpSession session;
+    // @Autowired
+    // private HttpSession session;
 
     @Autowired
     private PersonScrapRepository personScrapRepository;
@@ -28,7 +28,7 @@ public class PersonScrapController {
     @Autowired
     private PersonScrapService personScrapService;
 
-    public void personMocLogin() {
+    public void personMocLogin(HttpSession session) {
         User user = new User();
         user.setId(1);
         user.setCInfoId(0);
@@ -39,8 +39,8 @@ public class PersonScrapController {
     }
 
     @PutMapping("/person/scrap/{id}")
-    public ResponseEntity<?> ScrapInsert(@PathVariable int id) {
-        personMocLogin();
+    public ResponseEntity<?> ScrapInsert(@PathVariable int id, HttpSession session) {
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -51,8 +51,8 @@ public class PersonScrapController {
     }
 
     @DeleteMapping("/person/scrap/{id}")
-    public ResponseEntity<?> ScrapDelete(@PathVariable int id) {
-        personMocLogin();
+    public ResponseEntity<?> ScrapDelete(@PathVariable int id, HttpSession session) {
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);

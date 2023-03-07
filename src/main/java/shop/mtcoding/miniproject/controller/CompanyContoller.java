@@ -106,7 +106,6 @@ public class CompanyContoller {
         return "company/loginForm";
     }
 
-
     @PostMapping("companyLogin")
     public String companyLogin(LoginCompanyReqDto loginCompanyReqDto, HttpSession session) {
 
@@ -612,8 +611,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/resume/{id}")
-    public String personResumeDetail(@PathVariable int id, Model model) {
-        companyMocLogin();
+    public String personResumeDetail(@PathVariable int id, Model model, HttpSession session) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
