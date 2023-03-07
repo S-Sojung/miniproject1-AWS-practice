@@ -11,7 +11,13 @@
             <form action="/person/resumes" method="post" enctype="multipart/form-data">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
-                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px" name="title"></h1>
+                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
+                                name="title"></h1>
+                        <span>공개 여부 설정 |</span>
+                        <select name="publish">
+                            <option value="true">공개중</option>
+                            <option value="false">비공개중</option>
+                        </select>
                         <hr>
                         <div class="d-flex justify-content-center">
                             <div style="width: 85%;">
@@ -23,7 +29,8 @@
                                             <div class="input-group-prepend ">
                                                 <span class="input-group-text">이름</span>
                                             </div>
-                                            <input type="text" class="form-control" style="width: 120px;" value="${personPS.name}" name="name">
+                                            <input type="text" class="form-control" style="width: 120px;"
+                                                value="${personPS.name}" name="name">
                                         </div>
 
                                         <div class="input-group mb-3">
@@ -38,28 +45,30 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">연락처</span>
                                             </div>
-                                            <input type="tel" class="form-control" value="${personPS.phone}" name="phone">
+                                            <input type="tel" class="form-control" value="${personPS.phone}"
+                                                name="phone">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">주소</span>
                                             </div>
-                                            <input type="text" class="form-control" value="${personPS.address}" name="address">
+                                            <input type="text" class="form-control" value="${personPS.address}"
+                                                name="address">
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">이메일</span>
                                             </div>
-                                            <input type="email" class="form-control" value="${principal.email}" readonly>
+                                            <input type="email" class="form-control" value="${principal.email}"
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <input type="file" class="form-control mt-2" name="profile"
-                            onchange="chooseImage(this)" />
+                        <input type="file" class="form-control mt-2" name="profile" onchange="chooseImage(this)" />
                         <div class="mt-5">
                             <h4>포트폴리오 주소</h4>
                             <input type="text" class="form-control mt-2" id="floatingInput"

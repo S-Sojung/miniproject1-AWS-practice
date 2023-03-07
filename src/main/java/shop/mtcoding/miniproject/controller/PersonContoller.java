@@ -104,14 +104,15 @@ public class PersonContoller {
     @Autowired
     private PersonScrapRepository personScrapRepository;
 
-    // public void personMocLogin() {
-    // User user = new User();
-    // user.setId(1);
-    // user.setCInfoId(0);
-    // user.setPInfoId(1);
-    // user.setEmail("ssar@nate.com");
-    // user.setPassword("1234");
-    // session.setAttribute("principal", user);
+    public void personMocLogin(HttpSession session) {
+        User user = new User();
+        user.setId(1);
+        user.setCInfoId(0);
+        user.setPInfoId(1);
+        user.setEmail("ssar@nate.com");
+        user.setPassword("1234");
+        session.setAttribute("principal", user);
+    }
 
     @GetMapping("/personLoginForm")
     public String personLoginForm() {
@@ -360,19 +361,13 @@ public class PersonContoller {
     @GetMapping("/person/info")
     public String personInfo(Model model, HttpSession session) {
         User principal = (User) session.getAttribute("principal");
-        System.out.println("test1");
         System.out.println(principal.getPInfoId());
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-        System.out.println(PersonPS);
         model.addAttribute("person", PersonPS);
-        System.out.println("test3");
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
-        System.out.println("test4");
         // null point exception
         String pSkills = pSkill.getSkills();
-        System.out.println("test5");
         String[] pSkillArr = pSkills.split(",");
-        System.out.println("test6");
         model.addAttribute("pSkillArr", pSkillArr);
 
         return "person/info";
@@ -477,6 +472,7 @@ public class PersonContoller {
 
     @GetMapping("/person/resumeDetail/{id}")
     public String personResumeDetail(@PathVariable int id, Model model, HttpSession session) {
+        personMocLogin(session);
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -497,10 +493,7 @@ public class PersonContoller {
     public String personScrap(Model model, HttpSession session) {
         // personMocLogin();
         User principal = (User) session.getAttribute("principal");
-        // System.out.println("테스트: " + principal.getPInfoId());
         List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
-
-        // System.out.println("테스트: " + pScrapList.size());
 
         List<PersonScrapIntegerResDto> pScrapList2 = new ArrayList<>();
         for (PersonScrapTimeStampResDto p : pScrapList) {

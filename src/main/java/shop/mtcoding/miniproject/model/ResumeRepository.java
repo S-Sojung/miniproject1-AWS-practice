@@ -28,7 +28,7 @@ public interface ResumeRepository {
 
         public int updateById(@Param("id") int id,
                         @Param("pInfoId") int pInfoId, @Param("profile") String profile,
-                        @Param("title") String title,
+                        @Param("title") String title, @Param("publish") boolean publish,
                         @Param("portfolio") String portfolio, @Param("selfIntro") String selfIntro,
                         @Param("createdAt") Timestamp createdAt);
 

@@ -12,6 +12,7 @@ public class ResumeReq {
         private MultipartFile profile;
         private String title;
         private String portfolio;
+        private boolean publish;
         private String selfIntro;
         private String name;
         private String phone;

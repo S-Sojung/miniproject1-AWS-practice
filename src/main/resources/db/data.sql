@@ -25,10 +25,10 @@ INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('프론트 개발자 구합니다.',2,3,'4000만원','정규직', '09:00:00','18:00:00','2023-03-20 00:00:00','좋은직장','위대한직장',now());
 INSERT INTO job_post_tb(title,c_info_id,career,pay,condition,start_hour,end_hour,deadline,c_intro,job_intro,created_at) values('프론트 개발자 구합니다.',3,3,'4000만원','정규직', '09:00:00','18:00:00','2023-03-20 00:00:00','좋은직장','위대한직장',now());
 
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한 지원자입니다','https://naver.com','저는성실해요',now());
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','멋있는 지원자입니다','https://naver.com','저는성실해요',now());
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','열심인 지원자입니다','https://naver.com','저는성실해요',now());
-INSERT INTO resume_tb(p_info_id,profile,title,portfolio,self_intro,created_at) values(2,'/images/profile1.jpg','코스입니다','https://naver.com','코스는 성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','성실한 지원자입니다',true,'https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','멋있는 지원자입니다',false,'https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(1,'/images/profile1.jpg','열심인 지원자입니다',true,'https://naver.com','저는성실해요',now());
+INSERT INTO resume_tb(p_info_id,profile,title,publish,portfolio,self_intro,created_at) values(2,'/images/profile1.jpg','코스입니다',false,'https://naver.com','코스는 성실해요',now());
 
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(1, 0, 0,'Java,Javascript,Html',now());
 INSERT INTO skill_tb(p_info_id, post_id, resume_id, skills,created_at) values(2, 0, 0,'Java,Javascript,Html',now());

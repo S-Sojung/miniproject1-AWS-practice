@@ -13,6 +13,20 @@
                     <div class="border border-tertiary w-100 p-5 rounded">
                         <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
                                 name="title" value=${resumePS.title}></h1>
+                          <span>공개 여부 설정 |</span>
+                        <select name="publish">
+                        <c:choose>
+                           <c:when test="${resumPS.publish == true}">
+                           <option value="true" selected>공개중</option>
+                            <option value="false">비공개중</option>
+                           </c:when>
+                           <c:otherwise>
+                              <option value="true">공개중</option>
+                            <option value="false" selected>비공개중</option>
+                           </c:otherwise>
+                        </c:choose>
+                         
+                        </select>
                         <hr>
                         <div class="d-flex justify-content-center">
                             <div style="width: 85%;">

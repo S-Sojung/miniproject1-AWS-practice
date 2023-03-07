@@ -19,7 +19,17 @@
                         <c:forEach items="${resumes}" var="resume">
                         <div id="resume_del" class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between" >
                            <a href="/person/resumeDetail/${resume.id}"> ${resume.title} </a>
+                           <div>
+                             <c:choose>
+                           <c:when test="${resume.publish == true}">
+                        <button type="button"  class="btn btn-success">공개중</button>
+                           </c:when>
+                           <c:otherwise>
+                             <button type="button"  class="btn btn-warning">비공개중</button>
+                           </c:otherwise>
+                        </c:choose>
                             <button type="button"  class="btn btn-secondary" onclick="deleteResume(${resume.id})">삭제</button>
+                            </div>
                         </div>
                         </c:forEach>
                     </div>
