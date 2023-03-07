@@ -29,7 +29,7 @@
 
                         <c:forEach items="${scrapList}" var="scrap">
                         <a href="/company/resumeDetail/${scrap.resumeId}" style="text-decoration: none;">
-                            <div class="card rounded-0" id="card-${scrap.id}">
+                            <div class="card rounded-0" id="card-${scrap.resumeId}">
                                 <div
                                     class="card-body d-flex justify-content-around align-center align-items-center w-100">
 
@@ -41,7 +41,7 @@
                                         </c:forEach>
                                     </div>
                                     <div>
-                                        <button type="button" class="btn btn-sm" onclick="cancle(event, ${scrap.id})">
+                                        <button type="button" class="btn btn-sm" onclick="cancle(event, ${scrap.resumeId})">
                                             <i class="fa-solid fa-thumbs-up fa-2x"></i>
                                         </button>
                                     </div>
@@ -59,14 +59,14 @@
 
 
         <script>
-            function cancle(event, id) {
+            function cancle(event, resumeId) {
                    event.preventDefault();
                 $.ajax({
                     type: "delete",
-                    url: "/company/scrap/" + id
+                    url: "/company/scrap/" + resumeId
                 }).done((res) => {
 
-                    $("#card-" + id).remove();
+                    $("#card-" + resumeId).remove();
                 }).fail((err) => {
                     alert(err.responseJSON.msg);
                 });

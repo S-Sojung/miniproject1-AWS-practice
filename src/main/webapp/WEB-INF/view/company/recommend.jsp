@@ -39,36 +39,37 @@
                                             <th class="col-xs-1"></th>
                                         </tr>
                                         <c:forEach items="${postInfoAndResumes.resumes}" var="resume">
-                                            <a href="/company/resumeDetail/${resume.id}" style="text-decoration: none;">
-                                                <tr>
-                                                    <td class="px-5">${resume.name}</td>
-                                                    <td>${resume.title}</td>
-                                                    <td>
-                                                        <c:forEach items="${resume.skills}" var="skill">
-                                                            <span class="badge text-bg-info">${skill}</span>
-                                                        </c:forEach>
-                                                    </td>
-                                                    <td class="text-end px-5">
-                                                        <button type="button" class="btn btn-sm"
-                                                            onclick="scrapOrCancle(event, ${postInfoAndResumes.postId},  ${resume.id})">
-                                                            <c:choose>
-                                                                <c:when test="${resume.scrap == 0}">
-                                                                    <i class="fa-regular fa-thumbs-up fa-2x"
-                                                                        id="scrap-${postInfoAndResumes.postId}-${resume.id}"
-                                                                        value="${resume.scrap}"></i>
-                                                                </c:when>
 
-                                                                <c:otherwise>
-                                                                    <i class="fa-solid fa-thumbs-up fa-2x"
-                                                                        id="scrap-${postInfoAndResumes.postId}-${resume.id}"
-                                                                        value="${resume.scrap}"></i>
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                            <tr>
+                                                <td class="px-5">${resume.name}</td>
+                                                <td> <a href="/company/resumeDetail/${resume.id}"
+                                                        style="text-decoration: none;">${resume.title}</a></td>
+                                                <td>
+                                                    <c:forEach items="${resume.skills}" var="skill">
+                                                        <span class="badge text-bg-info">${skill}</span>
+                                                    </c:forEach>
+                                                </td>
+                                                <td class="text-end px-5">
+                                                    <button type="button" class="btn btn-sm"
+                                                        onclick="scrapOrCancle(${postInfoAndResumes.postId}, ${resume.id})">
+                                                        <c:choose>
+                                                            <c:when test="${resume.scrap == 0}">
+                                                                <i class="fa-regular fa-thumbs-up fa-2x"
+                                                                    id="scrap-${postInfoAndResumes.postId}-${resume.id}"
+                                                                    value="${resume.scrap}"></i>
+                                                            </c:when>
 
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </a>
+                                                            <c:otherwise>
+                                                                <i class="fa-solid fa-thumbs-up fa-2x"
+                                                                    id="scrap-${postInfoAndResumes.postId}-${resume.id}"
+                                                                    value="${resume.scrap}"></i>
+                                                            </c:otherwise>
+                                                        </c:choose>
+
+                                                    </button>
+                                                </td>
+                                            </tr>
+
                                         </c:forEach>
                                     </table>
                                 </div>
@@ -81,8 +82,8 @@
 
         <script>
 
-            function scrapOrCancle(event, postId, resumeId) {
-                event.preventDefault();
+            function scrapOrCancle(postId, resumeId) {
+                //event.preventDefault();
 
                 //console.log(postId);
                 let scrapValue = $("#scrap-" + postId + "-" + resumeId).attr("value");
