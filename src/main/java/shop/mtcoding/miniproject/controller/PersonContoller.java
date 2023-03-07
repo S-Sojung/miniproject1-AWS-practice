@@ -404,7 +404,7 @@ public class PersonContoller {
         if (PersonPS == null) {
             throw new CustomApiException("존재하지 않는 유저입니다");
         }
-        //
+
         if (personUpdateDto.getName() == null || personUpdateDto.getName().isEmpty()) {
             throw new CustomApiException("이름을 확인해주세요");
         }
