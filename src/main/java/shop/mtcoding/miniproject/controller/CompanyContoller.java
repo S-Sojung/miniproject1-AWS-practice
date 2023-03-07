@@ -342,8 +342,11 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/updateInfo")
-    public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto)
+    public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto,
+            HttpSession session)
             throws IOException {
+        User principal = (User) session.getAttribute("principal");
+
         if (companyUpdateInfoDto.getBossName() == null || companyUpdateInfoDto.getBossName().isEmpty()) {
             throw new CustomApiException("대표자명을 확인해주세요");
         }
@@ -362,6 +365,11 @@ public class CompanyContoller {
         if (companyUpdateInfoDto.getSize() == null) {
             throw new CustomApiException("사원수를 확인해주세요");
         }
+        String pw = EncryptionUtils.encrypt(companyUpdateInfoDto.getOriginPassword(), principal.getSalt());
+        if (!pw.equals(principal.getPassword())) {
+            throw new CustomApiException("비밀번호가 일치하지 않습니다!");
+        }
+
         companyService.updateInfo(companyUpdateInfoDto);
         return new ResponseEntity<>(new ResponseDto<>(1, "기업 정보 수정 완료", null), HttpStatus.OK);
     }

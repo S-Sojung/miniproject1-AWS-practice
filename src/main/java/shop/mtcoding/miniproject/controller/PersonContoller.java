@@ -455,6 +455,7 @@ public class PersonContoller {
         int pInfoId = principal.getPInfoId();
         List<Resume> resumeAll = resumeRepository.findAll();
         model.addAttribute("resumes", resumeAll);
+        model.addAttribute("count", resumeAll.size());
         Person personPS = personRepository.findById(pInfoId);
         model.addAttribute("personPS", personPS);
         return "person/resumes";
@@ -523,7 +524,9 @@ public class PersonContoller {
             ps.setTitle(p.getTitle());
             pScrapList2.add(ps);
         }
+
         model.addAttribute("pScrapList", pScrapList2);
+        model.addAttribute("count", pScrapList.size());
         return "person/scrap";
     }
 

@@ -46,7 +46,7 @@
                                                         style="text-decoration: none;">${resume.title}</a></td>
                                                 <td>
                                                     <c:forEach items="${resume.skills}" var="skill">
-                                                        <span class="badge text-bg-info">${skill}</span>
+                                                        <span class="badge text-bg-warning" value="${skill})">${skill}</span>
                                                     </c:forEach>
                                                 </td>
                                                 <td class="text-end px-5">
@@ -81,6 +81,7 @@
         </div>
 
         <script>
+
 
             function scrapOrCancle(postId, resumeId) {
                 //event.preventDefault();

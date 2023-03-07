@@ -10,9 +10,11 @@
             </div>
 
             <div class="ms-2 p-4">
-                <div class="border border-tertiary w-100 p-5 rounded ">
+                     <div class="border border-tertiary w-100 p-5 rounded ">
+                <div class="d-flex justify-content-between">
                     <h1 class="hs_line">이력서 관리</h1>
-                    <hr>
+                </div>
+                <hr>
                     <div class="jh_resume mt-5">
                         <button class="jh_resume_button mb-5 rounded bg-light"
                             onclick="location.href=`/person/saveResumeForm`">➕ 새 이력서 등록</button>

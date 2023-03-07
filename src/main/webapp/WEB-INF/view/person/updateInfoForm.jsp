@@ -15,13 +15,9 @@
                 <div class="border border-tertiary w-100 p-5 rounded ">
                     <div class="d-flex justify-content-between">
                         <h1 class="hs_line">개인회원 수정</h1>
-                        <button type="button" class="btn btn-dark" style="width:100px;" data-bs-toggle="modal"
-                            data-bs-target="#passwordCheck" data-bs-whatever="@mdo">저장</button>
+                        <button type="button" class="btn btn-dark" style="width:100px; height: 40px;"
+                            data-bs-toggle="modal" data-bs-target="#passwordCheck" data-bs-whatever="@mdo">저장</button>
                     </div>
-
-
-
-
                     <hr />
                     <div>
                         <div class="container w-50 mt-5 text ">
