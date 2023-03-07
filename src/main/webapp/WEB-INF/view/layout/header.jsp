@@ -21,15 +21,16 @@
                 <input type="hidden" id="current" val="siteMain" />
                 <c:choose>
                     <c:when test="${principal==null}">
-                        <nav class="sj_full_container navbar bg-body-tertiary">
-                            <div class="container">
-                                <a class="navbar-brand fs-2" href="/">
-                                    <img src="/images/INITilogo.png" alt="" width="50" height="40"
-                                        class="d-inline-block align-text-top">
-                                    INITi
-                                </a>
-                            </div>
-                        </nav>
+                         <nav
+                                class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center">
+                                <div class="container">
+                                    <a class="navbar-brand fs-2" href="/person">
+                                        <img src="/images/INITilogo.png" alt="" width="50" height="40"
+                                            class="d-inline-block align-text-top">
+                                        INITi
+                                    </a>
+                                </div>
+                            </nav>
                     </c:when>
                     <c:when test="${principal.PInfoId!=0}">
                         <%-- 개인 로그인 --%>
@@ -104,4 +105,4 @@
                 }
 
             </script>
-            <div class=" mb-5">
+            <div class="sj_full_container mb-5">

@@ -1,5 +1,6 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -434,6 +435,16 @@ public class PersonContoller {
         if (proposalPassList.size() > 0) {
             model.addAttribute("proposalPassList", proposalPassList);
         }
+
+        List<String> deadlines = new ArrayList<>();
+        for (int i = 0; i < personProposalList.size(); i++) {
+            Timestamp deadline = personProposalList.get(i).getDeadline();
+            Date date = new Date(deadline.getTime());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDeadline = sdf.format(date);
+            deadlines.add(formattedDeadline);
+        }
+        model.addAttribute("deadline", deadlines);
         model.addAttribute("personProposalList", personProposalList);
         return "person/history";
     }
