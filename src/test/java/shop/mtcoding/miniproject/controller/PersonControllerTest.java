@@ -109,18 +109,18 @@ public class PersonControllerTest {
 
     // 개인정보 수정하기 테스트
 
-    // @BeforeEach // Test메서드 실행 직전마다 호출된다
-    // public void setUp() {
-    // // 임시 세션 생성하기
-    // User user = new User();
-    // user.setId(1);
-    // user.setUsername("ssar");
-    // user.setPassword("1234");
-    // user.setEmail("ssar@nate.com");
-    // user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+    @BeforeEach // Test메서드 실행 직전마다 호출된다
+    public void setUp() {
+    // 임시 세션 생성하기
+    User user = new User();
+    user.setId(1);
+    user.setUsername("ssar");
+    user.setPassword("1234");
+    user.setEmail("ssar@nate.com");
+    user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
-    // mockSession = new MockHttpSession();
-    // mockSession.setAttribute("principal", user);
-    // }
+    mockSession = new MockHttpSession();
+    mockSession.setAttribute("principal", user);
+    }
 
 }

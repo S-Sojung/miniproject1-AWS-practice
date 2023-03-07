@@ -101,11 +101,10 @@ public class PersonContoller {
     @Autowired
     private SkillFilterRepository skillFilterRepository;
 
-
     @Autowired
     private PersonScrapRepository personScrapRepository;
 
-    public void personMocLogin() {
+    public void personMocLogin(HttpSession session) {
         User user = new User();
         user.setId(1);
         user.setCInfoId(0);
@@ -114,7 +113,6 @@ public class PersonContoller {
         user.setPassword("1234");
         session.setAttribute("principal", user);
     }
-
 
     @GetMapping("/personLoginForm")
     public String personLoginForm() {
@@ -205,7 +203,7 @@ public class PersonContoller {
     }
 
     @GetMapping({ "/person/main", "/person" })
-    public String personMain(Model model) {
+    public String personMain(Model model, HttpSession session) {
         User principal = (User) session.getAttribute("principal");
         // 회사로고, 회사이름, 공고이름, 회사 주소, D-day
         // cInfo : 회사로고, 회사이름, 회사주소
@@ -497,8 +495,8 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/scrap")
-    public String personScrap(Model model) {
-        personMocLogin();
+    public String personScrap(Model model, HttpSession session) {
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         // System.out.println("테스트: " + principal.getPInfoId());
         List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
