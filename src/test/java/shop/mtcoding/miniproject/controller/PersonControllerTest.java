@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 
 import shop.mtcoding.miniproject.config.RedisConfigTest;
+import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.model.Person;
@@ -161,4 +162,94 @@ public class PersonControllerTest {
         resultActions.andExpect(status().isCreated());
     }
 
+    // 이력서 새로 쓰기 테스트
+    @Test
+    public void personInsertResumeForm_test() throws Exception {
+        // given
+        int id = 1;
+        // ObjectMapper om = new ObjectMapper(); @AutoWired 함!
+
+        // String requestBody = "title=수정된 제목입니다&content=수정된 내용입니다";
+        ResumeUpdateReqDto resumeUpdateReqDto = new ResumeUpdateReqDto();
+        resumeUpdateReqDto.setTitle("이력서샘플");
+        resumeUpdateReqDto.setPortfolio("sampleGithub");
+        resumeUpdateReqDto.setName("김샘플");
+        resumeUpdateReqDto.setPhone("01088889999");
+        resumeUpdateReqDto.setAddress("경기");
+        resumeUpdateReqDto.setSkills("Sql");
+
+        String requestBody = om.writeValueAsString(resumeUpdateReqDto);
+        // System.out.println("테스트 : "+requestBody);
+
+        // when
+        ResultActions resultActions = mvc.perform(
+                put("/person/updateInfo")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .session(mockSession)); // session이 주입된 채로 요청
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.print("테스트: " + responseBody);
+
+        // then
+
+        // resultActions.andExpect(jsonPath("$.msg").value("회원 정보 수정 완료"));
+        resultActions.andExpect(status().isCreated());
+    }
+
+    // 이력서 수정 테스트
+    @Test
+    public void UpdateResumeForm_test() throws Exception {
+        // given
+        int id = 1;
+        // ObjectMapper om = new ObjectMapper(); @AutoWired 함!
+
+        // String requestBody = "title=수정된 제목입니다&content=수정된 내용입니다";
+        ResumeUpdateReqDto resumeUpdateReqDto = new ResumeUpdateReqDto();
+        resumeUpdateReqDto.setTitle("이력서샘플");
+        resumeUpdateReqDto.setPortfolio("sampleGithub");
+        resumeUpdateReqDto.setName("김샘플");
+        resumeUpdateReqDto.setPhone("01088889999");
+        resumeUpdateReqDto.setAddress("경기");
+        resumeUpdateReqDto.setSkills("Sql");
+
+        String requestBody = om.writeValueAsString(resumeUpdateReqDto);
+        // System.out.println("테스트 : "+requestBody);
+
+        // when
+        ResultActions resultActions = mvc.perform(
+                put("/person/updateInfo")
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .session(mockSession)); // session이 주입된 채로 요청
+
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.print("테스트: " + responseBody);
+
+        // then
+
+        // resultActions.andExpect(jsonPath("$.msg").value("회원 정보 수정 완료"));
+        resultActions.andExpect(status().isCreated());
+    }
+
+    // 이력서 지원하기 테스트
+    @Test
+    public void submitResume_test() throws Exception {
+        // given
+        int id = 1;
+
+        String requestBody = "selectedResume=1";
+
+        // when
+        ResultActions resultActions = mvc.perform(post("/person/detail/1/resume").content(requestBody)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE));
+
+        HttpSession session = resultActions.andReturn().getRequest().getSession();
+        User principal = (User) session.getAttribute("principal");
+
+        // then
+        assertThat(principal.getPInfoId()).isEqualTo("1");
+
+        resultActions.andExpect(status().is3xxRedirection());
+    }
 }
