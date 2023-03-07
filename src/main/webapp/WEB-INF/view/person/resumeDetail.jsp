@@ -37,7 +37,7 @@
                                         </tr>
                                         <tr>
                                             <td>생년월일</td>
-                                            <td>${personDetail.birthday}</td>
+                                            <td>${birthday}</td>
                                         </tr>
                                         <tr>
                                             <td>연락처</td>

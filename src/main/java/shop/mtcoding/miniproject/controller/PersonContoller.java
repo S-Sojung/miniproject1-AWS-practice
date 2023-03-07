@@ -1,5 +1,6 @@
 package shop.mtcoding.miniproject.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -483,8 +484,12 @@ public class PersonContoller {
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+        Date date = new Date(personPS.getBirthday().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedBirthday = sdf.format(date);
         model.addAttribute("resumeDetail", resumePS);
         model.addAttribute("personDetail", personPS);
+        model.addAttribute("birthday", formattedBirthday);
         model.addAttribute("skillDetail", skillPS.getSkills().split(","));
         return "person/resumeDetail";
     }
