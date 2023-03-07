@@ -51,10 +51,6 @@
                                             <a class=" nav-link link-dark" href="/person/recommend">추천공고</a>
                                         </li>
                                         <li class="nav-item border-bottom ">
-                                            <a class="nav-link link-dark" href="#">커뮤니티</a>
-                                        </li>
-
-                                        <li class="nav-item border-bottom ">
                                             <a class="nav-link link-dark" href="/logout">로그아웃</a>
                                         </li>
                                     </ul>
