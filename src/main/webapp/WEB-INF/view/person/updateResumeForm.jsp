@@ -8,7 +8,8 @@
                 <a href="/person/scrap" class="list-group-item">스크랩</a>
                 <a href="/person/history" class="list-group-item ">지원 이력</a>
             </div>
-            <form action="/person/updateResume/${resumePS.id}" method="post" enctype="multipart/form-data" onvalid="chooseSkiil()" onsubmit="return onSubmit();">
+            <form action="/person/updateResume/${resumePS.id}" method="post" enctype="multipart/form-data"
+                onvalid="chooseSkiil()" onsubmit="return onSubmit();">
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
                         <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
@@ -27,49 +28,53 @@
                         </c:choose>
                          
                         </select>
+
                         <hr>
-                        <div class="d-flex justify-content-center">
-                            <div style="width: 85%;">
+
+                        <div class="container" style="width: 85%;">
+                            <div class="d-flex row justify-content-center">
                                 <div class="jh_resume_flexbox mt-3">
+
                                     <img src="${resumePS.profile == null ? '/images/profile1.jpg' : resumePS.profile}"
-                                        id="imagePreview" border="1" style="width: 188px; height: 226px;">
+                                        id="imagePreview" style="width: 200px; height: 250px;"
+                                        class="mb-2 border border-tertiary">
+
                                     <div class="jh_resume_personal_info">
                                         <div class="input-group mb-3">
-                                            <div class="input-group-prepend ">
-                                                <span class="input-group-text">이름</span>
-                                            </div>
+
+                                            <span class="input-group-text justify-content-center ">이름</span>
+
                                             <input type="text" class="form-control" style="width: 120px;"
                                                 value="${personPS.name}" name="name">
                                         </div>
 
                                         <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">생년월일</span>
-                                            </div>
+
+                                            <span class="input-group-text justify-content-center ">생년월일</span>
+
                                             <input type="date" class="form-control" style="width: 120px;"
                                                 value="${personPS.birthday}" name="birthday">
                                         </div>
 
                                         <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">연락처</span>
-                                            </div>
-                                            <input type="tel" class="form-control" maxlength="11" value="${personPS.phone}"
+                                            <span class="input-group-text justify-content-center ">연락처</span>
+
+                                            <input type="tel" class="form-control" value="${personPS.phone}"
                                                 name="phone">
                                         </div>
 
                                         <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">주소</span>
-                                            </div>
+
+                                            <span class="input-group-text justify-content-center ">주소</span>
+
                                             <input type="text" class="form-control" value="${personPS.address}"
                                                 name="address">
                                         </div>
 
                                         <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">이메일</span>
-                                            </div>
+
+                                            <span class="input-group-text justify-content-center ">이메일</span>
+
                                             <input type="email" class="form-control" value="${principal.email}"
                                                 readonly>
                                         </div>
@@ -77,43 +82,52 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="file" class="form-control mt-2" name="profile" onchange="chooseImage(this)" />
-                        <div class="mt-5">
-                            <h4>포트폴리오 주소</h4>
-                            <input type="text" class="form-control mt-2" id="floatingInput"
-                                placeholder="git 또는 blog 주소를 입력해주세요" name="portfolio" style="display: block;"
-                                value="${resumePS.portfolio}" required>
-                        </div>
-                        <div class="my-5">
-                            <h4>기술스택</h4>
-                            <input type="hidden" value="${skillPS}" id="check">
-                            <div class="row row-cols-auto gap-3 justify-content-center my-3">
-                                <c:forEach items="${skills}" var="skill">
-                                    <input type="checkbox" name="skills" class="btn-check" id="${skill}"
-                                        value="${skill}" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
-                                </c:forEach>
-                            </div>
-                        </div>
 
-                        <div>
-                            <h4>자기소개</h4>
-                            <textarea name="selfIntro" cols="109" rows="10"
-                                placeholder="내용을 입력하세요">${resumePS.selfIntro}</textarea>
-                        </div>
-                        <div class="d-flex mt-4 justify-content-center">
-                            <div class="px-2">
-                                <button type="submit" class="btn btn-light">저장</button>
+                        <div class="container" style="width: 85%;">
+                            <div class="row justify-content-center">
+                                <div class="col-md-14 mx-auto">
+                                    <input type="file" class="form-control mt-2" name="profile"
+                                        onchange="chooseImage(this)" />
+                                    <div class="mt-5">
+                                        <h4>포트폴리오 주소</h4>
+                                        <input type="text" class="form-control mt-2" id="floatingInput"
+                                            placeholder="git 또는 blog 주소를 입력해주세요" name="portfolio"
+                                            style="display: block;" value="${resumePS.portfolio}" required>
+                                    </div>
+                                </div>
+                                <div class="my-5">
+                                    <h4>기술스택</h4>
+                                    <input type="hidden" value="${skillPS}" id="check">
+                                    <div class="row row-cols-auto gap-3 justify-content-center my-3">
+                                        <c:forEach items="${skills}" var="skill">
+                                            <input type="checkbox" name="skills" class="btn-check" id="${skill}"
+                                                value="${skill}" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4>자기소개</h4>
+                                    <textarea name="selfIntro" cols="109" rows="10"
+                                        placeholder="내용을 입력하세요">${resumePS.selfIntro}</textarea>
+                                </div>
+                                <div class="d-flex mt-4 justify-content-center">
+                                    <div class="px-2">
+                                        <button type="submit" class="btn btn-light">저장</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+            </form>
         </div>
-        </div>
-        </form>
-        </div>
+
+
         <script>
-            function onSubmit(){
+            function onSubmit() {
                 return true;
             }
 
@@ -141,7 +155,7 @@
             }
 
             function chooseImage(obj) {
-        
+
                 let f = obj.files[0];
                 if (!f.type.match("image")) {
                     alert("이미지 파일이 아닙니다!");

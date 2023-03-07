@@ -30,6 +30,7 @@
                             </a>
                         </div>
                     </nav>
+
                 </div>
 
                 <div class="container px-4 mb-5 w-50">
@@ -46,7 +47,6 @@
                             </div>
                         </div>
 
-
                         <div>
                             <div class="card main_card" style="width:320px; height: 400px;">
                                 <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
@@ -60,3 +60,4 @@
                         </div>
                     </div>
                 </div>
+    <%@ include file="layout/footer.jsp" %>

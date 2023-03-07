@@ -1,62 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-<div class="container d-flex mt-4">
-        <div class="list-group ms-2 mt-4">
-            <a href="/company/info" class="list-group-item" style="width: 150px;">회사 정보</a>
-            <a href="/company/posts" class="list-group-item">공고 관리</a>
-            <a href="/company/getResume" class="list-group-item">받은 이력서</a>
-            <a href="/company/scrap" class="list-group-item hs_list_effect">스크랩한 유저</a>
-        </div>
+        <div class="container d-flex mt-4">
+            <div class="list-group ms-2 mt-4">
+                <a href="/company/info" class="list-group-item" style="width: 150px;">회사 정보</a>
+                <a href="/company/posts" class="list-group-item">공고 관리</a>
+                <a href="/company/getResume" class="list-group-item">받은 이력서</a>
+                <a href="/company/scrap" class="list-group-item hs_list_effect">스크랩한 유저</a>
+            </div>
 
-        <div class="ms-2 p-4">
-            <div class="border border-tertiary w-100 p-5 rounded ">
-                <div class="d-flex justify-content-between">
-                    <h1 class="hs_line">스크랩한 지원자를 확인해보세요🎯</h1>
-                </div>
-                <hr>
+            <div class="ms-2 p-4">
+                <div class="border border-tertiary w-100 p-5 rounded ">
+                    <div class="d-flex justify-content-between">
+                        <h1 class="hs_line">스크랩한 지원자를 확인해보세요🎯</h1>
+                    </div>
+                    <hr>
 
-                <div class="container mb-5 mt-5 w-100">
-                    <table class="table table-hover">
-                        <tr class=" table-dark">
-                            <th class="col-2 px-5">이름</th>
-                            <th class="col-5">이력서</th>
-                            <th class="col-3">기술 스택</th>
-                        </tr>
-                        <tr>
-                            <td class="px-5">성소정</td>
-                            <td><a href="#" class="text-decoration-none">성실한 지원자입니다</a></td>
-                            <td><span class="badge text-bg-info">JAVA</span>
-                                <span class="badge text-bg-danger">FLUTTER</span>
-                            </td>
-                        </tr>
-                        <tr">
-                            <td class="px-5">장희선</td>
-                            <td><a href="#" class="text-decoration-none">성실한 지원자입니다</a></td>
-                            <td><span class="badge text-bg-info">JAVA</span>
-                                <span class="badge text-bg-success">JPA</span>
-                            </td>
-                            </tr>
-                            <tr>
-                                <td class="px-5">오주혜</td>
-                                <td><a href="#" class="text-decoration-none">성실한 지원자입니다</a></td>
-                                <td><span class="badge text-bg-info">JAVA</span>
-                                    <span class="badge text-bg-secondary">SPRING</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-5">김정민</td>
-                                <td><a href="#" class="text-decoration-none">성실한 지원자입니다</a></td>
-                                <td><span class="badge text-bg-info">JAVA</span>
-                                    <span class="badge text-bg-danger">FLUTTER</span>
-                                    <span class="badge text-bg-success">JPA</span>
-                                </td>
-                            </tr>
-                    </table>
+                    <div class="container mb-5 mt-2 w-100">
+                        <div class="d-flex justify-content-around w-100 align-center align-items-center bg-dark"
+                            style="height: 40px;">
+                            <div class="text-light"><b>이름</b></div>
+                            <div class="text-light"><b>이력서</b></div>
+                            <div class="text-light"><b>기술스택 </b></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        </table>
+
+                        <c:forEach items="${scrapList}" var="scrap">
+                        <a href="/company/resumeDetail/${scrap.resumeId}" style="text-decoration: none;">
+                            <div class="card rounded-0" id="card-${scrap.resumeId}">
+                                <div
+                                    class="card-body d-flex justify-content-around align-center align-items-center w-100">
+
+                                    <div>${scrap.name}</div>
+                                    <div>${scrap.title}</div>
+                                    <div>
+                                        <c:forEach items="${scrap.skills}" var="skill">
+                                            <span class="badge text-bg-info">${skill}</span>
+                                        </c:forEach>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-sm" onclick="cancle(event, ${scrap.resumeId})">
+                                            <i class="fa-solid fa-thumbs-up fa-2x"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            </a>
+                        </c:forEach>
+                    </div>
+
+
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <%@ include file="../layout/footer.jsp" %>
+        <script>
+            function cancle(event, resumeId) {
+                   event.preventDefault();
+                $.ajax({
+                    type: "delete",
+                    url: "/company/scrap/" + resumeId
+                }).done((res) => {
+
+                    $("#card-" + resumeId).remove();
+                }).fail((err) => {
+                    alert(err.responseJSON.msg);
+                });
+            }
+        </script>
+
+        <%@ include file="../layout/footer.jsp" %>
