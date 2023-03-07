@@ -122,8 +122,8 @@
                 } else {
                     $.ajax({
                         type: "delete",
-                        url: "/person/scrap/" + postId,
-                        dateType: "JSON"
+                        url: "/person/scrap/" + postId
+                       
                     }).done((res) => {
                         $("#scrap-"+postId).attr("value", 0);
                         $("#scrap-"+postId).addClass("fa-regular");

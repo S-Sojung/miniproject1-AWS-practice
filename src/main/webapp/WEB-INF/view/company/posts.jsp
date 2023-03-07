@@ -19,7 +19,7 @@
                     <c:forEach items="${postTitleList}" var="post" varStatus="status">
                     <div class="jh_resume_content mb-3" style="display: flex; justify-content: space-between">
                     <div style="">
-                        <a href="/company/postDetail/${post.id}">${post.title}</a>
+                        <a href="/company/postDetail/${post.id}"  style="text-decoration: none;">${post.title}</a>
                         <div id="post_deadline_${status.count}" value="${post.deadline}">마감 기한 : ~${post.deadline}</div>
                     </div>
                     <div style="display: flex;">
