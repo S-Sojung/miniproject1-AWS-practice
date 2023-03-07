@@ -17,7 +17,7 @@
                         <button class="jh_resume_button mb-5 rounded bg-light"
                             onclick="location.href=`/person/saveResumeForm`">➕ 새 이력서 등록</button>
                         <c:forEach items="${resumes}" var="resume">
-                        <div id="resume_del" class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between" >
+                        <div id="resume_del" class="jh_resume_content mb-3" style="display: flex; justify-content: space-between" >
                            <a href="/person/resumeDetail/${resume.id}"  style="text-decoration: none;"> ${resume.title} </a>
                             <button type="button"  class="btn btn-secondary" onclick="deleteResume(${resume.id})">삭제</button>
                         </div>
