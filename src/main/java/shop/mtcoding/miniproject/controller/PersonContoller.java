@@ -33,6 +33,7 @@ import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReq.LoginPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalListRespDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalStringListRespDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapIntegerResDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapTimeStampResDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
@@ -435,17 +436,27 @@ public class PersonContoller {
         if (proposalPassList.size() > 0) {
             model.addAttribute("proposalPassList", proposalPassList);
         }
+        List<PersonProposalStringListRespDto> personProposalList2 = new ArrayList<>();
 
-        List<String> deadlines = new ArrayList<>();
-        for (int i = 0; i < personProposalList.size(); i++) {
-            Timestamp deadline = personProposalList.get(i).getDeadline();
+        for (PersonProposalListRespDto pp : personProposalList) {
+            Timestamp deadline = pp.getDeadline();
             Date date = new Date(deadline.getTime());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDeadline = sdf.format(date);
-            deadlines.add(formattedDeadline);
+            PersonProposalStringListRespDto dto = new PersonProposalStringListRespDto();
+
+            dto.setId(pp.getId());
+            dto.setCreatedAt(pp.getCreatedAt());
+            dto.setDeadline(formattedDeadline);
+            dto.setName(pp.getName());
+            dto.setPInfoId(pp.getPInfoId());
+            dto.setPostId(pp.getPInfoId());
+            dto.setResumeId(pp.getResumeId());
+            dto.setStatus(pp.getStatus());
+            dto.setTitle(pp.getTitle());
+            personProposalList2.add(dto);
         }
-        model.addAttribute("deadline", deadlines);
-        model.addAttribute("personProposalList", personProposalList);
+        model.addAttribute("personProposalList", personProposalList2);
         return "person/history";
     }
 
