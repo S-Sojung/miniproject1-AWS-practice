@@ -26,7 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
+
 import shop.mtcoding.miniproject.model.User;
 
 @Transactional
@@ -42,9 +44,23 @@ public class CompanyControllerTest {
     @Autowired
     private ObjectMapper om;
 
+    @BeforeEach // Test메서드 실행 직전마다 호출된다
+    public void setUp() {
+        // 임시 세션 생성하기
+        User user = new User();
+        user.setId(3);
+        user.setPassword("ad38f305434fb803fbadb9cf57df1e822bff382352c19dc67b5b13055a049cd6");
+        user.setEmail("init@nate.com");
+        user.setPInfoId(0);
+        user.setCInfoId(1);
+        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+
+        mockSession = new MockHttpSession();
+        mockSession.setAttribute("principal", user);
+    }
+
     @Test
     public void join_test() throws Exception {
-
         System.out.println("테스트 - company_join_test()");
         // given
         String requestBody = "name=green&address=green3F&number=1&managerName=sj&email=green@nate.com&password=1234";
@@ -55,7 +71,6 @@ public class CompanyControllerTest {
 
         // then
         resultActions.andExpect(status().is3xxRedirection());
-
     }
 
     @Test
@@ -77,19 +92,6 @@ public class CompanyControllerTest {
         resultActions.andExpect(status().is3xxRedirection());
     }
 
-    @BeforeEach // Test메서드 실행 직전마다 호출된다
-    public void setUp() {
-        // 임시 세션 생성하기
-        User user = new User();
-        user.setId(1);
-        user.setUsername("init");
-        user.setPassword("1234");
-        user.setEmail("init@nate.com");
-        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-
-        mockSession = new MockHttpSession();
-        mockSession.setAttribute("principal", user);
-    }
 
     // 회사 정보 수정하기 테스트
     @Test

@@ -42,19 +42,19 @@
                                         INITi
                                     </a>
                                     <ul class="nav link-dark" style="position: relative; bottom:-12px">
-                                        <li class="nav-item border-bottom border-warning pb-2 border-3"
+                                        <li class="nav-item pb-2 border-bottom border-warning border-3"
                                             id="main">
                                             <a class="nav-link active link-dark" aria-current="page"
                                                 href="/person/main">채용공고</a>
                                         </li>
-                                        <li class="nav-item border-bottom " id="recommend">
+                                        <li class="nav-item pb-2 " id="recommend">
                                             <a class=" nav-link link-dark" href="/person/recommend">추천공고</a>
                                         </li>
-                                        <li class="nav-item border-bottom ">
+                                        <li class="nav-item pb-2 ">
                                             <a class="nav-link link-dark" href="#">커뮤니티</a>
                                         </li>
 
-                                        <li class="nav-item border-bottom ">
+                                        <li class="nav-item pb-2 ">
                                             <a class="nav-link link-dark" href="/logout">로그아웃</a>
                                         </li>
                                     </ul>
@@ -82,7 +82,7 @@
                                             <a class="nav-link link-dark" aria-current="page"
                                                 href="/company/recommend">인재추천</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item pb-2">
                                             <a class="nav-link link-dark" href="/logout">로그아웃</a>
                                         </li>
                                     </ul>

@@ -634,11 +634,10 @@ public class CompanyContoller {
         return new ResponseEntity<>(new ResponseDto<>(1, "메시지 전달 성공", null), HttpStatus.CREATED);
     }
 
+
     // @GetMapping("/resume/{id}")
     // public String personResumeDetail(@PathVariable int id, Model model,
     // HttpSession session) {
-
-
     // User principal = (User) session.getAttribute("principal");
     // if (principal == null) {
     // throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
