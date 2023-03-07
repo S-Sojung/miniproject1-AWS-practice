@@ -1,8 +1,11 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
 html,
 body {
     margin: 0px;
     padding: 0px;
     height: 100%;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 header {

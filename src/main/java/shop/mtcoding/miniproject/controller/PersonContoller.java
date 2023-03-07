@@ -252,9 +252,12 @@ public class PersonContoller {
         Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
         Skill skillPS = (Skill) skillRepository.findByPostId(id);
         StringTokenizer skills = new StringTokenizer(skillPS.getSkills(), ",");
-
+        Date date = new Date(postPS.getDeadline().getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDeadline = sdf.format(date);
         model.addAttribute("post", postPS);
         model.addAttribute("company", companyPS);
+        model.addAttribute("deadline", formattedDeadline);
         model.addAttribute("skills", skills);
 
         // List<Resume> resumeAll = resumeRepository.findAll();

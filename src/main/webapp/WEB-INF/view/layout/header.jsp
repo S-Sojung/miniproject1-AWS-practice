@@ -56,7 +56,7 @@
                                     </ul>
 
                                     <div>
-                                        <a class="nav-link" href="/person/info"> username or Email</a>
+                                          <a class="nav-link" href="/person/info"> ${principal.email}님의 mypage</a>
                                     </div>
                                 </div>
                                 </div>
@@ -84,7 +84,8 @@
                                     </ul>
 
                                     <div>
-                                        <a class="nav-link" href="/company/info"> username or Email</a>
+                                          <a class="nav-link" href="/company/info"> ${principal.email}님의 mypage</a>
+                                         
                                     </div>
                                 </div>
                                 </div>

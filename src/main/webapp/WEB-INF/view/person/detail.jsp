@@ -41,7 +41,7 @@
                             <div class="mt-4">
                                 <h5><b>마감 일자</b></h5>
                                 <div class="border border-tertiary p-3 d-inline-flex me-3 mb-3 w-100" id="deadline">
-                                    ${post.deadline}
+                                    ${deadline}
                                 </div>
                             </div>
                             <div class="mt-4">
