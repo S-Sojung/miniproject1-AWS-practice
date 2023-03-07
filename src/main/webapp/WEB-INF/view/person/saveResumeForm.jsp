@@ -18,8 +18,8 @@
                             <div class="d-flex row justify-content-center">
 
                                 <div class="jh_resume_flexbox mt-3">
-                                    <img src="/images/logo.png" id="imagePreview" border="1"
-                                        style="width: 188px; height: 226px;">
+                                    <img src="/images/logo.png" id="imagePreview" style="width: 200px; height: 250px;"
+                                        class="mb-2 border border-tertiary">
                                     <div class="jh_resume_personal_info">
                                         <div class="input-group mb-3">
 
