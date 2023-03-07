@@ -110,8 +110,6 @@ public class PersonContoller {
     @Autowired
     private PersonScrapRepository personScrapRepository;
 
-
-
     // public void personMocLogin() {
     // User user = new User();
     // user.setId(1);
@@ -210,7 +208,7 @@ public class PersonContoller {
     }
 
     @GetMapping({ "/person/main", "/person" })
-    public String personMain(Model model, HttpSession session) {
+    public String personMain(Model model) {
         User principal = (User) session.getAttribute("principal");
 
         // 회사로고, 회사이름, 공고이름, 회사 주소, D-day

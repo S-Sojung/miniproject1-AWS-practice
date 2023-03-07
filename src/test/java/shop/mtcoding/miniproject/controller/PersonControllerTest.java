@@ -3,10 +3,15 @@ package shop.mtcoding.miniproject.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,23 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.jayway.jsonpath.JsonPath;
-import shop.mtcoding.miniproject.config.RedisConfigTest;
 import shop.mtcoding.miniproject.dto.Resume.ResumeReq.ResumeUpdateReqDto;
-import shop.mtcoding.miniproject.dto.person.PersonReq.JoinPersonReqDto;
 import shop.mtcoding.miniproject.dto.person.PersonReqDto.PersonUpdateDto;
-import shop.mtcoding.miniproject.model.Person;
-import shop.mtcoding.miniproject.model.PersonRepository;
-import shop.mtcoding.miniproject.model.Skill;
-import shop.mtcoding.miniproject.model.User;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendIntegerRespDto;
-
+import shop.mtcoding.miniproject.model.User;
 
 @Transactional
 @AutoConfigureMockMvc
@@ -53,9 +44,6 @@ public class PersonControllerTest {
     private MockMvc mvc;
 
     private MockHttpSession mockSession;
-
-    @Autowired
-    private ObjectMapper om;
 
     @BeforeEach
     public void setUp() {
@@ -115,7 +103,7 @@ public class PersonControllerTest {
 
         // 세션이 비어있으면 레디스 확인해서 레디스에 있는 값을 세션에 넣음 ...
         // 레디스 세션에 다이렉트하게 갈 수 없음.
-        
+
         // HttpSession session = resultActions.andReturn().getRequest().getSession();
         // String sessionId = session.getId();
 
@@ -146,9 +134,7 @@ public class PersonControllerTest {
         System.out.println("테스트" + postJson);
         // then
         assertThat(postRecommendList.get(0).getTitle()).isEqualTo("멋진 개발자 구합니다.");
-     }
-
-
+    }
 
     @Test
     public void update_test() throws Exception {
