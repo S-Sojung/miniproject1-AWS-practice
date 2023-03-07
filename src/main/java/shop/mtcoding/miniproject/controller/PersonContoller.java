@@ -441,7 +441,7 @@ public class PersonContoller {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
         }
         int pInfoId = principal.getPInfoId();
-        List<Resume> resumeAll = resumeRepository.findAll();
+        List<Resume> resumeAll = resumeRepository.findAllByPInfoId(pInfoId);
         model.addAttribute("resumes", resumeAll);
         Person personPS = personRepository.findById(pInfoId);
         model.addAttribute("personPS", personPS);
