@@ -203,9 +203,12 @@ footer {
 }
 
 .jh_resume_table {
-    border-radius: 8px;
-    border: 1px solid grey;
-
+    border-spacing: 1;
+    border-collapse: collapse;
+    border-radius: 6px;
+    overflow: hidden;
+    color: black;
+    border: 20px grey;
 }
 
 .jh_resume_flexbox {

@@ -39,7 +39,7 @@
                                 <div class="input-group mb-3">
                                     <span
                                         class="input-group-text bg-light justify-content-center hs_span_size">사업자번호</span>
-                                    <input type="text" class="form-control" value="${companyPS.number}" name="number"
+                                    <input type="text" class="form-control" value="${companyPS.number}" name="number" maxlength="10"
                                         readonly>
                                 </div>
 

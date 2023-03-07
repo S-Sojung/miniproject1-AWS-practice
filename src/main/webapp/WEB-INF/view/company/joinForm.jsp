@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="form-group form-floating m-3 mx-auto">
-                        <input type="text" name="number" class="form-control" id="floatingInput"
+                        <input type="text" name="number" maxlength="10" class="form-control" id="floatingInput"
                             placeholder="name@example.com" required>
                         <label for="floatingInput">사업자 번호</label>
                     </div>

@@ -54,7 +54,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">연락처</span>
                                             </div>
-                                            <input type="tel" class="form-control" value="${personPS.phone}"
+                                            <input type="tel" class="form-control" maxlength="11" value="${personPS.phone}"
                                                 name="phone">
                                         </div>
 
