@@ -8,7 +8,7 @@
             let currDay = 24 * 60 * 60 * 1000; 
         </script>
         <div class="jm_body">
-            <div class="sj_full_container">
+            
                 <div class="select_box jm_select_box mt-5">
                     <select id="skill" class="jm_select selectpicker" data-style="btn-info" name="">
                         <option value="none" selected>분야</option>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+       
 
         <script>
             // 1. 마감 1일 후 숨기기, 디데이 설정
