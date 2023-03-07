@@ -9,8 +9,6 @@ spring:
     host: localhost
     password: 1234
     port: 6379
-  session:
-    store-type: redis
   mvc:
     view:
       prefix: /WEB-INF/view/

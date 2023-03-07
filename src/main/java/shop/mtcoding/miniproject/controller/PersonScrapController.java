@@ -19,8 +19,8 @@ import shop.mtcoding.miniproject.service.PersonScrapService;
 @Controller
 public class PersonScrapController {
 
-    // @Autowired
-    // private HttpSession session;
+    @Autowired
+    private HttpSession session;
 
     @Autowired
     private PersonScrapRepository personScrapRepository;
@@ -28,7 +28,7 @@ public class PersonScrapController {
     @Autowired
     private PersonScrapService personScrapService;
 
-    public void personMocLogin(HttpSession session) {
+    public void personMocLogin() {
         User user = new User();
         user.setId(1);
         user.setCInfoId(0);
@@ -39,7 +39,7 @@ public class PersonScrapController {
     }
 
     @PutMapping("/person/scrap/{id}")
-    public ResponseEntity<?> ScrapInsert(@PathVariable int id, HttpSession session) {
+    public ResponseEntity<?> ScrapInsert(@PathVariable int id) {
         // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
@@ -51,7 +51,7 @@ public class PersonScrapController {
     }
 
     @DeleteMapping("/person/scrap/{id}")
-    public ResponseEntity<?> ScrapDelete(@PathVariable int id, HttpSession session) {
+    public ResponseEntity<?> ScrapDelete(@PathVariable int id) {
         // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {

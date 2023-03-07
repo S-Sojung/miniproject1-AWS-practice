@@ -19,10 +19,13 @@ import shop.mtcoding.miniproject.service.CompanyScrapService;
 public class CompanyScrapController {
 
     @Autowired
+    private HttpSession session;
+
+    @Autowired
     private CompanyScrapService companyScrapService;
 
     @DeleteMapping("/company/scrap/{id}")
-    public ResponseEntity<?> scrapDelete(@PathVariable int id, HttpSession session) {
+    public ResponseEntity<?> scrapDelete(@PathVariable int id) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -32,7 +35,7 @@ public class CompanyScrapController {
     }
 
     @PutMapping("/company/scrap/{id}")
-    public ResponseEntity<?> scrapInsert(@PathVariable int id, HttpSession session) {
+    public ResponseEntity<?> scrapInsert(@PathVariable int id) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);

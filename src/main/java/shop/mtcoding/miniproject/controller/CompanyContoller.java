@@ -72,6 +72,9 @@ import shop.mtcoding.miniproject.util.EncryptionUtils;
 public class CompanyContoller {
 
     @Autowired
+    private HttpSession session;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -114,7 +117,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("companyLogin")
-    public String companyLogin(LoginCompanyReqDto loginCompanyReqDto, HttpSession session) {
+    public String companyLogin(LoginCompanyReqDto loginCompanyReqDto) {
 
         if (loginCompanyReqDto.getEmail() == null ||
                 loginCompanyReqDto.getEmail().isEmpty()) {
@@ -191,7 +194,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/getResume")
-    public String companyGetResume(Model model, HttpSession session) {
+    public String companyGetResume(Model model) {
         User userPS = (User) session.getAttribute("principal");
         List<CompanyProposalListRespDto> companyProposalList = personProposalRepository
                 .findAllWithPostAndResumeAndPInfoByCInfoId(userPS.getCInfoId());
@@ -203,7 +206,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/resumeDetail/{id}")
-    public String companyResumeDetail(@PathVariable int id, Model model, HttpSession session) {
+    public String companyResumeDetail(@PathVariable int id, Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -232,7 +235,7 @@ public class CompanyContoller {
     }
 
     @PutMapping("/company/proposal/{id}")
-    public @ResponseBody ResponseEntity<?> companyUpdateResume(@PathVariable int id, HttpSession session,
+    public @ResponseBody ResponseEntity<?> companyUpdateResume(@PathVariable int id,
             @RequestBody CompanyProposalStatusReqDto statusCode) {
         User userPS = (User) session.getAttribute("principal");
 
@@ -241,7 +244,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/recommend")
-    public String companyRecommend(Model model, HttpSession session) {
+    public String companyRecommend(Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -326,7 +329,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/info")
-    public String companyInfo(Model model, HttpSession session) {
+    public String companyInfo(Model model) {
         User principal = (User) session.getAttribute("principal");
         Company companyPS = companyRepository.findById(principal.getCInfoId());
         model.addAttribute("companyPS", companyPS);
@@ -334,7 +337,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/updateInfoForm")
-    public String companyUpdateInfoForm(Model model, HttpSession session) {
+    public String companyUpdateInfoForm(Model model) {
         User principal = (User) session.getAttribute("principal");
         Company companyPS = companyRepository.findById(principal.getCInfoId());
         model.addAttribute("companyPS", companyPS);
@@ -342,8 +345,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/updateInfo")
-    public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto,
-            HttpSession session)
+    public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto)
             throws IOException {
         User principal = (User) session.getAttribute("principal");
 
@@ -375,7 +377,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/scrap")
-    public String companyScrap(Model model, HttpSession session) {
+    public String companyScrap(Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -400,7 +402,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/posts")
-    public String companyPosts(Model model, HttpSession session) {
+    public String companyPosts(Model model) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
@@ -415,7 +417,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/postDetail/{id}")
-    public String companyDetail(@PathVariable int id, Model model, HttpSession session) {
+    public String companyDetail(@PathVariable int id, Model model) {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -442,7 +444,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/updatePostForm/{id}")
-    public String companyUpdatePost(@PathVariable int id, Model model, HttpSession session) {
+    public String companyUpdatePost(@PathVariable int id, Model model) {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -469,7 +471,7 @@ public class CompanyContoller {
     }
 
     @PutMapping("/company/updatePost/{id}")
-    public @ResponseBody ResponseEntity<?> companyUpdatePost(@PathVariable int id, HttpSession session,
+    public @ResponseBody ResponseEntity<?> companyUpdatePost(@PathVariable int id,
             @RequestBody PostUpdateReqDto postUpdateReqDto) {
         User userPS = (User) session.getAttribute("principal");
 
@@ -531,7 +533,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/savePostForm")
-    public String companySavePostForm(Model model, HttpSession session) {
+    public String companySavePostForm(Model model) {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -554,7 +556,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/savePost")
-    public String companySavePost(Model model, PostSaveReqDto postSaveReqDto, HttpSession session) {
+    public String companySavePost(Model model, PostSaveReqDto postSaveReqDto) {
 
         User userPS = (User) session.getAttribute("principal");
 
@@ -611,7 +613,7 @@ public class CompanyContoller {
     }
 
     @DeleteMapping("/company/deletePost/{id}")
-    public @ResponseBody ResponseEntity<?> companyDeletePost(@PathVariable int id, HttpSession session) {
+    public @ResponseBody ResponseEntity<?> companyDeletePost(@PathVariable int id) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
@@ -623,7 +625,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/proposalPass/{id}")
-    public @ResponseBody ResponseEntity<?> insertProposalPass(@PathVariable int id, HttpSession session,
+    public @ResponseBody ResponseEntity<?> insertProposalPass(@PathVariable int id,
             @RequestBody ProposalPassMessageReqDto message) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -633,7 +635,6 @@ public class CompanyContoller {
         proposalPassService.메시지전달하기(id, userPS.getCInfoId(), message.getMessage());
         return new ResponseEntity<>(new ResponseDto<>(1, "메시지 전달 성공", null), HttpStatus.CREATED);
     }
-
 
     // @GetMapping("/resume/{id}")
     // public String personResumeDetail(@PathVariable int id, Model model,
