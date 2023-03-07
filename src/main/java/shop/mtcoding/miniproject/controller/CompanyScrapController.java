@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import shop.mtcoding.miniproject.dto.ResponseDto;
 import shop.mtcoding.miniproject.handler.ex.CustomApiException;
@@ -29,4 +30,15 @@ public class CompanyScrapController {
         companyScrapService.delete(id, principal.getCInfoId());
         return new ResponseEntity<>(new ResponseDto<>(1, "스크랩 취소", null), HttpStatus.OK);
     }
+
+    @PutMapping("/company/scrap/{id}")
+    public ResponseEntity<?> scrapInsert(@PathVariable int id, HttpSession session) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        companyScrapService.insert(id, principal.getCInfoId());
+        return new ResponseEntity<>(new ResponseDto<>(1, "스크랩 완료", null), HttpStatus.OK);
+    }
+
 }

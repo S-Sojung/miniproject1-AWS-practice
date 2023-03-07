@@ -38,7 +38,7 @@
                                         <div></div>
                                     </div>
                                     <c:forEach items="${postInfoAndResumes.resumes}" var="resume">
-
+                                    <a href = "/company/resumeDetail/${resume.id}" style="text-decoration: none;">
                                         <div class="card rounded-0" id="card-${resume.id}">
                                             <div
                                                 class="card-body d-flex justify-content-around align-center align-items-center w-100">
@@ -52,16 +52,16 @@
                                                 </div>
                                                 <div>
                                                     <button type="button" class="btn btn-sm"
-                                                        onclick="scrapOrCancle(event, ${resume.id})">
+                                                        onclick="scrapOrCancle(event, ${postInfoAndResumes.postId},  ${resume.id})">
                                                         <c:choose>
-                                                           <c:when test="${scrap.scrap == 0}">
-                                                        <i class="fa-regular fa-thumbs-up fa-2x"  id="scrap-${resume.id}"
-                                                        value="${post.scrap}"></i>
+                                                           <c:when test="${resume.scrap == 0}">
+                                                        <i class="fa-regular fa-thumbs-up fa-2x"  id="scrap-${postInfoAndResumes.postId}-${resume.id}"
+                                                        value="${resume.scrap}"></i>
                                                            </c:when>
                                                         
                                                            <c:otherwise>
-                                                        <i class="fa-solid fa-thumbs-up fa-2x"  id="scrap-${resume.id}"
-                                                        value="${post.scrap}"></i>
+                                                        <i class="fa-solid fa-thumbs-up fa-2x"  id="scrap-${postInfoAndResumes.postId}-${resume.id}"
+                                                        value="${resume.scrap}"></i>
                                                            </c:otherwise>
                                                         </c:choose>
 
@@ -70,6 +70,7 @@
 
                                             </div>
                                         </div>
+                                        </a>
                                     </c:forEach>
 
                                 </div>
@@ -81,12 +82,12 @@
         </div>
     <script>
     
-    function scrapOrCancle(event, id) {
+    function scrapOrCancle(event, postId, resumeId) {
          event.preventDefault();
   
     //console.log(postId);
-                let scrapValue = $("#scrap-"+id).attr("value");
-    //console.log(scrapValue);
+                let scrapValue = $("#scrap-"+postId+"-"+resumeId).attr("value");
+    console.log(scrapValue);
                 let data = {
                     "resumeId": resumeId
                 };
@@ -95,28 +96,28 @@
                     // insert
                     $.ajax({
                         type: "put",
-                        url: "/person/scrap/" + id,
+                        url: "/company/scrap/" + resumeId,
                         data: JSON.stringify(data),
                         dateType: "JSON",
                         headers: {
                             "Content-Type": "application/json; charset=UTF-8"
                         }
                     }).done((res) => {
-                        $("#scrap-"+postId).attr("value", 1);
-                        $("#scrap-"+postId).addClass("fa-solid");
-                        $("#scrap-"+postId).removeClass("fa-regular");
+                        $("#scrap-"+postId+"-"+resumeId).attr("value", 1);
+                        $("#scrap-"+postId+"-"+resumeId).addClass("fa-solid");
+                        $("#scrap-"+postId+"-"+resumeId).removeClass("fa-regular");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
                 } else {
                     $.ajax({
                         type: "delete",
-                        url: "/person/scrap/" + d
+                        url: "/company/scrap/" + resumeId
                        
                     }).done((res) => {
-                        $("#scrap-"+postId).attr("value", 0);
-                        $("#scrap-"+postId).addClass("fa-regular");
-                        $("#scrap-"+postId).removeClass("fa-solid");
+                        $("#scrap-"+postId+"-"+resumeId).attr("value", 0);
+                        $("#scrap-"+postId+"-"+resumeId).addClass("fa-regular");
+                        $("#scrap-"+postId+"-"+resumeId).removeClass("fa-solid");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });

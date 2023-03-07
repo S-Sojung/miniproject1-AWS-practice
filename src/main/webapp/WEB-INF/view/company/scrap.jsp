@@ -28,7 +28,7 @@
                         </table>
 
                         <c:forEach items="${scrapList}" var="scrap">
-                        <a href="/company/resumeDetail/${scrap.resumeId}">
+                        <a href="/company/resumeDetail/${scrap.resumeId}" style="text-decoration: none;">
                             <div class="card rounded-0" id="card-${scrap.id}">
                                 <div
                                     class="card-body d-flex justify-content-around align-center align-items-center w-100">
