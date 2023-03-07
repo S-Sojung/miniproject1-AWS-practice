@@ -17,6 +17,7 @@ public class PersonReqDto {
         private String address;
         private String password;
         private String skills;
+        private String originPassword;
     }
 
 }

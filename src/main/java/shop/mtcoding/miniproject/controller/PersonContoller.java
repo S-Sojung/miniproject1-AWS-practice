@@ -361,19 +361,19 @@ public class PersonContoller {
     @GetMapping("/person/info")
     public String personInfo(Model model, HttpSession session) {
         User principal = (User) session.getAttribute("principal");
-        System.out.println("test1");
-        System.out.println(principal.getPInfoId());
+        // System.out.println("test1");
+        // System.out.println(principal.getPInfoId());
         Person PersonPS = personRepository.findById(principal.getPInfoId());
-        System.out.println(PersonPS);
+        // System.out.println(PersonPS);
         model.addAttribute("person", PersonPS);
-        System.out.println("test3");
+        // System.out.println("test3");
         Skill pSkill = skillRepository.findByPInfoId(principal.getPInfoId());
-        System.out.println("test4");
+        // System.out.println("test4");
         // null point exception
         String pSkills = pSkill.getSkills();
-        System.out.println("test5");
+        // System.out.println("test5");
         String[] pSkillArr = pSkills.split(",");
-        System.out.println("test6");
+        // System.out.println("test6");
         model.addAttribute("pSkillArr", pSkillArr);
 
         return "person/info";
@@ -419,6 +419,12 @@ public class PersonContoller {
         }
         if (personUpdateDto.getAddress() == null || personUpdateDto.getAddress().isEmpty()) {
             throw new CustomApiException("주소를 확인해주세요");
+        }
+
+        String pw = EncryptionUtils.encrypt(personUpdateDto.getOriginPassword(), principal.getSalt());
+
+        if (!pw.equals(principal.getPassword())) {
+            throw new CustomApiException("비밀번호가 일치하지 않습니다!");
         }
 
         personService.update(personUpdateDto, principal.getPInfoId());
