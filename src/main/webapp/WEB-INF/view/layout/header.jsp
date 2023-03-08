@@ -40,16 +40,17 @@
 
                                     <div>
                                         <a class="navbar-brand fs-2" href="/person">
-                                            <img src="/images/INITilogo2.png"  width="50" height="40"
+                                            <img src="/images/INITilogo2.png" width="50px;" height="40px;"
                                                 class="d-inline-block align-text-top">
-                                            <img src="/images/logo.png" width="70" class="mt-2 mx-1" />
+                                            <img src="/images/logo.png" width="70px;" class="mt-2 mx-1" />
                                         </a>
                                     </div>
 
 
                                     <div>
-                                        <ul class="nav link-dark" style="position: relative; bottom:-25px">
-                                            <li class="nav-item init_border"id="main">
+                                        <ul class="nav link-dark"
+                                            style="position: relative; bottom:-25px; left: -60px;">
+                                            <li class="nav-item init_border" id="main">
                                                 <a class="nav-link active link-dark" aria-current="page"
                                                     href="/person/main">채용공고</a>
                                             </li>
@@ -64,7 +65,8 @@
                                         </ul>
                                     </div>
                                     <div>
-                                        <a class="nav-link" href="/person/info"> <img src="/images/mypageicon.png" style="width: 40px;"></a>
+                                        <a class="nav-link" href="/person/info"> <img src="/images/mypageicon.png"
+                                                style="width: 40px;"></a>
                                     </div>
 
                                 </div>
@@ -76,17 +78,19 @@
                             <nav
                                 class="sj_full_container navbar navbar-light navcolor d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
                                 <div class="container d-flex justify-content-between">
+
                                     <div>
                                         <a class="navbar-brand fs-2" href="/company">
-                                            <img src="/images/INITilogo2.png" alt="" width="50" height="40"
+                                            <img src="/images/INITilogo2.png" alt="" width="50px;" height="40px;"
                                                 class="d-inline-block align-text-top">
-                                            <img src="/images/logo.png" width="70" class="mt-2 mx-1" />
+                                            <img src="/images/logo.png" width="70px;" class="mt-2 mx-1" />
                                         </a>
                                     </div>
+
                                     <div>
-                                        <ul class="nav link-dark" style="position: relative; bottom:-25px">
-                                            <li class="nav-item init_border"
-                                                id="recommend">
+                                        <ul class="nav link-dark"
+                                            style="position: relative; bottom:-25px; left: -50px;">
+                                            <li class="nav-item init_border" id="recommend">
                                                 <a class="nav-link link-dark" aria-current="page"
                                                     href="/company/recommend">인재추천</a>
                                             </li>
@@ -95,11 +99,13 @@
                                             </li>
                                         </ul>
                                     </div>
+
                                     <div>
-                                        <a class="nav-link" href="/company/info"> <img src="/images/mypageicon.png" style="width: 40px;"></a>
+                                        <a class="nav-link" href="/company/info"> <img src="/images/mypageicon.png"
+                                                style="width: 40px;"></a>
                                     </div>
                                 </div>
-                                </div>
+
                             </nav>
                     </c:otherwise>
                 </c:choose>

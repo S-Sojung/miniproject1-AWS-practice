@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-     
-        <div class="container mt-5 w-75">
+
+        <div class="container mt-5 mb-3" style="width: 1300px;">
             <h4>등록한 공고와 매칭되는 구직자를 확인해보세요🌟</h4>
         </div>
 
-        <div class="container mb-5 mt-3 w-75">
+        <div class="container mb-5 mt-3 " style="width: 1300px;">
             <div class="accordion" id="accordionExample">
 
                 <c:forEach items="${postInfoAndResumes}" var="postInfoAndResumes">
@@ -15,7 +15,7 @@
                         <h2 class="accordion-header" id="heading-${postInfoAndResumes.postId}">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapse-${postInfoAndResumes.postId}" aria-expanded="true"
-                                aria-controls="collapse-${postInfoAndResumes.postId}">
+                                aria-controls="collapse-${postInfoAndResumes.postId}" style="height: 80px;">
 
                                 ${postInfoAndResumes.title}
 
@@ -44,7 +44,8 @@
                                                         style="text-decoration: none;">${resume.title}</a></td>
                                                 <td>
                                                     <c:forEach items="${resume.skills}" var="skill">
-                                                        <span class="badge text-bg-warning" value="${skill})">${skill}</span>
+                                                        <span class="badge text-bg-warning"
+                                                            value="${skill})">${skill}</span>
                                                     </c:forEach>
                                                 </td>
                                                 <td class="text-end px-5">
@@ -52,7 +53,7 @@
                                                         onclick="scrapOrCancle(${postInfoAndResumes.postId}, ${resume.id})">
                                                         <c:choose>
                                                             <c:when test="${resume.scrap == 0}">
-                                                                <i class="fa-regular fa-thumbs-up fa-2x"
+                                                                <i class="fa-regular text-secondary fa-thumbs-up fa-2x"
                                                                     id="scrap-${postInfoAndResumes.postId}-${resume.id}"
                                                                     value="${resume.scrap}"></i>
                                                             </c:when>
@@ -77,6 +78,8 @@
                 </c:forEach>
             </div>
         </div>
+
+
 
         <script>
 
@@ -104,7 +107,7 @@
                     }).done((res) => {
                         $("#scrap-" + postId + "-" + resumeId).attr("value", 1);
                         $("#scrap-" + postId + "-" + resumeId).addClass("fa-solid scrap_icon");
-                        $("#scrap-" + postId + "-" + resumeId).removeClass("fa-regular");
+                        $("#scrap-" + postId + "-" + resumeId).removeClass("fa-regular text-secondary");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
@@ -115,7 +118,7 @@
 
                     }).done((res) => {
                         $("#scrap-" + postId + "-" + resumeId).attr("value", 0);
-                        $("#scrap-" + postId + "-" + resumeId).addClass("fa-regular");
+                        $("#scrap-" + postId + "-" + resumeId).addClass("fa-regular text-secondary");
                         $("#scrap-" + postId + "-" + resumeId).removeClass("fa-solid scrap_icon");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);

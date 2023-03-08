@@ -2,7 +2,7 @@
     <%@ include file="../layout/header.jsp" %>
 
         <div class="container d-flex">
-            <div class="list-group ms-2">
+            <div class="list-group mx-2">
                 <a href="/person/info" class="list-group-item hs_list_effect shadow" style="width: 150px;">회원 정보</a>
                 <a href="/person/resumes" class="list-group-item shadow">이력서 관리</a>
                 <a href="/person/scrap" class="list-group-item shadow">스크랩</a>
@@ -11,10 +11,10 @@
 
 
 
-            <div class="ms-2 pb-4 px-4" style="width:1150px;">
-                <div class=" border border-tertiary p-5 rounded shadow" style="background-color: white">
+            <div class=" mx-2 pb-4 w-100">
+                <div class=" border border-tertiary p-5 rounded shadow">
                     <div class="d-flex justify-content-between">
-                        <h1 class="hs_line d-inline-flex">${person.name}의 정보</h1>
+                        <h1 class=" d-inline-flex">${person.name}의 정보</h1>
                         <button type="button" class="btn btn-dark" style="width:100px; height:40px;"
                             onclick="location.href=`/person/updateInfoForm`;">수정하기</button>
                     </div>
@@ -24,28 +24,28 @@
                             <form>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">이름</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">이름</span>
                                     <input type="text" class="form-control" value="${person.name}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">생년월일</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">생년월일</span>
                                     <input type="text" class="form-control" value="${person.birthday}" id="birthday"
                                         readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">연락처</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">연락처</span>
                                     <input type="text" class="form-control" value="${person.phone}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">주소</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">주소</span>
                                     <input type="text" class="form-control" value="${person.address}" readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">이메일</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">이메일</span>
                                     <input type="text" class="form-control" value="${principal.email}" readonly>
                                 </div>
 

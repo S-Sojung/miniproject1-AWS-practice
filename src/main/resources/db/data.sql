@@ -88,8 +88,8 @@ INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(2, 6, 4, 0 ,now());
 INSERT INTO person_proposal_tb(p_info_id, post_id, resume_id, status, created_at) values(1, 6, 1, 0 ,now());
 
-INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,2,'그 기백이 마음에 듭니다. 회사로 와서 면접을 봅시다.',now());
-INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,3,'회사로 와서 면접을 봅시다.',now());
+INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,2,'서류 합격을 축하드립니다 🎉<br/> 곧 면접 일정이 안내될 예정입니다.',now());
+INSERT INTO proposal_pass_tb(p_info_id, p_proposal_id, comment, created_at) values(1,3,'서류 합격을 축하드립니다 🎉 <br/>  곧 면접 일정이 안내될 예정입니다.',now());
 
 
 INSERT INTO person_scrap_tb(p_info_id, post_id, created_at) values(1,1,now());

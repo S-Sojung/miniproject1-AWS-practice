@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-        <div class="container d-flex mt-4">
-            <div class="list-group ms-2 mt-4">
+        <div class="container d-flex">
+            <div class="list-group mx-2">
                 <a href="/company/info" class="list-group-item hs_list_effect shadow" style="width: 150px;">회사 정보</a>
                 <a href="/company/posts" class="list-group-item shadow">공고 관리</a>
                 <a href="/company/getResume" class="list-group-item shadow">받은 이력서</a>
                 <a href="/company/scrap" class="list-group-item shadow">스크랩한 유저</a>
             </div>
 
-            <div class="ms-2 p-4">
-                <div class="border border-tertiary w-100 p-5 rounded shadow">
+           <div class=" mx-2 pb-4 w-100">
+                <div class="border border-tertiary  p-5 rounded shadow">
                     <div class="d-flex justify-content-between">
-                        <h1 class="hs_line">${companyPS.name} 정보</h1>
+                        <h1>${companyPS.name} 정보</h1>
                     </div>
                     <hr>
                     <img src="${companyPS.logo == null ? '/images/defaultLogo.png' : companyPS.logo}" id="companyLogo"
@@ -26,19 +26,19 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text  justify-content-center hs_span_size init_color">회사명</span>
+                                        class="input-group-text  justify-content-center hs_span_size init_color hs_span">회사명</span>
                                     <input type="text" class="form-control" value="${companyPS.name}" name="name"
                                         readonly>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">대표자</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">대표자</span>
                                     <input type=" text" class="form-control" value="${companyPS.bossName}"
                                         id="companyBossName" name="bossName">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text  justify-content-center hs_span_size init_color">사업자번호</span>
+                                        class="input-group-text  justify-content-center hs_span_size init_color hs_span">사업자번호</span>
                                     <input type="text" class="form-control" value="${companyPS.number}" name="number" maxlength="10"
                                         readonly>
                                 </div>
@@ -47,14 +47,14 @@
                                 <c:choose>
                                    <c:when test="${companyPS.cyear != null}">
                                             <span
-                                        class="input-group-text  justify-content-center hs_span_size init_color">설립년도</span>
+                                        class="input-group-text  justify-content-center hs_span_size init_color hs_span">설립년도</span>
                                     <input type="text" class="form-control" value="${companyPS.cyear}" id="companyYear"
                                         name="cyear">
                                    </c:when>
                                 
                                    <c:otherwise>
                                       <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">설립년도</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">설립년도</span>
                                     <input type="date" class="form-control" id="companyYear"
                                         name="cyear">
                                    </c:otherwise>
@@ -63,13 +63,13 @@
                                  
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">주소</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">주소</span>
                                     <input type="text" class="form-control" value="${companyPS.address}"
                                         id="companyAddress" name="address">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text justify-content-center hs_span_size init_color">사원수</span>
+                                        class="input-group-text justify-content-center hs_span_size init_color hs_span">사원수</span>
                                     <input type="text" class="form-control" value="${companyPS.size}" id="companySize"
                                         name="size">
                                 </div>
@@ -81,13 +81,13 @@
                                 <br>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text  justify-content-center hs_span_size init_color">이름</span>
+                                        class="input-group-text  justify-content-center hs_span_size init_color hs_span">이름</span>
                                     <input type="text" class="form-control" value="${companyPS.managerName}"
                                         id="companyManagerName" name="managerName">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text  justify-content-center hs_span_size init_color">연락처</span>
+                                        class="input-group-text  justify-content-center hs_span_size init_color hs_span">연락처</span>
                                     <input type="text" class="form-control" value="${companyPS.managerPhone}"
                                         id="companyManagerPhone" name="managerPhone">
                                 </div>

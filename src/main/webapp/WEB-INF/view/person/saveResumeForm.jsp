@@ -1,20 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-        <div class="container d-flex mt-4">
-            <div class="list-group ms-2 mt-4">
-                <a href="/person/info" class="list-group-item" style="width: 150px;">회원 정보</a>
-                <a href="/person/resumes" class="list-group-item hs_list_effect">이력서 관리</a>
-                <a href="/person/scrap" class="list-group-item">스크랩</a>
-                <a href="/person/history" class="list-group-item ">지원 이력</a>
+        <div class="container d-flex">
+            <div class="list-group mx-2">
+                <a href="/person/info" class="list-group-item shadow" style="width: 150px;">회원
+                    정보</a>
+                <a href="/person/resumes" class="list-group-item hs_list_effect shadow">이력서
+                    관리</a>
+                <a href="/person/scrap" class="list-group-item shadow">스크랩</a>
+                <a href="/person/history" class="list-group-item shadow">지원 이력</a>
             </div>
-            <form action="/person/resumes" method="post" enctype="multipart/form-data">
-                <div class="ms-2 p-4">
-                    <div class="border border-tertiary w-100 p-5 rounded">
 
-                        <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
-                                name="title"></h1>
-                        <span>공개 여부 설정 |</span>
+           <div class=" mx-2 pb-4 w-100">
+                <form action="/person/resumes" method="post" enctype="multipart/form-data">
+
+                    <div class="border border-tertiary w-100 p-5 rounded shadow">
+
+                        <h1><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
+                                class="hs_input_title" name="title"></h1>
+                        <span>공개 여부 설정 &nbsp | &nbsp </span>
                         <select name="publish">
                             <option value="true">공개중</option>
                             <option value="false">비공개중</option>
@@ -25,18 +29,20 @@
                             <div class="d-flex row justify-content-center">
 
                                 <div class="jh_resume_flexbox mt-3">
-                                    <img src="/images/profile1.jpg" id="imagePreview" style="width: 200px; height: 250px;"
-                                        class="mb-2 border border-tertiary">
+                                    <img src="/images/profile1.jpg" id="imagePreview"
+                                        style="width: 200px; height: 250px;" class="mb-2 border border-tertiary">
                                     <div class="jh_resume_personal_info">
                                         <div class="input-group mb-3">
-                                            <span class="input-group-text w-25 justify-content-center init_color ">이름</span>
+                                            <span
+                                                class="input-group-text w-25 justify-content-center init_color hs_span">이름</span>
                                             <input type="text" class="form-control" style="width: 120px;"
                                                 value="${personPS.name}" name="name">
                                         </div>
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text w-25 justify-content-center init_color ">생년월일</span>
+                                            <span
+                                                class="input-group-text w-25 justify-content-center init_color hs_span">생년월일</span>
 
                                             <input type="date" class="form-control" style="width: 120px;"
                                                 value="${personPS.birthday}" name="birthday">
@@ -45,7 +51,8 @@
                                         <div class="input-group mb-3">
 
 
-                                            <span class="input-group-text w-25 justify-content-center init_color ">연락처</span>
+                                            <span
+                                                class="input-group-text w-25 justify-content-center init_color hs_span">연락처</span>
 
                                             <input type="tel" class="form-control" value="${personPS.phone}"
                                                 name="phone">
@@ -54,14 +61,16 @@
                                         <div class="input-group mb-3">
 
 
-                                            <span class="input-group-text w-25 justify-content-center init_color ">주소</span>
+                                            <span
+                                                class="input-group-text w-25 justify-content-center init_color hs_span">주소</span>
                                             <input type="text" class="form-control" value="${personPS.address}"
                                                 name="address">
                                         </div>
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text w-25 justify-content-center init_color ">이메일</span>
+                                            <span
+                                                class="input-group-text w-25 justify-content-center init_color hs_span">이메일</span>
                                             <input type="email" class="form-control" value="${principal.email}"
                                                 readonly>
                                         </div>
@@ -116,20 +125,20 @@
                                 </div>
                                 <div>
                                     <h4>자기소개</h4>
-                                    <textarea name="selfIntro" class="w-100" rows="10"
+                                    <textarea name="selfIntro" class="w-100 opacity-50" rows="10"
                                         placeholder="내용을 입력하세요"></textarea>
                                 </div>
                                 <div class="d-flex mt-4 justify-content-center">
                                     <div class="px-2">
-                                        <button type="submit" class="btn init_color ">저장</button>
+                                        <button type="submit" class="btn btn-dark">저장</button>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
 
-            </form>
-        </div>
+                </form>
+            </div>
 
         </div>
         <script>

@@ -64,7 +64,7 @@
                                                     onclick="scrapOrCancle(event, ${post.postId})">
                                                     <c:choose>
                                                         <c:when test="${post.scrap == 0}">
-                                                            <i class="fa-regular fa-thumbs-up fa-2xl"
+                                                            <i class="fa-regular text-secondary fa-thumbs-up fa-2xl"
                                                                 id="scrap-${post.postId}" value="${post.scrap}"></i>
                                                         </c:when>
 
@@ -131,7 +131,7 @@
                     }).done((res) => {
                         $("#scrap-" + postId).attr("value", 1);
                         $("#scrap-" + postId).addClass("fa-solid scrap_icon");
-                        $("#scrap-" + postId).removeClass("fa-regular");
+                        $("#scrap-" + postId).removeClass("fa-regular text-secondary");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
@@ -142,7 +142,7 @@
                         dateType: "JSON"
                     }).done((res) => {
                         $("#scrap-" + postId).attr("value", 0);
-                        $("#scrap-" + postId).addClass("fa-regular");
+                        $("#scrap-" + postId).addClass("fa-regular text-secondary");
                         $("#scrap-" + postId).removeClass("fa-solid scrap_icon");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);

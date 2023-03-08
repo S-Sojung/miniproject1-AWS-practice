@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-        <div class="container d-flex mt-4">
-            <div class="list-group ms-2 mt-4">
+        <div class="container d-flex">
+            <div class="list-group mx-2">
                 <a href="/person/info" class="list-group-item  hs_list_effect shadow" style="width: 150px;">회원 정보</a>
                 <a href="/person/resumes" class="list-group-item shadow">이력서 관리</a>
                 <a href="/person/scrap" class="list-group-item shadow">스크랩</a>
@@ -11,11 +11,13 @@
 
 
 
-            <div class="container ms-2 p-4" style="width:1150px;">
-                <div class="border border-tertiary w-100 p-5 rounded shadow">
+            <div class=" mx-2 pb-4 w-100">
+                <div class="border border-tertiary p-5 rounded shadow">
                     <div class="d-flex justify-content-between">
-                        <h1 class="hs_line">개인회원 수정</h1>
-                        <button type="button" class="btn btn-dark" style="width:100px; height: 40px;"
+
+                        <h1>개인회원 수정</h1>
+
+                        <button type="button" class="btn btn-dark" style="width:80px; height: 40px;"
                             data-bs-toggle="modal" data-bs-target="#passwordCheck" data-bs-whatever="@mdo">저장</button>
                     </div>
                     <hr />
@@ -24,95 +26,95 @@
                             <form>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text init_color justify-content-center hs_span_size">이름</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">이름</span>
                                     <input type="text" class="form-control" value="${person.name}" id="name">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text init_color justify-content-center hs_span_size">생년월일</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">생년월일</span>
                                     <input type="date" class="form-control" id="birthday">
                                     <input type="hidden" class="form-control" value="${person.birthday}" id="pbirthday">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text init_color justify-content-center hs_span_size">연락처</span>
-                                    <input type="tel" class="form-control" maxlength="11" value="${person.phone}" id="phone">
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">연락처</span>
+                                    <input type="tel" class="form-control" maxlength="11" value="${person.phone}"
+                                        id="phone">
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text init_color justify-content-center hs_span_size">주소</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">주소</span>
                                     <input type="text" class="form-control" value="${person.address}" id="address">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text init_color justify-content-center hs_span_size">이메일</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">이메일</span>
                                     <input type="email" class="form-control" value="${principal.email}" id="email"
                                         readonly>
                                 </div>
 
-                                <%-- <div class="input-group mb-3">
-                                    <span class="input-group-text bg-light justify-content-center hs_span_size">현재
-                                        비밀번호</span>
-                                    <input type="password" class="form-control" value="${principal.password}" readonly>
-                        </div>
-                        --%>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text init_color justify-content-center hs_span_size">비밀번호</span>
-                            <input type="password" class="form-control" id="changePassword">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text init_color justify-content-center hs_span_size">비밀번호
-                                확인</span>
-                            <input type="password" class="form-control" id="checkChangePassword"
-                                onchange="checkingPassword()">
-                        </div>
+                                <div class="input-group mb-3">
+                                    <span
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">비밀번호</span>
+                                    <input type="password" class="form-control" id="changePassword">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span
+                                        class="input-group-text init_color justify-content-center hs_span_size hs_span">비밀번호
+                                        확인</span>
+                                    <input type="password" class="form-control" id="checkChangePassword"
+                                        onchange="checkingPassword()">
+                                </div>
 
-                        <div id="checkAlertBox"></div>
+                                <div id="checkAlertBox"></div>
 
-                        <div class="my-5">
-                            <h4>기술스택</h4>
-                            <input type="hidden" value="${pSkills}" id="check">
-                            <div class="row row-cols-auto gap-3 justify-content-center my-3">
-                                <c:forEach items="${skills}" var="skill">
-                                    <input type="checkbox" name="skills" class="btn-check" id="${skill}"
-                                        value="${skill}" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
-                                </c:forEach>
-                            </div>
-                        </div>
-
-                        <div class="modal fade" id="passwordCheck" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 확인</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="mb-3">
-                                                <label for="recipient-Password" class="col-form-label">Password</label>
-                                                <input type="password" class="form-control" id="recipient-Password">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-dark"
-                                            data-bs-dismiss="modal">닫기</button>
-                                        <button type="button" class="btn init_color proposalBtn" style="background-color: #a8e455;"
-                                            onclick="personUpdate()">저장</button>
+                                <div class="my-5">
+                                    <h4>기술스택</h4>
+                                    <input type="hidden" value="${pSkills}" id="check">
+                                    <div class="row row-cols-auto gap-3 justify-content-center my-3">
+                                        <c:forEach items="${skills}" var="skill">
+                                            <input type="checkbox" name="skills" class="btn-check" id="${skill}"
+                                                value="${skill}" autocomplete="off">
+                                            <label class="btn btn-outline-primary" for="${skill}">${skill}</label>
+                                        </c:forEach>
                                     </div>
                                 </div>
-                            </div>
+
+                                <div class="modal fade" id="passwordCheck" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">비밀번호 확인</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="mb-3">
+                                                        <label for="recipient-Password"
+                                                            class="col-form-label">Password</label>
+                                                        <input type="password" class="form-control"
+                                                            id="recipient-Password">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark"
+                                                    data-bs-dismiss="modal">닫기</button>
+                                                <button type="button" class="btn init_color proposalBtn"
+                                                    style="background-color: #a8e455;"
+                                                    onclick="personUpdate()">저장</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
         <script>

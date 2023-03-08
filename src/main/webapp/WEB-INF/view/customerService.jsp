@@ -10,8 +10,8 @@
                 </div>
                 <div class="row row-cols-2 mt-4 justify-content-center">
                     <div class="col-6 border-borderless px-4" style="width: 600px;">
-                        <div class="badge rounded-pill  mt-5 mb-3 text-center border-borderless d-flex align-items-center justify-content-center"
-                            style="height: 60px; font-size: 25px; background-color: darkorange;"><b>개인 회원
+                        <div class="badge rounded-pill init_color text-dark mt-5 mb-3 text-center border-borderless d-flex align-items-center justify-content-center"
+                            style="height: 60px; font-size: 25px;"><b>개인 회원
                                 FAQ</b>
                         </div>
                         <div class="accordion mb-5" id="accordionExample1">
@@ -36,8 +36,8 @@
                         </div>
                     </div>
                     <div class="col-6 border-borderless px-4" style="width: 600px;">
-                        <div class="badge rounded-pill mt-5 mb-3 text-center border-borderless d-flex align-items-center justify-content-center"
-                            style="height: 60px; font-size: 25px; background-color: darkorange;"><b>기업 회원
+                        <div class="badge rounded-pill mt-5 mb-3 init_color text-dark text-center border-borderless d-flex align-items-center justify-content-center"
+                            style="height: 60px; font-size: 25px;"><b>기업 회원
                                 FAQ</b>
                         </div>
                         <div class="accordion mb-5" id="accordionExample2">
