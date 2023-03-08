@@ -21,7 +21,7 @@ repositories {
 dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	// implementation 'org.springframework.session:spring-session-data-redis' 
+	implementation 'org.springframework.session:spring-session-data-redis' 
 	implementation 'javax.servlet:jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	testImplementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter-test', version: '2.2.2'

@@ -1,9 +1,12 @@
 package shop.mtcoding.miniproject.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -37,6 +40,7 @@ import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
 import shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto.CompanyScrapWithResumeInfoResArrDto;
 import shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto.CompanyScrapWithResumeInfoResDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalReq.CompanyProposalStatusReqDto;
+import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListDateRespDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListRespDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalDetailRespDto;
 import shop.mtcoding.miniproject.dto.post.PostReq.PostSaveReqDto;
@@ -204,11 +208,40 @@ public class CompanyContoller {
         List<CompanyProposalListRespDto> companyProposalList = personProposalRepository
                 .findAllWithPostAndResumeAndPInfoByCInfoId(userPS.getCInfoId());
 
+        List<CompanyProposalListDateRespDto>  companyProposalList2 = new ArrayList<>();
+          
+        for (CompanyProposalListRespDto cpl : companyProposalList) {
+                CompanyProposalListDateRespDto dto = new CompanyProposalListDateRespDto();
+                dto.setCInfoId(cpl.getCInfoId());
+                dto.setId(cpl.getId());
+                dto.setName(cpl.getName());
+                dto.setPInfoId(cpl.getPInfoId());
+                dto.setPostId(cpl.getPostId());
+                dto.setPtitle(cpl.getPtitle());
+                dto.setResumeId(cpl.getResumeId());
+                dto.setStatus(cpl.getStatus());
+
+                Timestamp createdAt = cpl.getCreatedAt();
+                Date date = new Date(createdAt.getTime());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String proposaltime = sdf.format(date);
+
+                dto.setCreatedAt(proposaltime);
+
+                companyProposalList2.add(dto);
+        }
+
+    
         Company company = companyRepository.findById(userPS.getCInfoId());
         model.addAttribute("companyPS", company);
-        model.addAttribute("companyProposalList", companyProposalList);
+        model.addAttribute("companyProposalList", companyProposalList2);
+
+
         return "company/getResume";
     }
+
+
+
 
     @GetMapping("/company/resumeDetail/{id}")
     public String companyResumeDetail(@PathVariable int id, Model model) {

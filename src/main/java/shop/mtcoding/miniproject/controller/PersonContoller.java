@@ -37,6 +37,7 @@ import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonPro
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalStringListRespDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapIntegerResDto;
 import shop.mtcoding.miniproject.dto.personScrap.PersonScrapResDto.PersonScrapTimeStampResDto;
+import shop.mtcoding.miniproject.dto.post.PostResp.PostDtailResDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainWithScrapRespDto;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostRecommendIntegerRespDto;
@@ -261,6 +262,27 @@ public class PersonContoller {
         if (postPS == null) {
             throw new CustomException("없는 공고 입니다.");
         }
+
+        PersonScrap scrap = personScrapRepository.findByPInfoIdAndPostId(userPS.getPInfoId(), postPS.getId());
+
+        PostDtailResDto postPS2 = new PostDtailResDto();
+        postPS2.setId(postPS.getId());
+        postPS2.setCInfoId(postPS.getCInfoId());
+        postPS2.setCIntro(postPS.getCondition());
+        postPS2.setCareer(postPS.getCareer());
+        postPS2.setCondition(postPS.getCondition());
+        postPS2.setEndHour(postPS.getEndHour());
+        postPS2.setJobIntro(postPS.getJobIntro());
+        postPS2.setPay(postPS.getPay());
+        postPS2.setStartHour(postPS.getStartHour());
+        postPS2.setTitle(postPS.getTitle());
+
+        if (scrap == null) {
+            postPS2.setScrap(0);
+        } else {
+            postPS2.setScrap(1);
+        }
+
         new Date();
 
         Company companyPS = (Company) companyRepository.findById(postPS.getCInfoId());
@@ -269,11 +291,12 @@ public class PersonContoller {
         Date date = new Date(postPS.getDeadline().getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDeadline = sdf.format(date);
-        model.addAttribute("post", postPS);
+
+        model.addAttribute("post", postPS2);
         model.addAttribute("company", companyPS);
         model.addAttribute("deadline", formattedDeadline);
         model.addAttribute("skills", skills);
-
+       
         // List<Resume> resumeAll = resumeRepository.findAll();
         // model.addAttribute("resume", resumeAll);
 

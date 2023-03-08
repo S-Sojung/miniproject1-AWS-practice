@@ -37,6 +37,9 @@ footer {
     text-decoration: none;
 }
 
+.navcolor{
+    background-color: white;
+}
 .init_border {
     border-bottom: 3px solid #a8e455;
     padding-bottom: 2px;
@@ -91,12 +94,19 @@ footer {
     max-width: none !important;
 }
 
+.proposalBtn:hover{
+    background-color: #a8e455;
+}
 
 .jm_select_box {
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 2px;
+}
+
+a{
+    color: #2c741d;
 }
 
 .jm_select {

@@ -72,4 +72,23 @@ public class PostResp {
 
     }
 
+    @Getter
+    @Setter
+    public static class PostDtailResDto {
+    private Integer id;
+    private String title;
+    private Integer cInfoId;
+    private Integer career;
+    private String pay;
+    private String condition;
+    private String startHour;
+    private String endHour;
+    private String cIntro;
+    private String jobIntro;
+    private Integer scrap;
+    }
+
+
+
+
 }
