@@ -15,6 +15,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -71,6 +72,12 @@ import shop.mtcoding.miniproject.util.EncryptionUtils;
 public class PersonContoller {
 
     @Autowired
+    private RedisTemplate<String, User> redisTemplate;
+
+    @Autowired
+    private HttpSession session;
+
+    @Autowired
     private ResumeService resumeService;
 
     @Autowired
@@ -123,7 +130,7 @@ public class PersonContoller {
     }
 
     @PostMapping("/personLogin")
-    public String personLogin(LoginPersonReqDto loginPersonReqDto, HttpSession session) {
+    public String personLogin(LoginPersonReqDto loginPersonReqDto) {
         if (loginPersonReqDto.getEmail() == null ||
                 loginPersonReqDto.getEmail().isEmpty()) {
             throw new CustomException("이메일을 작성해주세요");
@@ -147,6 +154,7 @@ public class PersonContoller {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
         }
 
+        redisTemplate.opsForValue().set("principal", principal);
         session.setAttribute("principal", principal);
         return "redirect:/person/main";
     }
@@ -205,7 +213,7 @@ public class PersonContoller {
     }
 
     @GetMapping({ "/person/main", "/person" })
-    public String personMain(Model model, HttpSession session) {
+    public String personMain(Model model) {
         User principal = (User) session.getAttribute("principal");
 
         // 회사로고, 회사이름, 공고이름, 회사 주소, D-day
@@ -243,7 +251,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/detail/{id}")
-    public String personDetail(@PathVariable int id, Model model, HttpSession session) {
+    public String personDetail(@PathVariable int id, Model model) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
@@ -279,7 +287,7 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/detail/{id}/resume")
-    public String submitResume(@PathVariable("id") int id, int selectedResume, HttpSession session) {
+    public String submitResume(@PathVariable("id") int id, int selectedResume) {
 
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
@@ -295,7 +303,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/recommend")
-    public String personRecommend(Model model, HttpSession session) {
+    public String personRecommend(Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.FORBIDDEN);
@@ -369,7 +377,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/info")
-    public String personInfo(Model model, HttpSession session) {
+    public String personInfo(Model model) {
         User principal = (User) session.getAttribute("principal");
 
         Person PersonPS = personRepository.findById(principal.getPInfoId());
@@ -386,7 +394,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/updateInfoForm")
-    public String personUpdateInfoForm(Model model, HttpSession session) {
+    public String personUpdateInfoForm(Model model) {
 
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
@@ -402,7 +410,7 @@ public class PersonContoller {
     }
 
     @PutMapping("/person/updateInfo")
-    public ResponseEntity<?> personUpdate(@RequestBody PersonUpdateDto personUpdateDto, HttpSession session) {
+    public ResponseEntity<?> personUpdate(@RequestBody PersonUpdateDto personUpdateDto) {
         // 필수인지 헷갈림
         User principal = (User) session.getAttribute("principal");
         Person PersonPS = personRepository.findById(principal.getPInfoId());
@@ -434,12 +442,15 @@ public class PersonContoller {
         }
 
         personService.update(personUpdateDto, principal.getPInfoId());
+        User principalPS = (User) userRepository.findById(principal.getId());
 
+        redisTemplate.opsForValue().set("principal", principalPS);
+        session.setAttribute("principal", principalPS);
         return new ResponseEntity<>(new ResponseDto<>(1, "회원 정보 수정 완료", null), HttpStatus.OK);
     }
 
     @GetMapping("/person/history")
-    public String personHistory(Model model, HttpSession session) {
+    public String personHistory(Model model) {
         User principalPS = (User) session.getAttribute("principal");
         List<PersonProposalListRespDto> personProposalList = personProposalRepository
                 .findAllWithPostAndCInfoByPInfoId(principalPS.getPInfoId());
@@ -473,7 +484,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/resumes")
-    public String personResumes(Model model, HttpSession session) {
+    public String personResumes(Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -488,7 +499,7 @@ public class PersonContoller {
     }
 
     @DeleteMapping("/person/resumes/{id}")
-    public ResponseEntity<?> deleteResume(@PathVariable int id, HttpSession session) {
+    public ResponseEntity<?> deleteResume(@PathVariable int id) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -498,7 +509,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/saveResumeForm")
-    public String personSaveResumeForm(Model model, HttpSession session) {
+    public String personSaveResumeForm(Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -510,7 +521,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/resumeDetail/{id}")
-    public String personResumeDetail(@PathVariable int id, Model model, HttpSession session) {
+    public String personResumeDetail(@PathVariable int id, Model model) {
 
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
@@ -533,7 +544,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/scrap")
-    public String personScrap(Model model, HttpSession session) {
+    public String personScrap(Model model) {
         User principal = (User) session.getAttribute("principal");
         List<PersonScrapTimeStampResDto> pScrapList = personScrapRepository.findByPInfoId(principal.getPInfoId());
 
@@ -558,7 +569,7 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/resumes")
-    public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto, Model model, HttpSession session) {
+    public String personInsertResumeForm(ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -593,7 +604,7 @@ public class PersonContoller {
     }
 
     @GetMapping("/person/updateResume/{id}")
-    public String getUpdateResumeForm(@PathVariable int id, Model model, HttpSession session) {
+    public String getUpdateResumeForm(@PathVariable int id, Model model) {
         // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
@@ -610,8 +621,7 @@ public class PersonContoller {
     }
 
     @PostMapping("/person/updateResume/{id}")
-    public String UpdateResumeForm(@PathVariable int id, ResumeUpdateReqDto resumeUpdateReqDto, Model model,
-            HttpSession session) {
+    public String UpdateResumeForm(@PathVariable int id, ResumeUpdateReqDto resumeUpdateReqDto, Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);

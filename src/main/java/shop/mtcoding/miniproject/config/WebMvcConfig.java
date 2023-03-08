@@ -9,12 +9,12 @@ import shop.mtcoding.miniproject.interceptor.WebInterceptor;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    // @Override
-    // public void addInterceptors(InterceptorRegistry registry) {
-    // registry.addInterceptor(new WebInterceptor())
-    // .addPathPatterns("/person/**", "/company/**")
-    // .excludePathPatterns("/css/**", "/images/**", "/js/**", "/personLogin",
-    // "/companyLogin", "/personJoin1", "/personJoin2",
-    // "/companyJoin", "/siteMain", "/customerService");
-    // }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // registry.addInterceptor(new WebInterceptor())
+        // .addPathPatterns("/person/**", "/company/**")
+        // .excludePathPatterns("/css/**", "/images/**", "/js/**", "/personLogin",
+        // "/companyLogin", "/personJoin1", "/personJoin2",
+        // "/companyJoin", "/siteMain", "/customerService");
+    }
 }
