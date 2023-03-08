@@ -29,7 +29,7 @@
                             <tr class="${proposal.status==1? 'table-info':(proposal.status==-1?'table-secondary':'')}">
                                 <td> &nbsp &nbsp <a href="/person/detail/${proposal.postId}">${proposal.title}</a></td>
                                 <td class="text-center">${proposal.name}</td>
-                                <td class="text-center">${proposal.deadline}</td>
+                                <td class="text-center">${proposal.gdeadline}</td>
                                 <td class="text-center">
                                 <c:choose>
                                     <c:when test="${proposal.status==0}">
