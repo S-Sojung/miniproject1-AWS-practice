@@ -188,7 +188,7 @@ a{
 }
 
 .data-bs-toggle {
-    background-color: darkorange;
+    background-color: #a8e455;
 }
 
 .jh_flex_container {
@@ -234,7 +234,7 @@ a{
 }
 
 .jh_resume_table td:first-child {
-    background-color: orange;
+    background-color: #a8e455;
     text-align: center;
 }
 

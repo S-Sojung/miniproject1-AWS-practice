@@ -68,14 +68,16 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="mt-5">
+                                <div class="mt-5 w-100">
                                     <h4>자기소개</h4>
-                                    <textarea name="resume_content" cols="109" rows="10" readOnly>${resumeDetail.selfIntro}
+                                    
+                                    <textarea name="resume_content"  class="w-100" rows="10" readOnly>${resumeDetail.selfIntro}
                                </textarea>
                                 </div>
+                                
                                 <div class="d-flex mt-4 justify-content-center">
                                     <div class="px-2">
-                                        <button type="button" class="btn btn-light"
+                                        <button type="button" class="btn init_color"
                                             onclick="updateResumeForm(${resumeDetail.id})">수정하기</button>
                                     </div>
                                 </div>

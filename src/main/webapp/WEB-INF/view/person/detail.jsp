@@ -131,7 +131,7 @@
                         </div>
 
                         <!-- 지원하기 버튼 -->
-                        <button type="button" class="btn init_color proposalBtn" style="height: 50px; background-color: #a8e455 ;" data-bs-toggle="modal"
+                        <button type="button" class="btn init_color proposalBtn" style="height: 50px; background-color: #a8e455;" data-bs-toggle="modal"
                             data-bs-target="#myModal" id="myBtn">지원하기</button>
                         <!-- 지원하기 모달 -->
                         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"

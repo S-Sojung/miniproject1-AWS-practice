@@ -56,7 +56,7 @@ public class ResumeService {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        int result3 = skillRepository.insert(pInfoId, 0, resume.getId(), skill.getSkills());
+        int result3 = skillRepository.insert(0, 0, resume.getId(), skill.getSkills());
         if (result3 != 1) {
             throw new CustomException("이력서 저장에 문제가 생겼네요", HttpStatus.INTERNAL_SERVER_ERROR);
         }

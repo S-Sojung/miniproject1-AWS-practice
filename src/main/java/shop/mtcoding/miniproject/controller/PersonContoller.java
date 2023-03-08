@@ -555,7 +555,9 @@ public class PersonContoller {
             throw new CustomException("없는 이력서를 수정할 수 없습니다");
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
-        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+
+        Skill skillPS = skillRepository.findByResumeId(resumePS.getId());
+        
         Date date = new Date(personPS.getBirthday().getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedBirthday = sdf.format(date);

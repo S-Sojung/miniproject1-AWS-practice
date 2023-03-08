@@ -3,16 +3,16 @@
 
         <div class="container d-flex mt-4">
             <div class="list-group ms-2 mt-4">
-                <a href="/person/info" class="list-group-item  hs_list_effect" style="width: 150px;">회원 정보</a>
-                <a href="/person/resumes" class="list-group-item ">이력서 관리</a>
-                <a href="/person/scrap" class="list-group-item ">스크랩</a>
-                <a href="/person/history" class="list-group-item ">지원 이력</a>
+                <a href="/person/info" class="list-group-item  hs_list_effect shadow" style="width: 150px;">회원 정보</a>
+                <a href="/person/resumes" class="list-group-item shadow">이력서 관리</a>
+                <a href="/person/scrap" class="list-group-item shadow">스크랩</a>
+                <a href="/person/history" class="list-group-item shadow">지원 이력</a>
             </div>
 
 
 
             <div class="container ms-2 p-4" style="width:1150px;">
-                <div class="border border-tertiary w-100 p-5 rounded ">
+                <div class="border border-tertiary w-100 p-5 rounded shadow">
                     <div class="d-flex justify-content-between">
                         <h1 class="hs_line">개인회원 수정</h1>
                         <button type="button" class="btn btn-dark" style="width:100px; height: 40px;"
@@ -102,7 +102,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-dark"
                                             data-bs-dismiss="modal">닫기</button>
-                                        <button type="button" class="btn init_color"
+                                        <button type="button" class="btn init_color proposalBtn" style="background-color: #a8e455;"
                                             onclick="personUpdate()">저장</button>
                                     </div>
                                 </div>

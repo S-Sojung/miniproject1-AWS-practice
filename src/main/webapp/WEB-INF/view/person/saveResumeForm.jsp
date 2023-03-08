@@ -25,18 +25,18 @@
                             <div class="d-flex row justify-content-center">
 
                                 <div class="jh_resume_flexbox mt-3">
-                                    <img src="/images/logo.png" id="imagePreview" style="width: 200px; height: 250px;"
+                                    <img src="/images/profile1.jpg" id="imagePreview" style="width: 200px; height: 250px;"
                                         class="mb-2 border border-tertiary">
                                     <div class="jh_resume_personal_info">
                                         <div class="input-group mb-3">
-                                            <span class="input-group-text w-25 justify-content-center ">이름</span>
+                                            <span class="input-group-text w-25 justify-content-center init_color ">이름</span>
                                             <input type="text" class="form-control" style="width: 120px;"
                                                 value="${personPS.name}" name="name">
                                         </div>
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text w-25 justify-content-center">생년월일</span>
+                                            <span class="input-group-text w-25 justify-content-center init_color ">생년월일</span>
 
                                             <input type="date" class="form-control" style="width: 120px;"
                                                 value="${personPS.birthday}" name="birthday">
@@ -45,7 +45,7 @@
                                         <div class="input-group mb-3">
 
 
-                                            <span class="input-group-text w-25 justify-content-center">연락처</span>
+                                            <span class="input-group-text w-25 justify-content-center init_color ">연락처</span>
 
                                             <input type="tel" class="form-control" value="${personPS.phone}"
                                                 name="phone">
@@ -54,14 +54,14 @@
                                         <div class="input-group mb-3">
 
 
-                                            <span class="input-group-text w-25 justify-content-center">주소</span>
+                                            <span class="input-group-text w-25 justify-content-center init_color ">주소</span>
                                             <input type="text" class="form-control" value="${personPS.address}"
                                                 name="address">
                                         </div>
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text w-25 justify-content-center">이메일</span>
+                                            <span class="input-group-text w-25 justify-content-center init_color ">이메일</span>
                                             <input type="email" class="form-control" value="${principal.email}"
                                                 readonly>
                                         </div>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="d-flex mt-4 justify-content-center">
                                     <div class="px-2">
-                                        <button type="submit" class="btn btn-light">저장</button>
+                                        <button type="submit" class="btn init_color ">저장</button>
                                     </div>
                                 </div>
                             </div>
