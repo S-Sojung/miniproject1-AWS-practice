@@ -354,11 +354,11 @@ public class CompanyContoller {
             throws IOException {
         User principal = (User) session.getAttribute("principal");
 
-        if (companyUpdateInfoDto.getBossName() == null || companyUpdateInfoDto.getBossName().isEmpty()) {
-            throw new CustomApiException("대표자명을 확인해주세요");
-        }
         if (companyUpdateInfoDto.getAddress() == null || companyUpdateInfoDto.getAddress().isEmpty()) {
             throw new CustomApiException("주소를 확인해주세요");
+        }
+        if (companyUpdateInfoDto.getBossName() == null || companyUpdateInfoDto.getBossName().isEmpty()) {
+            throw new CustomApiException("대표자명을 확인해주세요");
         }
         if (companyUpdateInfoDto.getCyear() == null || companyUpdateInfoDto.getCyear().isEmpty()) {
             throw new CustomApiException("설립년도를 확인해주세요");
@@ -568,6 +568,9 @@ public class CompanyContoller {
     public String companySavePost(Model model, PostSaveReqDto postSaveReqDto) {
 
         User userPS = (User) session.getAttribute("principal");
+        if (userPS == null) {
+            throw new CustomException("인증이 필요합니다");
+        }
 
         if (postSaveReqDto.getTitle() == null ||
                 postSaveReqDto.getTitle().isEmpty()) {
@@ -630,7 +633,7 @@ public class CompanyContoller {
 
         postService.공고삭제하기(id, userPS.getCInfoId());
 
-        return new ResponseEntity<>(new ResponseDto<>(1, "공고 삭제 성공", null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDto<>(1, "공고 삭제 성공", null), HttpStatus.OK);
     }
 
     @PostMapping("/company/proposalPass/{id}")

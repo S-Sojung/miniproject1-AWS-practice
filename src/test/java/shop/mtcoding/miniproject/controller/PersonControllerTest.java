@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.FileInputStream;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,11 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -174,35 +177,42 @@ public class PersonControllerTest {
     @Test
     public void personInsertResumeForm_test() throws Exception {
         // given
-        int id = 1;
-        // ObjectMapper om = new ObjectMapper(); @AutoWired 함!
+        MockMultipartFile file = new MockMultipartFile("image", "profile1.jpg", "image/jpg",
+                new FileInputStream("src/main/resources/static/images/profile1.jpg"));
 
-        // String requestBody = "title=수정된 제목입니다&content=수정된 내용입니다";
         ResumeUpdateReqDto resumeUpdateReqDto = new ResumeUpdateReqDto();
+        resumeUpdateReqDto.setProfile(file);
         resumeUpdateReqDto.setTitle("이력서샘플");
         resumeUpdateReqDto.setPortfolio("sampleGithub");
         resumeUpdateReqDto.setName("김샘플");
         resumeUpdateReqDto.setPhone("01088889999");
         resumeUpdateReqDto.setAddress("경기");
+        resumeUpdateReqDto.setBirthday("2001-04-10 00:00:00");
+        resumeUpdateReqDto.setPublish(true);
+        resumeUpdateReqDto.setSelfIntro("안녕하세요");
         resumeUpdateReqDto.setSkills("Sql");
 
-        String requestBody = om.writeValueAsString(resumeUpdateReqDto);
-        // System.out.println("테스트 : "+requestBody);
-
         // when
-        ResultActions resultActions = mvc.perform(
-                post("/person/resumes")
-                        .content(requestBody)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .session(mockSession)); // session이 주입된 채로 요청
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload("/person/resumes")
+                .file("profile", file.getBytes())
+                .param("title", resumeUpdateReqDto.getTitle())
+                .param("portfolio", resumeUpdateReqDto.getPortfolio())
+                .param("name", resumeUpdateReqDto.getName())
+                .param("phone", resumeUpdateReqDto.getPhone())
+                .param("address", resumeUpdateReqDto.getAddress())
+                .param("selfIntro", resumeUpdateReqDto.getSelfIntro())
+                .param("birthday", resumeUpdateReqDto.getBirthday())
+                .param("skills", resumeUpdateReqDto.getSkills());
 
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.print("테스트: " + responseBody);
+        ResultActions resultActions = mvc.perform(builder.session(mockSession));
+
+        // String responseBody =
+        // resultActions.andReturn().getResponse().getContentAsString();
 
         // then
 
         // resultActions.andExpect(jsonPath("$.msg").value("회원 정보 수정 완료"));
-        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(status().is3xxRedirection());
     }
 
     // 이력서 수정 테스트
@@ -210,33 +220,40 @@ public class PersonControllerTest {
     public void UpdateResumeForm_test() throws Exception {
         // given
         int id = 1;
-        // ObjectMapper om = new ObjectMapper(); @AutoWired 함!
+        MockMultipartFile file = new MockMultipartFile("image", "profile1.jpg", "image/jpg",
+                new FileInputStream("src/main/resources/static/images/profile1.jpg"));
 
-        // String requestBody = "title=수정된 제목입니다&content=수정된 내용입니다";
         ResumeUpdateReqDto resumeUpdateReqDto = new ResumeUpdateReqDto();
+        resumeUpdateReqDto.setProfile(file);
         resumeUpdateReqDto.setTitle("이력서샘플");
         resumeUpdateReqDto.setPortfolio("sampleGithub");
-        resumeUpdateReqDto.setBirthday("2001-04-10 00:00:00");
         resumeUpdateReqDto.setName("김샘플");
         resumeUpdateReqDto.setPhone("01088889999");
         resumeUpdateReqDto.setAddress("경기");
+        resumeUpdateReqDto.setBirthday("2001-04-10 00:00:00");
+        resumeUpdateReqDto.setPublish(true);
+        resumeUpdateReqDto.setSelfIntro("안녕하세요");
         resumeUpdateReqDto.setSkills("Sql");
 
-        String requestBody = om.writeValueAsString(resumeUpdateReqDto);
-        // System.out.println("테스트 : "+requestBody);
-
         // when
-        ResultActions resultActions = mvc
-                .perform(post("/person/updateResume/" + id).session(mockSession).content(requestBody)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE));
 
-        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
-        System.out.print("테스트: " + responseBody);
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.fileUpload("/person/updateResume/" + id)
+                .file("profile", file.getBytes())
+                .param("title", resumeUpdateReqDto.getTitle())
+                .param("portfolio", resumeUpdateReqDto.getPortfolio())
+                .param("name", resumeUpdateReqDto.getName())
+                .param("phone", resumeUpdateReqDto.getPhone())
+                .param("address", resumeUpdateReqDto.getAddress())
+                .param("selfIntro", resumeUpdateReqDto.getSelfIntro())
+                .param("birthday", resumeUpdateReqDto.getBirthday())
+                .param("skills", resumeUpdateReqDto.getSkills());
+
+        ResultActions resultActions = mvc.perform(builder.session(mockSession));
 
         // then
 
         // resultActions.andExpect(jsonPath("$.msg").value("회원 정보 수정 완료"));
-        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(status().is3xxRedirection());
     }
 
     // 이력서 지원하기 테스트
