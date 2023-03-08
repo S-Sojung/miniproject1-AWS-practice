@@ -7,7 +7,7 @@
     </div>
     <div class="d-flex justify-content-center">
 
-        <div class="border rounded p-3 m-3 shadow-lg" style="width: 300px;">
+        <div class="border rounded p-3 m-3 shadow" style="width: 300px;">
             <h5 class="text-center">기술 분야</h5>
             <hr class="w-100 color-dark">
             <form action="/personJoin2" method="post">

@@ -8,7 +8,7 @@
         </div>
         <div class="d-flex justify-content-center">
 
-            <div class="border rounded p-3 m-3" style="width: 300px;">
+            <div class="border rounded p-3 m-3 shadow" style="width: 300px;">
 
                 <!-- companyJoin 실행 후 이동해도 됨! -->
                 <form action="/companyJoin" method="post">

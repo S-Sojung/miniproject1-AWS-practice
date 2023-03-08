@@ -1,11 +1,27 @@
 @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
+@font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MICEGothic Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-01@1.0/MICEGothic Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
 html,
 body {
+    background-color: #ffffff;
     margin: 0px;
     padding: 0px;
     height: 100%;
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'LINESeedKR-Bd';
+
 }
 
 header {
@@ -21,8 +37,13 @@ footer {
     text-decoration: none;
 }
 
+.init_border {
+    border-bottom: 3px solid #a8e455;
+    padding-bottom: 2px;
+}
+
 .sj_full_container {
-    min-height: calc(100% - 228px);
+    min-height: calc(100% - 210px);
     min-width: 1300px;
     max-width: none !important;
 }
@@ -32,17 +53,29 @@ footer {
 }
 
 .main_card {
+    border: none;
     margin: 50px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+}
+
+.main_card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
 }
 
 .list-group :hover {
-    background-color: darkorange;
-    color: white;
+    background-color: #a8e455;
+    color: black;
+}
+
+.init_color {
+    background-color: #a8e455;
 }
 
 .hs_list_effect {
-    background-color: darkorange;
-    color: white;
+    background-color: #a8e455;
+
 }
 
 .hs_line {
@@ -57,6 +90,7 @@ footer {
     width: 1300px;
     max-width: none !important;
 }
+
 
 .jm_select_box {
     display: flex;
@@ -79,13 +113,27 @@ footer {
     justify-content: center;
     text-align: center;
     margin-top: 30px;
-    background-color: white;
     padding: 50px;
 }
 
 .jm_card {
     padding: 25px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
 }
+
+
+.jm_card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+    border: 2px solid #a8e455;
+
+}
+
+.scrap_icon {
+    color: #a8e455;
+}
+
 
 .jm_card_img_top {
     height: 10rem;
@@ -150,7 +198,8 @@ footer {
 .jh_resume_button {
     width: 900px;
     padding: 30px;
-    border-color: lightgray;
+    border-color: #eee;
+    background-color: white;
     font-size: larger;
 }
 
@@ -330,8 +379,4 @@ footer {
     background: white;
     border-radius: 0%;
     transform: rotate(-45deg);
-}
-
-.main_card {
-    border: 3px solid orange;
 }

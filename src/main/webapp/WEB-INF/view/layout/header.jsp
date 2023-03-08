@@ -21,72 +21,82 @@
                 <input type="hidden" id="current" val="siteMain" />
                 <c:choose>
                     <c:when test="${principal==null}">
-                         <nav
-                                class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center">
-                                <div class="container">
-                                    <a class="navbar-brand fs-2" href="/person">
-                                        <img src="/images/INITilogo.png" alt="" width="50" height="40"
-                                            class="d-inline-block align-text-top">
-                                        INITi
-                                    </a>
-                                </div>
-                            </nav>
+                        <nav
+                            class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
+                            <div class="container">
+                                <a class="navbar-brand fs-2" href="/person">
+                                    <img src="/images/INITilogo.png" width="50" height="40"
+                                        class="d-inline-block align-text-top">
+                                    <img src="/images/logo.png" width="8%" class="mt-2 mx-1" />
+                                </a>
+                            </div>
+                        </nav>
                     </c:when>
                     <c:when test="${principal.PInfoId!=0}">
                         <%-- 개인 로그인 --%>
                             <nav
-                                class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center">
-                                <div class="container">
-                                    <a class="navbar-brand fs-2" href="/person">
-                                        <img src="/images/INITilogo.png" alt="" width="50" height="40"
-                                            class="d-inline-block align-text-top">
-                                        INITi
-                                    </a>
-                                    <ul class="nav link-dark" style="position: relative; bottom:-12px">
-                                        <li class="nav-item pb-2 border-bottom border-warning border-3"
-                                            id="main">
-                                            <a class="nav-link active link-dark" aria-current="page"
-                                                href="/person/main">채용공고</a>
-                                        </li>
-                                        <li class="nav-item pb-2 " id="recommend">
-                                            <a class=" nav-link link-dark" href="/person/recommend">추천공고</a>
-                                        </li>
-                                        
-                                        <li class="nav-item pb-2 ">
-
-                                            <a class="nav-link link-dark" href="/logout">로그아웃</a>
-                                        </li>
-                                    </ul>
+                                class="sj_full_container navbar navbar-light bg-lightsticky-top border-bottom align-self-center py-4">
+                                <div class="container d-flex justify-content-between">
 
                                     <div>
-                                        <a class="nav-link" href="/person/info"> ${principal.email}님의 mypage</a>
+                                        <a class="navbar-brand fs-2" href="/person">
+                                            <img src="/images/INITilogo.png" alt="" width="50" height="40"
+                                                class="d-inline-block align-text-top">
+                                            <img src="/images/logo.png" width="70" class="mt-2 mx-1" />
+                                        </a>
                                     </div>
+
+
+                                    <div>
+                                        <ul class="nav link-dark" style="position: relative; bottom:-25px">
+                                            <li class="nav-item init_border"id="main">
+                                                <a class="nav-link active link-dark" aria-current="page"
+                                                    href="/person/main">채용공고</a>
+                                            </li>
+                                            <li class="nav-item" id="recommend">
+                                                <a class=" nav-link link-dark" href="/person/recommend">추천공고</a>
+                                            </li>
+
+                                            <li class="nav-item">
+
+                                                <a class="nav-link link-dark" href="/logout">로그아웃</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <a class="nav-link" href="/person/info"> ${principal.email}</a>
+                                    </div>
+
                                 </div>
-                                </div>
+
                             </nav>
                     </c:when>
                     <c:otherwise>
                         <%-- 기업 로그인 --%>
                             <nav
-                                class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center">
-                                <div class="container">
-                                    <a class="navbar-brand fs-2" href="/company">
-                                        <img src="/images/INITilogo.png" alt="" width="50" height="40"
-                                            class="d-inline-block align-text-top">
-                                        INITi
-                                    </a>
-                                    <ul class="nav link-dark" style="position: relative; bottom:-12px">
-                                        <li class="nav-item border-bottom border-warning pb-2 border-3" id="recommend">
-                                            <a class="nav-link link-dark" aria-current="page"
-                                                href="/company/recommend">인재추천</a>
-                                        </li>
-                                        <li class="nav-item pb-2">
-                                            <a class="nav-link link-dark" href="/logout">로그아웃</a>
-                                        </li>
-                                    </ul>
-
+                                class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
+                                <div class="container d-flex justify-content-between">
                                     <div>
-                                        <a class="nav-link" href="/company/info"> ${principal.email}님의 mypage</a>
+                                        <a class="navbar-brand fs-2" href="/company">
+                                            <img src="/images/INITilogo.png" alt="" width="50" height="40"
+                                                class="d-inline-block align-text-top">
+                                            <img src="/images/logo.png" width="70" class="mt-2 mx-1" />
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <ul class="nav link-dark" style="position: relative; bottom:-25px">
+                                            <li class="nav-item init_border"
+                                                id="recommend">
+                                                <a class="nav-link link-dark" aria-current="page"
+                                                    href="/company/recommend">인재추천</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link link-dark" href="/logout">로그아웃</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <a class="nav-link" href="/company/info"> ${principal.email}</a>
 
                                     </div>
                                 </div>
@@ -95,16 +105,17 @@
                     </c:otherwise>
                 </c:choose>
             </header>
+            <div class="mb-5" style="height: 40px;"></div>
 
             <script>
-                $('.border-warning').removeClass('border-bottom border-warning border-3');
+                $('.init_border').removeClass('init_border');
                 if (location.href.includes('person')) {
                     let position = location.href.replace('http://localhost:8080/person/', '');
                     if (position == "http://localhost:8080/person") position = "main";
-                    $('#' + position).addClass('border-bottom border-warning border-3');
+                    $('#' + position).addClass('init_border');
                 } else {
                     let position = location.href.replace('http://localhost:8080/company/', '');
-                    $('#' + position).addClass('border-bottom border-warning border-3');
+                    $('#' + position).addClass('init_border');
                 }
 
             </script>
