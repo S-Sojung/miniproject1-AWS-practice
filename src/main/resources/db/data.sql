@@ -12,7 +12,7 @@ INSERT INTO person_info_tb(name,phone,address,birthday,created_at)
                 values('코스', '01045129866','부산 해운대구 중동 149-01', '1998-07-22 00:00:00', now());
 
 INSERT INTO company_info_tb(logo, name, number, boss_name, address, manager_name, manager_phone,size,cyear, created_at) 
-                values('/images/logo.png','이닛', '5758801632', '보스' ,'클라우드시 레인구 레인보우동', '이니티', '01054896789',50,2022, now());
+                values('/images/logob.png','이닛', '5758801632', '보스' ,'클라우드시 레인구 레인보우동', '이니티', '01054896789',50,2022, now());
 INSERT INTO company_info_tb(logo, name, number, boss_name, address, manager_name, manager_phone, size,cyear,created_at)
                 values('/images/kakao.jpg','카카오', '5641295342', '카카오사장', '경기도 성남시 분당구 삼평동', '카카오', '01043651222',100,2010, now());
 INSERT INTO company_info_tb(logo, name, number,  boss_name, address, manager_name, manager_phone, size,cyear,created_at) 

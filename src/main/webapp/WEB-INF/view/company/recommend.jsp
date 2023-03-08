@@ -58,7 +58,7 @@
                                                             </c:when>
 
                                                             <c:otherwise>
-                                                                <i class="fa-solid fa-thumbs-up fa-2x"
+                                                                <i class="fa-solid scrap_icon fa-thumbs-up fa-2x"
                                                                     id="scrap-${postInfoAndResumes.postId}-${resume.id}"
                                                                     value="${resume.scrap}"></i>
                                                             </c:otherwise>
@@ -103,7 +103,7 @@
                         }
                     }).done((res) => {
                         $("#scrap-" + postId + "-" + resumeId).attr("value", 1);
-                        $("#scrap-" + postId + "-" + resumeId).addClass("fa-solid");
+                        $("#scrap-" + postId + "-" + resumeId).addClass("fa-solid scrap_icon");
                         $("#scrap-" + postId + "-" + resumeId).removeClass("fa-regular");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
@@ -116,7 +116,7 @@
                     }).done((res) => {
                         $("#scrap-" + postId + "-" + resumeId).attr("value", 0);
                         $("#scrap-" + postId + "-" + resumeId).addClass("fa-regular");
-                        $("#scrap-" + postId + "-" + resumeId).removeClass("fa-solid");
+                        $("#scrap-" + postId + "-" + resumeId).removeClass("fa-solid scrap_icon");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });

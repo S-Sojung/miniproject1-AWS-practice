@@ -3,14 +3,14 @@
 
 <div class="container d-flex mt-4">
         <div class="list-group ms-2 mt-4">
-            <a href="/company/info" class="list-group-item " style="width: 150px;">회사 정보</a>
-            <a href="/company/posts" class="list-group-item">공고 관리</a>
-            <a href="/company/getResume" class="list-group-item hs_list_effect">받은 이력서</a>
-            <a href="/company/scrap" class="list-group-item ">스크랩한 유저</a>
+            <a href="/company/info" class="list-group-item shadow " style="width: 150px;">회사 정보</a>
+            <a href="/company/posts" class="list-group-item shadow" >공고 관리</a>
+            <a href="/company/getResume" class="list-group-item hs_list_effect shadow">받은 이력서</a>
+            <a href="/company/scrap" class="list-group-item shadow">스크랩한 유저</a>
         </div>
 
         <div class="ms-2 p-4">
-            <div class="border border-tertiary w-100 p-5 rounded ">
+            <div class="border border-tertiary w-100 p-5 rounded shadow">
                 <div class="d-flex justify-content-between">
                     <h1 class="hs_line">${companyPS.name}에 도착한 이력서를 검토해보세요💌</h1>
                 </div>

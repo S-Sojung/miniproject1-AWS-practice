@@ -22,12 +22,12 @@
                 <c:choose>
                     <c:when test="${principal==null}">
                         <nav
-                            class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
+                            class="sj_full_container navbar navbar-light navcolor d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
                             <div class="container">
-                                <a class="navbar-brand fs-2" href="/person">
-                                    <img src="/images/INITilogo.png" width="50" height="40"
+                                <a class="navbar-brand fs-2" href="/">
+                                    <img src="/images/INITilogo2.png" width="50" height="40"
                                         class="d-inline-block align-text-top">
-                                    <img src="/images/logo.png" width="8%" class="mt-2 mx-1" />
+                                    <img src="/images/logo.png" width="50px" class="mt-2 mx-1" />
                                 </a>
                             </div>
                         </nav>
@@ -35,12 +35,12 @@
                     <c:when test="${principal.PInfoId!=0}">
                         <%-- 개인 로그인 --%>
                             <nav
-                                class="sj_full_container navbar navbar-light bg-lightsticky-top border-bottom align-self-center py-4">
+                                class="sj_full_container navbar navbar-light sticky-top border-bottom align-self-center py-4 navcolor">
                                 <div class="container d-flex justify-content-between">
 
                                     <div>
                                         <a class="navbar-brand fs-2" href="/person">
-                                            <img src="/images/INITilogo.png" alt="" width="50" height="40"
+                                            <img src="/images/INITilogo2.png"  width="50" height="40"
                                                 class="d-inline-block align-text-top">
                                             <img src="/images/logo.png" width="70" class="mt-2 mx-1" />
                                         </a>
@@ -64,7 +64,7 @@
                                         </ul>
                                     </div>
                                     <div>
-                                        <a class="nav-link" href="/person/info"> ${principal.email}</a>
+                                        <a class="nav-link" href="/person/info"> <img src="/images/mypageicon.png" style="width: 40px;"></a>
                                     </div>
 
                                 </div>
@@ -74,11 +74,11 @@
                     <c:otherwise>
                         <%-- 기업 로그인 --%>
                             <nav
-                                class="sj_full_container navbar navbar-light bg-light d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
+                                class="sj_full_container navbar navbar-light navcolor d-flex justify-content-around sticky-top border-bottom align-self-center py-4">
                                 <div class="container d-flex justify-content-between">
                                     <div>
                                         <a class="navbar-brand fs-2" href="/company">
-                                            <img src="/images/INITilogo.png" alt="" width="50" height="40"
+                                            <img src="/images/INITilogo2.png" alt="" width="50" height="40"
                                                 class="d-inline-block align-text-top">
                                             <img src="/images/logo.png" width="70" class="mt-2 mx-1" />
                                         </a>
@@ -96,8 +96,7 @@
                                         </ul>
                                     </div>
                                     <div>
-                                        <a class="nav-link" href="/company/info"> ${principal.email}</a>
-
+                                        <a class="nav-link" href="/company/info"> <img src="/images/mypageicon.png" style="width: 40px;"></a>
                                     </div>
                                 </div>
                                 </div>

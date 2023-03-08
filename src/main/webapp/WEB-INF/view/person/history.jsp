@@ -3,14 +3,14 @@
 
 <div class="container d-flex mt-4">
         <div class="list-group ms-2 mt-4">
-            <a href="/person/info" class="list-group-item" style="width: 150px;">회원 정보</a>
-            <a href="/person/resumes" class="list-group-item">이력서 관리</a>
-            <a href="/person/scrap" class="list-group-item">스크랩</a>
-            <a href="/person/history" class="list-group-item hs_list_effect">지원 이력</a>
+            <a href="/person/info" class="list-group-item shadow" style="width: 150px;">회원 정보</a>
+            <a href="/person/resumes" class="list-group-item shadow">이력서 관리</a>
+            <a href="/person/scrap" class="list-group-item shadow">스크랩</a>
+            <a href="/person/history" class="list-group-item hs_list_effect shadow">지원 이력</a>
         </div>
 
         <div class="ms-2 p-4">
-            <div class="border border-tertiary w-100 p-5 rounded ">
+            <div class="border border-tertiary w-100 p-5 rounded shadow">
                 <div class="d-flex justify-content-between">
                     <h1 class="hs_line">지원한 이력서</h1>
                 </div>

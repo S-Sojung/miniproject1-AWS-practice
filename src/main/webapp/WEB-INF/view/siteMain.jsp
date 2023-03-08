@@ -28,7 +28,7 @@
                                 <img src="/images/INITilogo.png" width="90px;" height="60"
                                     class="d-inline-block align-text-top">
                                     <br>
-                                <img src="/images/logo.png" class="mt-3 d-inline-block ms-3" width="90px;">
+                                <img src="/images/logob.png" class="mt-3 d-inline-block ms-3" width="90px;">
                             </a>
                         </div>
                     </nav>
