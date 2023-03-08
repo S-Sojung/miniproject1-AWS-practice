@@ -37,11 +37,12 @@ footer {
     text-decoration: none;
 }
 
-.navcolor{
+.navcolor {
     background-color: white;
 }
+
 .init_border {
-    border-bottom: 3px solid #a8e455;
+    border-bottom: solid 3px #a8e455;
     padding-bottom: 2px;
 }
 
@@ -76,9 +77,22 @@ footer {
     background-color: #a8e455;
 }
 
+.init_color:hover {
+    background-color: #a8e455;
+}
+
+
 .hs_list_effect {
     background-color: #a8e455;
+}
 
+.hs_hover {
+    cursor: pointer;
+}
+
+.hs_input_title {
+    border: none;
+    outline: none;
 }
 
 .hs_line {
@@ -89,12 +103,17 @@ footer {
     width: 110px;
 }
 
+.hs_span {
+    border: none;
+    outline: none;
+}
+
 .container {
     width: 1300px;
     max-width: none !important;
 }
 
-.proposalBtn:hover{
+.proposalBtn:hover {
     background-color: #a8e455;
 }
 
@@ -109,8 +128,9 @@ footer {
     border-radius: 2px;
 }
 
-a{
+a {
     color: #2c741d;
+    text-decoration: none;
 }
 
 .jm_select {
@@ -122,13 +142,14 @@ a{
     border-color: #e0dcd6;
 }
 
-.jm_container {
-    /* display: flex; */
+/* .jm_container {
+  //  display: flex; 
     justify-content: center;
     text-align: center;
     margin-top: 30px;
     padding: 50px;
 }
+*/
 
 .jm_card {
     padding: 25px;
@@ -236,11 +257,12 @@ a{
 .jh_resume_table td:first-child {
     background-color: #a8e455;
     text-align: center;
+    width: 100px;
 }
 
 .jh_resume_table tr:last-child,
 .jh_resume_table td:last-child {
-    width: 450px;
+    width: 400px;
 }
 
 .jh_resume_table {

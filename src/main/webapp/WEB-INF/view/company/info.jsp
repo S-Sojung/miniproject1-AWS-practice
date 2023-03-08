@@ -1,19 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-    <div class="container d-flex mt-4">
-        <div class="list-group ms-2 mt-4">
+    <div class="container d-flex">
+        <div class="list-group mx-2">
             <a href="/company/info" class="list-group-item  hs_list_effect shadow" style="width: 150px;">회사 정보</a>
             <a href="/company/posts" class="list-group-item shadow">공고 관리</a>
             <a href="/company/getResume" class="list-group-item shadow">받은 이력서</a>
             <a href="/company/scrap" class="list-group-item shadow">스크랩한 유저</a>
         </div>
 
-        <div class="ms-2 p-4" style="width:1150px;">
+            <div class=" mx-2 pb-4 w-100">
             <div class="border border-tertiary p-5 rounded shadow">
-                    <div class="d-flex justify-content-evenly">
-                    <h1 class="hs_line d-inline-flex">${companyPS.name} 정보</h1>
-                    <button type="button" class="btn btn-dark" style="width:100px; height:40px;" onclick="location.href=`/company/updateInfoForm`;">수정하기</button>
+                    <div class="d-flex justify-content-between">
+                    <h1 class="d-inline-flex">${companyPS.name} 정보</h1>
+                    <button type="button" class="btn btn-dark"
+                     style="width:100px; height:40px;" onclick="location.href=`/company/updateInfoForm`;">수정하기</button>
                      </div>
 
 
@@ -24,23 +25,23 @@
                     <div class="container w-50 mt-5 text ">
                         <form>
                             <div class="input-group mb-3">
-                                <span class="input-group-text justify-content-center hs_span_size init_color">회사명</span>
+                                <span class="input-group-text justify-content-center hs_span_size init_color hs_span">회사명</span>
                                 <input type="text" class="form-control" value="${companyPS.name}" readonly>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text justify-content-center hs_span_size init_color">대표자</span>
+                                <span class="input-group-text justify-content-center hs_span_size init_color hs_span">대표자</span>
                                 <input type=" text" class="form-control" value="${companyPS.bossName}" readonly>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text  justify-content-center hs_span_size init_color">사업자번호</span>
+                                <span class="input-group-text  justify-content-center hs_span_size init_color hs_span">사업자번호</span>
                                 <input type="text" class="form-control" value="${companyPS.number}" readonly>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text  justify-content-center hs_span_size init_color">설립년도</span>
+                                <span class="input-group-text  justify-content-center hs_span_size init_color hs_span">설립년도</span>
                                 <input type="text" class="form-control" value="${companyPS.cyear}" readonly>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text justify-content-center hs_span_size init_color">사원수</span>
+                                <span class="input-group-text justify-content-center hs_span_size init_color hs_span">사원수</span>
                                 <input type="text" class="form-control" value="${companyPS.size}" readonly>
                             </div>
 
@@ -50,15 +51,15 @@
                             </div>
                             <br>
                             <div class="input-group mb-3">
-                                <span class="input-group-text  justify-content-center hs_span_size init_color">이름</span>
+                                <span class="input-group-text  justify-content-center hs_span_size init_color hs_span">이름</span>
                                 <input type="text" class="form-control" value="${companyPS.managerName}" readonly>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text  justify-content-center hs_span_size init_color">연락처</span>
+                                <span class="input-group-text  justify-content-center hs_span_size init_color hs_span">연락처</span>
                                 <input type="text" class="form-control" value="${companyPS.managerPhone}" readonly>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text justify-content-center hs_span_size init_color">이메일</span>
+                                <span class="input-group-text justify-content-center hs_span_size init_color hs_span">이메일</span>
                                 <input type="text" class="form-control" value="${principal.email}" readonly>
                             </div>
 

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
- <div class="p-5"></div>
+<div style="margin-top: 100px; margin-bottom: 100px;">
     <div class="d-flex justify-content-center mb-4">
         <h2>개인 회원</h2>
     </div>
@@ -33,5 +33,5 @@
         </div>
     </div>
 
-
+</div>
     <%@ include file="../layout/footer.jsp" %>

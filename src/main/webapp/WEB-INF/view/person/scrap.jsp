@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-        <div class="container d-flex mt-4">
-            <div class="list-group ms-2 mt-4">
+        <div class="container d-flex">
+            <div class="list-group mx-2">
                 <a href="/person/info" class="list-group-item shadow" style="width: 150px;">회원 정보</a>
                 <a href="/person/resumes" class="list-group-item shadow">이력서 관리</a>
                 <a href="/person/scrap" class="list-group-item hs_list_effect shadow">스크랩</a>
                 <a href="/person/history" class="list-group-item shadow">지원 이력</a>
             </div>
 
-            <div class="ms-2 p-4">
-                <div class="border border-tertiary w-100 p-5 rounded shadow">
+            <div class=" mx-2 pb-4 w-100">
+                <div class="border border-tertiary p-5 rounded shadow">
                     <div class="d-flex justify-content-between">
-                        <h1 class="hs_line">스크랩한 공고</h1>
+                        <h1>스크랩한 공고</h1>
                     </div>
                     <hr>
 
