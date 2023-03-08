@@ -98,6 +98,10 @@ footer {
     background-color: #a8e455;
 }
 
+.proposalBtn:active {
+    border-style: none;
+}
+
 .jm_select_box {
     display: flex;
     justify-content: center;
