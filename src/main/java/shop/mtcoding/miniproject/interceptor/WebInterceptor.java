@@ -4,14 +4,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.User;
 
 public class WebInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private RedisTemplate<String, User> redisTemplate;
 
     // 요청 들어가기 전
     @Override
@@ -19,9 +22,9 @@ public class WebInterceptor implements HandlerInterceptor {
             throws Exception {
 
         System.out.println("================ URL 요청 전 인터셉터 ==================");
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("principal");
-        if (user == null) {
+
+        User principal = (User) redisTemplate.opsForValue().get("principal");
+        if (principal == null) {
             response.sendRedirect("/");
         }
 
