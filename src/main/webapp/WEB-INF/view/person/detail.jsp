@@ -131,7 +131,8 @@
                         </div>
 
                         <!-- 지원하기 버튼 -->
-                        <button type="button" class="btn init_color proposalBtn" style="height: 50px; background-color: #a8e455;" data-bs-toggle="modal"
+                        <button type="button" class="btn init_color proposalBtn"
+                            style="height: 50px; background-color: #a8e455;" data-bs-toggle="modal"
                             data-bs-target="#myModal" id="myBtn">지원하기</button>
                         <!-- 지원하기 모달 -->
                         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -145,8 +146,10 @@
                                     </div>
                                     <div class="modal-body">
                                         <form action="/person/detail/${post.id}/resume" method="post">
+
                                             <c:forEach items="${resume}" var="res">
-                                                <div class="border border-tertiary p-3 mb-1 d-flex justify-content-between">
+                                                <div
+                                                    class="border border-tertiary p-3 mb-1 d-flex justify-content-between">
 
                                                     <label for="resume_${res.id}">${res.title}</label>
 
@@ -157,8 +160,8 @@
                                             </c:forEach>
 
                                             <hr>
-                                            <div class="d-flex justify-content-center" >
-                                                <button type="button" class="btn btn-dark mx-2" 
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-dark mx-2"
                                                     onclick="location.href='../saveResumeForm'">새로 작성</button>
                                                 <button type="submit" class="btn init_color"
                                                     onclick="return confirmAndRedirect()">제출하기</button>
@@ -175,45 +178,45 @@
         <script>
 
 
-    function scrapOrCancle(postId) {
-        event.preventDefault();
-        let scrapValue = $("#scrap-" + postId).attr("value");
+            function scrapOrCancle(postId) {
+                event.preventDefault();
+                let scrapValue = $("#scrap-" + postId).attr("value");
 
-        let data = {
-            "postId": postId
-        };
+                let data = {
+                    "postId": postId
+                };
 
-        if (scrapValue == 0) {
-            // insert
-            $.ajax({
-                type: "put",
-                url: "/person/scrap/" + postId,
-                data: JSON.stringify(data),
-                dateType: "JSON",
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8"
+                if (scrapValue == 0) {
+                    // insert
+                    $.ajax({
+                        type: "put",
+                        url: "/person/scrap/" + postId,
+                        data: JSON.stringify(data),
+                        dateType: "JSON",
+                        headers: {
+                            "Content-Type": "application/json; charset=UTF-8"
+                        }
+                    }).done((res) => {
+                        $("#scrap-" + postId).attr("value", 1);
+                        $("#scrap-" + postId).addClass("fa-solid scrap_icon");
+                        $("#scrap-" + postId).removeClass("fa-regular");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
+                } else {
+                    $.ajax({
+                        type: "delete",
+                        url: "/person/scrap/" + postId,
+                        dateType: "JSON"
+                    }).done((res) => {
+                        $("#scrap-" + postId).attr("value", 0);
+                        $("#scrap-" + postId).addClass("fa-regular");
+                        $("#scrap-" + postId).removeClass("fa-solid scrap_icon");
+                    }).fail((err) => {
+                        alert(err.responseJSON.msg);
+                    });
                 }
-            }).done((res) => {
-                $("#scrap-" + postId).attr("value", 1);
-                $("#scrap-" + postId).addClass("fa-solid scrap_icon");
-                $("#scrap-" + postId).removeClass("fa-regular");
-            }).fail((err) => {
-                alert(err.responseJSON.msg);
-            });
-        } else {
-            $.ajax({
-                type: "delete",
-                url: "/person/scrap/" + postId,
-                dateType: "JSON"
-            }).done((res) => {
-                $("#scrap-" + postId).attr("value", 0);
-                $("#scrap-" + postId).addClass("fa-regular");
-                $("#scrap-" + postId).removeClass("fa-solid scrap_icon");
-            }).fail((err) => {
-                alert(err.responseJSON.msg);
-            });
-        }
-    }
+            }
             // <!-- modal창 띄우는 스크립트 -->
             const emailInputEl = document.querySelector("#exampleInputEmail1");
             const modelEl = document.querySelector("#myModal");
