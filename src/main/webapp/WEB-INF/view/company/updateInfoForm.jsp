@@ -142,9 +142,9 @@
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
+                                        <button type="button" class="btn btn-dark"
                                             data-bs-dismiss="modal">닫기</button>
-                                        <button type="button" class="btn init_color"
+                                        <button type="button" class="btn init_color proposalBtn" style="background-color: #a8e455;"
                                             onclick="companyUpdate()">저장</button>
                                     </div>
                                 </div>

@@ -131,7 +131,7 @@
                         </div>
 
                         <!-- 지원하기 버튼 -->
-                        <button type="button" class="btn init_color proposalBtn" style="height: 50px;" data-bs-toggle="modal"
+                        <button type="button" class="btn init_color proposalBtn" style="height: 50px; background-color: #a8e455;" data-bs-toggle="modal"
                             data-bs-target="#myModal" id="myBtn">지원하기</button>
                         <!-- 지원하기 모달 -->
                         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -158,7 +158,7 @@
 
                                             <hr>
                                             <div class="d-flex justify-content-center" >
-                                                <button type="button" class="btn btn-secondary mx-2" 
+                                                <button type="button" class="btn btn-dark mx-2" 
                                                     onclick="location.href='../saveResumeForm'">새로 작성</button>
                                                 <button type="submit" class="btn init_color"
                                                     onclick="return confirmAndRedirect()">제출하기</button>

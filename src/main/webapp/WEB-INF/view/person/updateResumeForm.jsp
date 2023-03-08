@@ -42,7 +42,7 @@
                                     <div class="jh_resume_personal_info">
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text justify-content-center ">이름</span>
+                                            <span class="input-group-text justify-content-center init_color ">이름</span>
 
                                             <input type="text" class="form-control" style="width: 120px;"
                                                 value="${personPS.name}" name="name">
@@ -50,14 +50,14 @@
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text justify-content-center ">생년월일</span>
+                                            <span class="input-group-text justify-content-center init_color ">생년월일</span>
 
                                             <input type="date" class="form-control" style="width: 120px;"
                                                 value="${personPS.birthday}" name="birthday">
                                         </div>
 
                                         <div class="input-group mb-3">
-                                            <span class="input-group-text justify-content-center ">연락처</span>
+                                            <span class="input-group-text justify-content-center init_color ">연락처</span>
 
                                             <input type="tel" class="form-control" value="${personPS.phone}"
                                                 name="phone">
@@ -65,7 +65,7 @@
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text justify-content-center ">주소</span>
+                                            <span class="input-group-text justify-content-center init_color ">주소</span>
 
                                             <input type="text" class="form-control" value="${personPS.address}"
                                                 name="address">
@@ -73,7 +73,7 @@
 
                                         <div class="input-group mb-3">
 
-                                            <span class="input-group-text justify-content-center ">이메일</span>
+                                            <span class="input-group-text justify-content-center init_color ">이메일</span>
 
                                             <input type="email" class="form-control" value="${principal.email}"
                                                 readonly>
@@ -109,12 +109,12 @@
 
                                 <div>
                                     <h4>자기소개</h4>
-                                    <textarea name="selfIntro" cols="109" rows="10"
+                                    <textarea name="selfIntro" class="w-100" rows="10"
                                         placeholder="내용을 입력하세요">${resumePS.selfIntro}</textarea>
                                 </div>
                                 <div class="d-flex mt-4 justify-content-center">
                                     <div class="px-2">
-                                        <button type="submit" class="btn btn-light">저장</button>
+                                        <button type="submit" class="btn init_color">저장</button>
                                     </div>
                                 </div>
                             </div>
