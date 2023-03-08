@@ -24,29 +24,29 @@
                             <form>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">이름</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size">이름</span>
                                     <input type="text" class="form-control" value="${person.name}" id="name">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">생년월일</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size">생년월일</span>
                                     <input type="date" class="form-control" id="birthday">
                                     <input type="hidden" class="form-control" value="${person.birthday}" id="pbirthday">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">연락처</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size">연락처</span>
                                     <input type="tel" class="form-control" maxlength="11" value="${person.phone}" id="phone">
                                 </div>
 
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">주소</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size">주소</span>
                                     <input type="text" class="form-control" value="${person.address}" id="address">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span
-                                        class="input-group-text bg-light justify-content-center hs_span_size">이메일</span>
+                                        class="input-group-text init_color justify-content-center hs_span_size">이메일</span>
                                     <input type="email" class="form-control" value="${principal.email}" id="email"
                                         readonly>
                                 </div>
@@ -58,11 +58,11 @@
                         </div>
                         --%>
                         <div class="input-group mb-3">
-                            <span class="input-group-text bg-light justify-content-center hs_span_size">비밀번호</span>
+                            <span class="input-group-text init_color justify-content-center hs_span_size">비밀번호</span>
                             <input type="password" class="form-control" id="changePassword">
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text bg-light justify-content-center hs_span_size">비밀번호
+                            <span class="input-group-text init_color justify-content-center hs_span_size">비밀번호
                                 확인</span>
                             <input type="password" class="form-control" id="checkChangePassword"
                                 onchange="checkingPassword()">

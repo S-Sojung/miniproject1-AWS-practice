@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
+
         <div class="select_box jm_select_box mt-5">
             <select id="skill" class="jm_select selectpicker" data-style="btn-info" name="">
                 <option value="none" selected>분야</option>
@@ -61,18 +62,19 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
-                                        
+
                                         <!--<%--  구독? 스크랩 버튼  --%>-->
-                                        <button type="button" class="btn btn-sm" onclick="scrapOrCancle(event, ${post.postId})">
+                                        <button type="button" class="btn btn-sm"
+                                            onclick="scrapOrCancle(event, ${post.postId})">
                                             <c:choose>
                                                 <c:when test="${post.scrap == 0}">
                                                     <i class="fa-regular fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
-                                                        value="${post.scrap}" ></i>
+                                                        value="${post.scrap}"></i>
                                                 </c:when>
 
                                                 <c:otherwise>
-                                                    <i class="fa-solid fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
-                                                        value="${post.scrap}" ></i>
+                                                    <i class="fa-solid scrap_icon fa-thumbs-up fa-2xl" id="scrap-${post.postId}"
+                                                        value="${post.scrap}"></i>
 
                                                 </c:otherwise>
                                             </c:choose>
@@ -90,14 +92,15 @@
             </div>
 
         </div>
+
         <script>
 
             function scrapOrCancle(event, postId) {
                 event.preventDefault();
-  
-    //console.log(postId);
-                let scrapValue = $("#scrap-"+postId).attr("value");
-    //console.log(scrapValue);
+
+                //console.log(postId);
+                let scrapValue = $("#scrap-" + postId).attr("value");
+                //console.log(scrapValue);
                 let data = {
                     "postId": postId
                 };
@@ -113,9 +116,9 @@
                             "Content-Type": "application/json; charset=UTF-8"
                         }
                     }).done((res) => {
-                        $("#scrap-"+postId).attr("value", 1);
-                        $("#scrap-"+postId).addClass("fa-solid");
-                        $("#scrap-"+postId).removeClass("fa-regular");
+                        $("#scrap-" + postId).attr("value", 1);
+                        $("#scrap-" + postId).addClass("fa-solid scrap_icon");
+                        $("#scrap-" + postId).removeClass("fa-regular");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
@@ -123,11 +126,11 @@
                     $.ajax({
                         type: "delete",
                         url: "/person/scrap/" + postId
-                       
+
                     }).done((res) => {
-                        $("#scrap-"+postId).attr("value", 0);
-                        $("#scrap-"+postId).addClass("fa-regular");
-                        $("#scrap-"+postId).removeClass("fa-solid");
+                        $("#scrap-" + postId).attr("value", 0);
+                        $("#scrap-" + postId).addClass("fa-regular");
+                        $("#scrap-" + postId).removeClass("fa-solid scrap_icon");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });

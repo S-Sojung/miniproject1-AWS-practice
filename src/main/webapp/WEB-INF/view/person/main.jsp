@@ -7,6 +7,7 @@
             let dDay;
             let currDay = 24 * 60 * 60 * 1000; 
         </script>
+        
                 <div class="select_box jm_select_box mt-5">
                     <select id="skill" class="jm_select selectpicker" data-style="btn-info" name="">
                         <option value="none" selected>분야</option>
@@ -42,16 +43,6 @@
                         <option value="100">100명 이상</option>
                     </select>
                 </div>
-
-                <%-- <div class="event__search__floater">
-            <div class="search__anchor">
-                <form>
-                    <input type="text" class="search__bar" placeholder="원하는 공고를 검색해보세요">
-                <input class="search__submit" name="search" onkeyup="search(this);">
-                <div class="search__toggler"></div>
-                </form>
-            </div>
-            </div> --%>
                 <div class="container jm_container mt-5">
                     <div class="row row-cols-3 g-4 d-flex flex-wrap">
                         <c:forEach items="${mainPosts}" var="post" varStatus="status">
@@ -78,7 +69,7 @@
                                                         </c:when>
 
                                                         <c:otherwise>
-                                                            <i class="fa-solid fa-thumbs-up fa-2xl"
+                                                            <i class="fa-solid scrap_icon fa-thumbs-up fa-2xl"
                                                                 id="scrap-${post.postId}" value="${post.scrap}"></i>
                                                         </c:otherwise>
                                                     </c:choose>
@@ -139,7 +130,7 @@
                         }
                     }).done((res) => {
                         $("#scrap-" + postId).attr("value", 1);
-                        $("#scrap-" + postId).addClass("fa-solid");
+                        $("#scrap-" + postId).addClass("fa-solid scrap_icon");
                         $("#scrap-" + postId).removeClass("fa-regular");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
@@ -152,7 +143,7 @@
                     }).done((res) => {
                         $("#scrap-" + postId).attr("value", 0);
                         $("#scrap-" + postId).addClass("fa-regular");
-                        $("#scrap-" + postId).removeClass("fa-solid");
+                        $("#scrap-" + postId).removeClass("fa-solid scrap_icon");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });

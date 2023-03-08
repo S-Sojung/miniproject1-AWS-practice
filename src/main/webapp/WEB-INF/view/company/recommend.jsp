@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ include file="../layout/header.jsp" %>
 
-        <div>
-            <!--배경 이미지 넣을 시-->
-        </div>
+     
         <div class="container mt-5 w-75">
             <h4>등록한 공고와 매칭되는 구직자를 확인해보세요🌟</h4>
         </div>

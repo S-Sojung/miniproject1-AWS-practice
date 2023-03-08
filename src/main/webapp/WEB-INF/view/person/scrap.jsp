@@ -41,7 +41,7 @@
                                                     </c:choose>
                                                     <button type="button" class="btn btn-sm"
                                                         onclick="cancle(event, ${pScrap.postId})">
-                                                        <i class="fa-solid fa-thumbs-up fa-2xl"></i>
+                                                        <i class="fa-solid scrap_icon fa-thumbs-up fa-2xl"></i>
                                                     </button>
                                                 </div>
 

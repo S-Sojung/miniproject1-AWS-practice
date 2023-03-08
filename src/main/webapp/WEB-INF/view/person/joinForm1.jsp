@@ -7,7 +7,7 @@
         </div>
         <div class="d-flex justify-content-center">
 
-            <div class="border rounded p-3 m-3 shadow-lg" style="width: 300px;">
+            <div class="border rounded p-3 m-3 shadow" style="width: 300px;">
                 <!-- personJoin을 실행 후 이동해도 됨! -->
                 <form action="/personJoin" method="post">
 

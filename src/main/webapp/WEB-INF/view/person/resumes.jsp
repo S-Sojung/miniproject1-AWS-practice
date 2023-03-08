@@ -16,7 +16,7 @@
                 </div>
                 <hr>
                     <div class="jh_resume mt-5">
-                        <button class="jh_resume_button mb-5 rounded bg-light"
+                        <button class="jh_resume_button mb-5 rounded jm_card"
                             onclick="location.href=`/person/saveResumeForm`">➕ 새 이력서 등록</button>
                         <c:forEach items="${resumes}" var="resume">
 
@@ -32,7 +32,7 @@
                            </c:otherwise>
                         </c:choose>
 
-                            <button type="button"  class="btn btn-secondary" onclick="deleteResume(${resume.id})">삭제</button>
+                            <button type="button"  class="btn btn-dark" onclick="deleteResume(${resume.id})">삭제</button>
                             </div>
                         </div>
                         </c:forEach>
