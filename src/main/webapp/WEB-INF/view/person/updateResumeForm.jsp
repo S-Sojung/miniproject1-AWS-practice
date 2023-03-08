@@ -13,7 +13,7 @@
                 <div class="ms-2 p-4">
                     <div class="border border-tertiary w-100 p-5 rounded">
                         <h1 class="hs_line"><input type="text" placeholder="이력서 제목을 입력하세요" style="width: 700px"
-                                name="title" value=${resumePS.title}></h1>
+                                name="title" value="${resumePS.title}"></h1>
                           <span>공개 여부 설정 |</span>
                         <select name="publish">
                         <c:choose>
