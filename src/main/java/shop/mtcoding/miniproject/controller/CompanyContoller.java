@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,9 @@ import shop.mtcoding.miniproject.util.EncryptionUtils;
 
 @Controller
 public class CompanyContoller {
+
+    @Autowired
+    private RedisTemplate<String, User> redisTemplate;
 
     @Autowired
     private HttpSession session;
@@ -141,6 +145,7 @@ public class CompanyContoller {
         if (principal == null) {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
         }
+        redisTemplate.opsForValue().set("principal", principal);
         session.setAttribute("principal", principal);
 
         return "redirect:/company/main";
@@ -373,6 +378,10 @@ public class CompanyContoller {
         }
 
         companyService.updateInfo(companyUpdateInfoDto);
+        User principalPS = (User) userRepository.findById(principal.getId());
+
+        redisTemplate.opsForValue().set("principal", principalPS);
+        session.setAttribute("principal", principalPS);
         return new ResponseEntity<>(new ResponseDto<>(1, "기업 정보 수정 완료", null), HttpStatus.OK);
     }
 

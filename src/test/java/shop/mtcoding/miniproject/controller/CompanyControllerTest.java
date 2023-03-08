@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
 
 import shop.mtcoding.miniproject.model.User;
@@ -91,7 +90,6 @@ public class CompanyControllerTest {
         assertThat(principal.getPassword().equals("ad38f305434fb803fbadb9cf57df1e822bff382352c19dc67b5b13055a049cd6"));
         resultActions.andExpect(status().is3xxRedirection());
     }
-
 
     // 회사 정보 수정하기 테스트
     @Test
