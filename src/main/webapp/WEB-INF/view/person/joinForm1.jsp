@@ -36,7 +36,7 @@
                     <div id="passwordCheckAlert"></div>
                     <!--비밀번호 체크 후 Alert 창을 위해 미리 넣어놓은 div-->
                     <div class="form-group form-floating m-3 mx-auto">
-                        <button type="submit" class="btn btn-dark btn-block" style="width: 265px;">다음</button>
+                        <button type="submit" class="btn btn-block" style="width: 265px; background-color: #a8e455;">다음</button>
                     </div>
                 </form>
                 <div class="text-center sj_login_join">
