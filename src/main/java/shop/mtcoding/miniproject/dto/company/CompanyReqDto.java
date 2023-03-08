@@ -18,5 +18,6 @@ public class CompanyReqDto {
         private String managerPhone;
         private String address;
         private String password;
+        private String originPassword;
     }
 }

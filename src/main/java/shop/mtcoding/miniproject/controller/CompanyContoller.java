@@ -33,6 +33,8 @@ import shop.mtcoding.miniproject.dto.Resume.ResumeRes.ResumeWithPostInfoRecommen
 import shop.mtcoding.miniproject.dto.company.CompanyReq.JoinCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReq.LoginCompanyReqDto;
 import shop.mtcoding.miniproject.dto.company.CompanyReqDto.CompanyUpdateInfoDto;
+import shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto.CompanyScrapWithResumeInfoResArrDto;
+import shop.mtcoding.miniproject.dto.companyScrap.CompanyScrapResDto.CompanyScrapWithResumeInfoResDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalReq.CompanyProposalStatusReqDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.CompanyProposalListRespDto;
 import shop.mtcoding.miniproject.dto.personProposal.PersonProposalResp.PersonProposalDetailRespDto;
@@ -45,6 +47,8 @@ import shop.mtcoding.miniproject.handler.ex.CustomApiException;
 import shop.mtcoding.miniproject.handler.ex.CustomException;
 import shop.mtcoding.miniproject.model.Company;
 import shop.mtcoding.miniproject.model.CompanyRepository;
+import shop.mtcoding.miniproject.model.CompanyScrap;
+import shop.mtcoding.miniproject.model.CompanyScrapRepository;
 import shop.mtcoding.miniproject.model.Person;
 import shop.mtcoding.miniproject.model.PersonProposalRepository;
 import shop.mtcoding.miniproject.model.PersonRepository;
@@ -66,6 +70,9 @@ import shop.mtcoding.miniproject.util.EncryptionUtils;
 
 @Controller
 public class CompanyContoller {
+
+    @Autowired
+    private HttpSession session;
 
     @Autowired
     private UserRepository userRepository;
@@ -98,6 +105,9 @@ public class CompanyContoller {
     private ProposalPassService proposalPassService;
 
     @Autowired
+    private CompanyScrapRepository companyScrapRepository;
+
+    @Autowired
     private SkillFilterRepository skillFilterRepository;
 
     // 인증에 필요한 일이기 때문에 company/login 이 아닌 이어서 했습니다.
@@ -107,7 +117,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("companyLogin")
-    public String companyLogin(LoginCompanyReqDto loginCompanyReqDto, HttpSession session) {
+    public String companyLogin(LoginCompanyReqDto loginCompanyReqDto) {
 
         if (loginCompanyReqDto.getEmail() == null ||
                 loginCompanyReqDto.getEmail().isEmpty()) {
@@ -184,7 +194,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/getResume")
-    public String companyGetResume(Model model, HttpSession session) {
+    public String companyGetResume(Model model) {
         User userPS = (User) session.getAttribute("principal");
         List<CompanyProposalListRespDto> companyProposalList = personProposalRepository
                 .findAllWithPostAndResumeAndPInfoByCInfoId(userPS.getCInfoId());
@@ -196,7 +206,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/resumeDetail/{id}")
-    public String companyResumeDetail(@PathVariable int id, Model model, HttpSession session) {
+    public String companyResumeDetail(@PathVariable int id, Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -225,7 +235,7 @@ public class CompanyContoller {
     }
 
     @PutMapping("/company/proposal/{id}")
-    public @ResponseBody ResponseEntity<?> companyUpdateResume(@PathVariable int id, HttpSession session,
+    public @ResponseBody ResponseEntity<?> companyUpdateResume(@PathVariable int id,
             @RequestBody CompanyProposalStatusReqDto statusCode) {
         User userPS = (User) session.getAttribute("principal");
 
@@ -234,7 +244,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/recommend")
-    public String companyRecommend(Model model, HttpSession session) {
+    public String companyRecommend(Model model) {
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -258,35 +268,19 @@ public class CompanyContoller {
 
                 resumeIdAndCount.put(sf.getResumeId(), resumeIdAndCount.getOrDefault(sf.getResumeId(), 0) + 1);
 
-                // int resumeId = sf.getResumeId();
-                // List<SkillFilter> sfCount = sFilters.stream()
-                // .filter(id -> sf.getResumeId().equals(resumeId))
-                // .collect(Collectors.toList());
-
-                // int count = Collections.frequency(sfCount, resumeId);
-
-                // System.out.println("테스트:" + count);
-                // if (count < 2) {
-                // resumeIdAndCount.put(resumeId, count);
-                // resumeIdAndCount.remove(resumeId, count);
-                // }
-
-                // resumeIdAndCount.put(resumeId, count);
-
             }
 
             Set<Integer> key = resumeIdAndCount.keySet();
             HashMap<Integer, Integer> resumeIdAndCount2 = new HashMap<>();
             for (Integer k : key) {
                 Integer count = resumeIdAndCount.getOrDefault(k, 0);
-                // System.out.println(k + ":" + count);
+
                 if (count >= 2) {
                     resumeIdAndCount2.put(k, count);
                 }
 
             }
 
-            // System.out.println("테스트: " + resumeIdAndCount.);
             // 내림차순 정렬
             List<Entry<Integer, Integer>> resumeIdList = new ArrayList<>(resumeIdAndCount2.entrySet());
             Collections.sort(resumeIdList, new Comparator<Entry<Integer, Integer>>() {
@@ -294,7 +288,6 @@ public class CompanyContoller {
                     return c2.getValue().compareTo(c1.getValue());
                 }
             });
-            // System.out.println("테스트: " + resumeIdList.size());
 
             // RESUME LIST
             List<ResumeRecommendArrDto> resumeList = new ArrayList<>();
@@ -308,18 +301,24 @@ public class CompanyContoller {
                 dto.setName(resumePS.getName());
                 dto.setSkills(skill);
                 dto.setTitle(resumePS.getTitle());
+
+                CompanyScrap cs = companyScrapRepository.findByCInfoIdAndResumeId(principal.getCInfoId(),
+                        dto.getId());
+                if (cs == null) {
+                    dto.setScrap(0);
+                } else {
+                    dto.setScrap(1);
+                }
+
                 resumeList.add(dto);
             }
-
-            // System.out.println("테스트: " + resumeList.size());
-            // System.out.println("테스트: " + resumeList.get(3).getName());
-            // String title = postRepository.findById(p.getPostId()).getTitle();
             String title = postRepository.findById(p.getPostId()).getTitle();
-            // System.out.println("테스트: " + title);
+
             ResumeWithPostInfoRecommendDto resumeAndPost = new ResumeWithPostInfoRecommendDto();
             resumeAndPost.setPostId(p.getPostId());
             resumeAndPost.setTitle(title);
             resumeAndPost.setResumes(resumeList);
+
             resumeAndPostInfo.add(resumeAndPost);
             // postTitle.add(title);
         }
@@ -330,7 +329,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/info")
-    public String companyInfo(Model model, HttpSession session) {
+    public String companyInfo(Model model) {
         User principal = (User) session.getAttribute("principal");
         Company companyPS = companyRepository.findById(principal.getCInfoId());
         model.addAttribute("companyPS", companyPS);
@@ -338,7 +337,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/updateInfoForm")
-    public String companyUpdateInfoForm(Model model, HttpSession session) {
+    public String companyUpdateInfoForm(Model model) {
         User principal = (User) session.getAttribute("principal");
         Company companyPS = companyRepository.findById(principal.getCInfoId());
         model.addAttribute("companyPS", companyPS);
@@ -348,6 +347,8 @@ public class CompanyContoller {
     @PostMapping("/company/updateInfo")
     public ResponseEntity<?> companyUpdateInfo(@ModelAttribute CompanyUpdateInfoDto companyUpdateInfoDto)
             throws IOException {
+        User principal = (User) session.getAttribute("principal");
+
         if (companyUpdateInfoDto.getBossName() == null || companyUpdateInfoDto.getBossName().isEmpty()) {
             throw new CustomApiException("대표자명을 확인해주세요");
         }
@@ -366,17 +367,42 @@ public class CompanyContoller {
         if (companyUpdateInfoDto.getSize() == null) {
             throw new CustomApiException("사원수를 확인해주세요");
         }
+        String pw = EncryptionUtils.encrypt(companyUpdateInfoDto.getOriginPassword(), principal.getSalt());
+        if (!pw.equals(principal.getPassword())) {
+            throw new CustomApiException("비밀번호가 일치하지 않습니다!");
+        }
+
         companyService.updateInfo(companyUpdateInfoDto);
         return new ResponseEntity<>(new ResponseDto<>(1, "기업 정보 수정 완료", null), HttpStatus.OK);
     }
 
     @GetMapping("/company/scrap")
-    public String companyScrap() {
+    public String companyScrap(Model model) {
+        User principal = (User) session.getAttribute("principal");
+        if (principal == null) {
+            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+        }
+        List<CompanyScrapWithResumeInfoResDto> cScrapList = companyScrapRepository
+                .findresumeTitleAndNameByCInfoId(principal.getCInfoId());
+        List<CompanyScrapWithResumeInfoResArrDto> cScrapArrList = new ArrayList<>();
+
+        for (CompanyScrapWithResumeInfoResDto scrap : cScrapList) {
+            String[] skillArr = scrap.getSkills().split(",");
+            CompanyScrapWithResumeInfoResArrDto cs = new CompanyScrapWithResumeInfoResArrDto();
+            cs.setId(scrap.getId());
+            cs.setResumeId(scrap.getResumeId());
+            cs.setName(scrap.getName());
+            cs.setTitle(scrap.getTitle());
+            cs.setSkills(skillArr);
+            cScrapArrList.add(cs);
+        }
+
+        model.addAttribute("scrapList", cScrapArrList);
         return "company/scrap";
     }
 
     @GetMapping("/company/posts")
-    public String companyPosts(Model model, HttpSession session) {
+    public String companyPosts(Model model) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
@@ -391,7 +417,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/postDetail/{id}")
-    public String companyDetail(@PathVariable int id, Model model, HttpSession session) {
+    public String companyDetail(@PathVariable int id, Model model) {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -418,7 +444,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/updatePostForm/{id}")
-    public String companyUpdatePost(@PathVariable int id, Model model, HttpSession session) {
+    public String companyUpdatePost(@PathVariable int id, Model model) {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -445,7 +471,7 @@ public class CompanyContoller {
     }
 
     @PutMapping("/company/updatePost/{id}")
-    public @ResponseBody ResponseEntity<?> companyUpdatePost(@PathVariable int id, HttpSession session,
+    public @ResponseBody ResponseEntity<?> companyUpdatePost(@PathVariable int id,
             @RequestBody PostUpdateReqDto postUpdateReqDto) {
         User userPS = (User) session.getAttribute("principal");
 
@@ -507,7 +533,7 @@ public class CompanyContoller {
     }
 
     @GetMapping("/company/savePostForm")
-    public String companySavePostForm(Model model, HttpSession session) {
+    public String companySavePostForm(Model model) {
 
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -530,7 +556,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/savePost")
-    public String companySavePost(Model model, PostSaveReqDto postSaveReqDto, HttpSession session) {
+    public String companySavePost(Model model, PostSaveReqDto postSaveReqDto) {
 
         User userPS = (User) session.getAttribute("principal");
 
@@ -587,7 +613,7 @@ public class CompanyContoller {
     }
 
     @DeleteMapping("/company/deletePost/{id}")
-    public @ResponseBody ResponseEntity<?> companyDeletePost(@PathVariable int id, HttpSession session) {
+    public @ResponseBody ResponseEntity<?> companyDeletePost(@PathVariable int id) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
             throw new CustomApiException("인증이 되지 않았습니다.", HttpStatus.UNAUTHORIZED);
@@ -599,7 +625,7 @@ public class CompanyContoller {
     }
 
     @PostMapping("/company/proposalPass/{id}")
-    public @ResponseBody ResponseEntity<?> insertProposalPass(@PathVariable int id, HttpSession session,
+    public @ResponseBody ResponseEntity<?> insertProposalPass(@PathVariable int id,
             @RequestBody ProposalPassMessageReqDto message) {
         User userPS = (User) session.getAttribute("principal");
         if (userPS == null) {
@@ -610,21 +636,21 @@ public class CompanyContoller {
         return new ResponseEntity<>(new ResponseDto<>(1, "메시지 전달 성공", null), HttpStatus.CREATED);
     }
 
-    @GetMapping("/resume/{id}")
-    public String personResumeDetail(@PathVariable int id, Model model, HttpSession session) {
-        // companyMocLogin();
-        User principal = (User) session.getAttribute("principal");
-        if (principal == null) {
-            throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
-        }
+    // @GetMapping("/resume/{id}")
+    // public String personResumeDetail(@PathVariable int id, Model model,
+    // HttpSession session) {
+    // User principal = (User) session.getAttribute("principal");
+    // if (principal == null) {
+    // throw new CustomException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
+    // }
 
-        Resume resumePS = resumeRepository.findById(id);
+    // Resume resumePS = resumeRepository.findById(id);
 
-        Person personPS = personRepository.findById(resumePS.getPInfoId());
-        Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
-        model.addAttribute("resumeDetail", resumePS);
-        model.addAttribute("personDetail", personPS);
-        model.addAttribute("skillDetail", skillPS.getSkills().split(","));
-        return "person/resumeDetailForm";
-    }
+    // Person personPS = personRepository.findById(resumePS.getPInfoId());
+    // Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
+    // model.addAttribute("resumeDetail", resumePS);
+    // model.addAttribute("personDetail", personPS);
+    // model.addAttribute("skillDetail", skillPS.getSkills().split(","));
+    // return "person/resumeDetailForm";
+    // }
 }

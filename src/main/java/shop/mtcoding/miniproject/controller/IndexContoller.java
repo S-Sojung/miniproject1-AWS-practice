@@ -23,13 +23,16 @@ public class IndexContoller {
     @Autowired
     private CompanyCustomerServiceRepository companyCustomerServiceRepository;
 
+    @Autowired
+    private HttpSession session;
+
     @GetMapping("/")
     public String main() {
         return "/siteMain";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout() {
         session.invalidate();
         return "redirect:/";
     }

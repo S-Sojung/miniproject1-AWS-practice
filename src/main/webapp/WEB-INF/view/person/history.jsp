@@ -27,7 +27,7 @@
                         <c:forEach items="${personProposalList}" var="proposal">
                             
                             <tr class="${proposal.status==1? 'table-info':(proposal.status==-1?'table-secondary':'')}">
-                                <td> &nbsp &nbsp <a href="/person/detail/${proposal.postId}">${proposal.title}</a></td>
+                                <td> &nbsp &nbsp <a href="/person/detail/${proposal.postId}"  style="text-decoration: none;">${proposal.title}</a></td>
                                 <td class="text-center">${proposal.name}</td>
                                 <td class="text-center">${proposal.gdeadline}</td>
                                 <td class="text-center">

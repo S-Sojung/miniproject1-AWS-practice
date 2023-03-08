@@ -10,16 +10,30 @@
             </div>
 
             <div class="ms-2 p-4">
-                <div class="border border-tertiary w-100 p-5 rounded ">
+                     <div class="border border-tertiary w-100 p-5 rounded ">
+                <div class="d-flex justify-content-between">
                     <h1 class="hs_line">이력서 관리</h1>
-                    <hr>
+                </div>
+                <hr>
                     <div class="jh_resume mt-5">
                         <button class="jh_resume_button mb-5 rounded bg-light"
                             onclick="location.href=`/person/saveResumeForm`">➕ 새 이력서 등록</button>
                         <c:forEach items="${resumes}" var="resume">
+
                         <div id="resume_del" class="jh_resume_content mt-5 mb-3" style="display: flex; justify-content: space-between" >
                            <a href="/person/resumeDetail/${resume.id}"> ${resume.title} </a>
+                           <div>
+                             <c:choose>
+                           <c:when test="${resume.publish == true}">
+                        <button type="button"  class="btn btn-success">공개중</button>
+                           </c:when>
+                           <c:otherwise>
+                             <button type="button"  class="btn btn-warning">비공개중</button>
+                           </c:otherwise>
+                        </c:choose>
+
                             <button type="button"  class="btn btn-secondary" onclick="deleteResume(${resume.id})">삭제</button>
+                            </div>
                         </div>
                         </c:forEach>
                     </div>

@@ -7,8 +7,6 @@
             let dDay;
             let currDay = 24 * 60 * 60 * 1000; 
         </script>
-        <div class="jm_body">
-            <div class="sj_full_container">
                 <div class="select_box jm_select_box mt-5">
                     <select id="skill" class="jm_select selectpicker" data-style="btn-info" name="">
                         <option value="none" selected>분야</option>
@@ -45,10 +43,19 @@
                     </select>
                 </div>
 
-
+                <%-- <div class="event__search__floater">
+            <div class="search__anchor">
+                <form>
+                    <input type="text" class="search__bar" placeholder="원하는 공고를 검색해보세요">
+                <input class="search__submit" name="search" onkeyup="search(this);">
+                <div class="search__toggler"></div>
+                </form>
+            </div>
+            </div> --%>
                 <div class="container jm_container mt-5">
                     <div class="row row-cols-3 g-4 d-flex flex-wrap">
                         <c:forEach items="${mainPosts}" var="post" varStatus="status">
+
 
                             <div class="col-xs-4 post">
                                 <a href="/person/detail/${post.postId}" style="color: inherit; text-decoration: none;">
@@ -61,19 +68,18 @@
                                             <div class="jm_company_address">${post.address}</div>
                                             <div class="jm_D-day d-flex justify-content-between">
                                                 <div id="dDay-${status.count}"></div>
-                                               
-                                                <button type="button" class="btn btn-sm" onclick="scrapOrCancle(event, ${post.postId})">
+
+                                                <button type="button" class="btn btn-sm"
+                                                    onclick="scrapOrCancle(event, ${post.postId})">
                                                     <c:choose>
                                                         <c:when test="${post.scrap == 0}">
-                                                           <i class="fa-regular fa-thumbs-up fa-2xl"
-                                                                    id="scrap-${post.postId}"
-                                                                    value="${post.scrap}"></i>
+                                                            <i class="fa-regular fa-thumbs-up fa-2xl"
+                                                                id="scrap-${post.postId}" value="${post.scrap}"></i>
                                                         </c:when>
 
                                                         <c:otherwise>
                                                             <i class="fa-solid fa-thumbs-up fa-2xl"
-                                                                   id="scrap-${post.postId}"
-                                                                    value="${post.scrap}"></i>
+                                                                id="scrap-${post.postId}" value="${post.scrap}"></i>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </button>
@@ -85,11 +91,11 @@
                                     id="deadline-${status.count}" />
                             </div>
                         </c:forEach>
+
+
                         <input type="hidden" value="${size}" id="postSize" />
                     </div>
                 </div>
-            </div>
-        </div>
 
         <script>
             // 1. 마감 1일 후 숨기기, 디데이 설정
@@ -115,7 +121,7 @@
 
             function scrapOrCancle(event, postId) {
                 event.preventDefault();
-                let scrapValue = $("#scrap-"+postId).attr("value");
+                let scrapValue = $("#scrap-" + postId).attr("value");
 
                 let data = {
                     "postId": postId
@@ -132,9 +138,9 @@
                             "Content-Type": "application/json; charset=UTF-8"
                         }
                     }).done((res) => {
-                        $("#scrap-"+postId).attr("value", 1);
-                        $("#scrap-"+postId).addClass("fa-solid");
-                        $("#scrap-"+postId).removeClass("fa-regular");
+                        $("#scrap-" + postId).attr("value", 1);
+                        $("#scrap-" + postId).addClass("fa-solid");
+                        $("#scrap-" + postId).removeClass("fa-regular");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
@@ -144,15 +150,29 @@
                         url: "/person/scrap/" + postId,
                         dateType: "JSON"
                     }).done((res) => {
-                        $("#scrap-"+postId).attr("value", 0);
-                        $("#scrap-"+postId).addClass("fa-regular");
-                        $("#scrap-"+postId).removeClass("fa-solid");
+                        $("#scrap-" + postId).attr("value", 0);
+                        $("#scrap-" + postId).addClass("fa-regular");
+                        $("#scrap-" + postId).removeClass("fa-solid");
                     }).fail((err) => {
                         alert(err.responseJSON.msg);
                     });
                 }
             }
 
+        //     function search(target){
+        //     let searchContent = $('input[name="search"]').val(); 
 
+        //     $.ajax({
+        //         type: 'GET',
+        //         dataType: 'JSON',
+        //         url: "/person/main"+searchContent,
+        //         error: function(err){
+        //             console.log(err);
+        //         },
+        //         success: function(data){
+        //           console.log(searchContent);
+        //         }
+        //     })
+        // } 
         </script>
         <%@ include file="../layout/footer.jsp" %>

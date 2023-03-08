@@ -24,8 +24,8 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into resume_tb (p_info_id, profile, title, portfolio,self_intro, created_at) 
-            values(#{pInfoId}, #{profile}, #{title},  #{portfolio}, #{selfIntro}, now())
+        insert into resume_tb (p_info_id, profile, title, publish, portfolio, self_intro, created_at) 
+            values(#{pInfoId}, #{profile}, #{title},  #{publish}, #{portfolio}, #{selfIntro}, now())
     </insert>
 
     <delete id="deleteById">
@@ -36,6 +36,7 @@
         update resume_tb set p_info_id = #{pInfoId},
                                 profile = #{profile},
                                 title = #{title},
+                                publish = #{publish},
                                 portfolio = #{portfolio},
                                 self_intro = #{selfIntro},
                                 created_at = #{createdAt}

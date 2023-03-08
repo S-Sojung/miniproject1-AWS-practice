@@ -40,7 +40,7 @@ public class PersonScrapController {
 
     @PutMapping("/person/scrap/{id}")
     public ResponseEntity<?> ScrapInsert(@PathVariable int id) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);
@@ -52,7 +52,7 @@ public class PersonScrapController {
 
     @DeleteMapping("/person/scrap/{id}")
     public ResponseEntity<?> ScrapDelete(@PathVariable int id) {
-        personMocLogin();
+        // personMocLogin();
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
             throw new CustomApiException("인증이 되지 않았습니다", HttpStatus.UNAUTHORIZED);

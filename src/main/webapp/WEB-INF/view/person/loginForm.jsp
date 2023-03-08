@@ -2,12 +2,12 @@
     <%@ include file="../layout/header.jsp" %>
 
  <div class="p-5"></div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mb-4">
         <h2>개인 회원</h2>
     </div>
     <div class="d-flex justify-content-center">
 
-        <div class="border rounded p-3 m-3" style="width: 300px;">
+        <div class="border rounded p-3 m-3 shadow-lg" style="width: 300px;">
 
             <form action="/personLogin" method="post">
 
