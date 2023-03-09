@@ -261,9 +261,11 @@ public class CompanyContoller {
             model.addAttribute("proposal", proposalList);
         }
         Person personPS = personRepository.findById(resumePS.getPInfoId());
+        User user = userRepository.findByPersonId(personPS.getId());
         Skill skillPS = skillRepository.findByPInfoId(resumePS.getPInfoId());
         model.addAttribute("resumeDetail", resumePS);
         model.addAttribute("personDetail", personPS);
+        model.addAttribute("personUser", user);
         model.addAttribute("skillDetail", skillPS.getSkills().split(","));
         return "company/resumeDetail";
     }
