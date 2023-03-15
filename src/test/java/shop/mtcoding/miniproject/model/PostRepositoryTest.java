@@ -10,11 +10,11 @@ import org.springframework.context.annotation.Import;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import shop.mtcoding.miniproject.config.RedisConfigTest;
+// import shop.mtcoding.miniproject.config.RedisConfigTest;
 import shop.mtcoding.miniproject.dto.post.PostResp.PostMainRespDto;
 
 @MybatisTest
-@Import(RedisConfigTest.class)
+// @Import(RedisConfigTest.class)
 public class PostRepositoryTest {
     @Autowired
     private PostRepository postRepository;

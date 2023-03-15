@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Import;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import shop.mtcoding.miniproject.config.RedisConfigTest;
+// import shop.mtcoding.miniproject.config.RedisConfigTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @MybatisTest
-@Import(RedisConfigTest.class)
+// @Import(RedisConfigTest.class)
 public class PersonRepositoryTest {
 
     @Autowired

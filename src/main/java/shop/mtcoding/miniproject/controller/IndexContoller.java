@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+// import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +19,8 @@ import shop.mtcoding.miniproject.model.User;
 @Controller
 public class IndexContoller {
 
-    @Autowired
-    private RedisTemplate<String, User> redisTemplate;
+    // @Autowired
+    // private RedisTemplate<String, User> redisTemplate;
 
     @Autowired
     private PersonCustomerServiceRepository personCustomerServiceRepository;
@@ -33,23 +33,23 @@ public class IndexContoller {
 
     @GetMapping("/")
     public String main() {
-        User principal = (User) redisTemplate.opsForValue().get("principal");
+        // User principal = (User) redisTemplate.opsForValue().get("principal");
 
-        if (principal != null) {
-            session.setAttribute("principal", principal);
-            if (principal.getPInfoId() != 0) {
-                return "redirect:/person";
-            } else {
-                return "redirect:/company";
-            }
-        }
+        // if (principal != null) {
+        // session.setAttribute("principal", principal);
+        // if (principal.getPInfoId() != 0) {
+        // return "redirect:/person";
+        // } else {
+        // return "redirect:/company";
+        // }
+        // }
 
         return "/siteMain";
     }
 
     @GetMapping("/logout")
     public String logout() {
-        redisTemplate.opsForValue().set("principal", null);
+        // redisTemplate.opsForValue().set("principal", null);
         session.invalidate();
         return "redirect:/";
     }
