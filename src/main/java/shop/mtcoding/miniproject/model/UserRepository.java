@@ -12,6 +12,8 @@ public interface UserRepository {
 
         public User findById(int id);
 
+        public User findByPersonId(int pInfoId);
+
         public User findPersonByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
         public User findCompanyByEmailAndPassword(@Param("email") String email, @Param("password") String password);
@@ -31,4 +33,5 @@ public interface UserRepository {
                         @Param("createdAt") Timestamp createdAt);
 
         public int deleteById(int id);
+
 }

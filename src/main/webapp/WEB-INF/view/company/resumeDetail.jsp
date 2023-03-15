@@ -37,7 +37,7 @@
                                     </tr>
                                     <tr>
                                         <td>이메일</td>
-                                        <td>${principal.email}</td>
+                                        <td>${personUser.email}</td>
                                     </tr>
                                 </table>
                             </div>

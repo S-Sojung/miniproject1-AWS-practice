@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+// import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,8 +13,8 @@ import shop.mtcoding.miniproject.model.User;
 
 public class WebInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    private RedisTemplate<String, User> redisTemplate;
+    // @Autowired
+    // private RedisTemplate<String, User> redisTemplate;
 
     // 요청 들어가기 전
     @Override
@@ -23,10 +23,10 @@ public class WebInterceptor implements HandlerInterceptor {
 
         System.out.println("================ URL 요청 전 인터셉터 ==================");
 
-        User principal = (User) redisTemplate.opsForValue().get("principal");
-        if (principal == null) {
-            response.sendRedirect("/");
-        }
+        // User principal = (User) redisTemplate.opsForValue().get("principal");
+        // if (principal == null) {
+        // response.sendRedirect("/");
+        // }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

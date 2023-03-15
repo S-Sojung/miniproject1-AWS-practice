@@ -15,7 +15,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+// import org.springframework.data.redis.core.RedisTemplate;/
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -72,8 +72,8 @@ import shop.mtcoding.miniproject.util.EncryptionUtils;
 @Controller
 public class PersonContoller {
 
-    @Autowired
-    private RedisTemplate<String, User> redisTemplate;
+    // @Autowired
+    // private RedisTemplate<String, User> redisTemplate;
 
     @Autowired
     private HttpSession session;
@@ -155,7 +155,7 @@ public class PersonContoller {
             throw new CustomException("이메일 혹은 패스워드가 잘못입력되었습니다.");
         }
 
-        redisTemplate.opsForValue().set("principal", principal);
+        // redisTemplate.opsForValue().set("principal", principal);
         session.setAttribute("principal", principal);
         return "redirect:/person/main";
     }
@@ -296,7 +296,7 @@ public class PersonContoller {
         model.addAttribute("company", companyPS);
         model.addAttribute("deadline", formattedDeadline);
         model.addAttribute("skills", skills);
-       
+
         // List<Resume> resumeAll = resumeRepository.findAll();
         // model.addAttribute("resume", resumeAll);
 
@@ -467,7 +467,7 @@ public class PersonContoller {
         personService.update(personUpdateDto, principal.getPInfoId());
         User principalPS = (User) userRepository.findById(principal.getId());
 
-        redisTemplate.opsForValue().set("principal", principalPS);
+        // redisTemplate.opsForValue().set("principal", principalPS);
         session.setAttribute("principal", principalPS);
         return new ResponseEntity<>(new ResponseDto<>(1, "회원 정보 수정 완료", null), HttpStatus.OK);
     }
@@ -557,7 +557,7 @@ public class PersonContoller {
         Person personPS = personRepository.findById(resumePS.getPInfoId());
 
         Skill skillPS = skillRepository.findByResumeId(resumePS.getId());
-        
+
         Date date = new Date(personPS.getBirthday().getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedBirthday = sdf.format(date);
